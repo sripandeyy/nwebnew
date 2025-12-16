@@ -1,0 +1,46 @@
+import { NextResponse } from "next/server";
+import * as ftp from "basic-ftp"; // ✅ Ensure correct import
+import fs from "fs";
+
+export async function POST(req: Request) {
+    try {
+        const formData = await req.formData();
+        const file = formData.get("file");
+
+        if (!file) {
+            return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+        }
+
+        if (!(file instanceof File)) {
+            return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+        }
+
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const filePath = `/domains/nyeras.com/public_html/${file.name}`; // Use actual file name
+
+        // ✅ Ensure FTP client is properly instantiated
+        const client = new ftp.Client();
+        client.ftp.verbose = true;
+
+        await client.access({
+            host: "217.21.95.130",
+            user: "u477423730",
+            password: "Thenyera@1B$", // Replace with actual FTP password
+            port: 21,
+        });
+
+        // Convert Buffer to Readable Stream
+        const { Readable } = require("stream");
+        const readableStream = Readable.from(buffer);
+
+        // Upload file
+        await client.uploadFrom(readableStream, filePath);
+
+        client.close();
+        return NextResponse.json({ success: true, message: "File uploaded successfully" });
+    } catch (error) {
+        console.error("FTP Upload Error:", error);
+        const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
+    }
+}
