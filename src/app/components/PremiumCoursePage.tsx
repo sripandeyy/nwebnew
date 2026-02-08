@@ -3,8 +3,14 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useState } from "react"
-import { Award, Clock, GraduationCap, Users, BookOpen, CheckCircle, ChevronRight, ChevronLeft, X, Download, Eye, Printer, CheckCircle2, ArrowLeft, ExternalLink } from 'lucide-react';
+import { CheckCircle2, ArrowLeft, Award, BookOpen, Clock, Users, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import FloatingParticles from "./FloatingParticles"
+
+const certificates = [
+  { title: "Course Completion", pdf: "/internships/course.pdf" },
+  { title: "Internship", pdf: "/internships/internship.pdf" },
+  { title: "Project", pdf: "/internships/project.pdf" },
+];
 
 interface CurriculumModule {
   title: string
@@ -25,6 +31,7 @@ interface PremiumCoursePageProps {
 }
 
 const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
+  const [currentCertIndex, setCurrentCertIndex] = useState(0);
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
@@ -233,64 +240,46 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
                   <h2 className="text-2xl font-black text-gray-900">Sample Certificates</h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[
-                    { 
-                      title: "Course Completion", 
-                      image: "/certificates/course-certificate.jpg",
-                      pdf: "/internships/course.pdf" 
-                    },
-                    { 
-                      title: "Internship Certificate", 
-                      image: "/certificates/internship-certificate.jpg",
-                      pdf: "/internships/internship.pdf" 
-                    },
-                    { 
-                      title: "Project Certificate", 
-                      image: "/certificates/project-certificate.jpg",
-                      pdf: "/internships/project.pdf" 
-                    },
-                  ].map((cert, index) => (
-                    <motion.div
-                      key={cert.title}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.9 + index * 0.1 }}
-                      whileHover={{ y: -5, scale: 1.02 }}
-                      className="group relative"
-                    >
-                      <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity" />
-                      <div className="relative bg-white rounded-2xl border-2 border-gray-100 overflow-hidden shadow-lg group-hover:shadow-2xl transition-all h-full flex flex-col">
-                        <div className="relative overflow-hidden h-48 bg-gray-100">
-                          <div className="w-full h-full bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
-                            <div className="text-center p-4">
-                              <Award className="w-12 h-12 text-blue-400 mx-auto mb-2" />
-                              <p className="text-blue-600 font-medium">{cert.title}</p>
-                            </div>
-                          </div>
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button 
-                              onClick={() => window.open(cert.pdf, '_blank')}
-                              className="bg-white/90 text-blue-600 hover:bg-white transition-colors p-2 rounded-full shadow-lg"
-                              aria-label="View certificate"
-                            >
-                              <Eye className="w-5 h-5" />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="p-4 border-t border-gray-100 flex flex-col items-center">
-                          <h3 className="font-bold text-gray-900 text-center">{cert.title}</h3>
-                          <button 
-                            onClick={() => window.open(cert.pdf, '_blank')}
-                            className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-colors"
-                          >
-                            <Eye className="w-4 h-4" />
-                            <span>View Certificate</span>
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                <div className="relative">
+                  <div className="relative bg-white rounded-2xl border-2 border-gray-100 overflow-hidden shadow-lg">
+                    <iframe
+                      key={currentCertIndex}
+                      title={certificates[currentCertIndex].title}
+                      src={certificates[currentCertIndex].pdf}
+                      className="w-full h-96"
+                    />
+                    <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                      <button
+                        onClick={() => setCurrentCertIndex((prev) => (prev === 0 ? certificates.length - 1 : prev - 1))}
+                        className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                        aria-label="Previous certificate"
+                      >
+                        <ChevronLeft className="w-6 h-6 text-gray-700" />
+                      </button>
+                      <p className="text-sm font-semibold text-gray-700">
+                        {certificates[currentCertIndex].title} Certificate {currentCertIndex + 1} of {certificates.length}
+                      </p>
+                      <button
+                        onClick={() => setCurrentCertIndex((prev) => (prev === certificates.length - 1 ? 0 : prev + 1))}
+                        className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                        aria-label="Next certificate"
+                      >
+                        <ChevronRight className="w-6 h-6 text-gray-700" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex justify-center mt-4 space-x-2">
+                    {certificates.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentCertIndex(index)}
+                        className={`w-3 h-3 rounded-full transition-colors ${
+                          index === currentCertIndex ? 'bg-blue-500' : 'bg-gray-300 hover:bg-gray-400'
+                        }`}
+                        aria-label={`View certificate ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </motion.section>
             </div>

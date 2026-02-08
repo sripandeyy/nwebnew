@@ -5,15 +5,80 @@ const PlacedShowcase = () => {
   const profiles = useMemo(
     () => [
       {
+        name: 'S Sneha',
+        title: 'Development Analyst',
+        image: '/sneha s.jpeg',
+        paragraphs: [
+          `My learning journey in Data Science and Data Analytics at Nyeras Edutech and Innovation Pvt. Ltd. gave me strong practical exposure and clarity on real-world problem solving. The hands-on training and guidance helped me build confidence and industry-ready skills.`,
+          'I\'m glad to share that I\'m now working as a Development Analyst at Accenture. Grateful to Nyeras for the support that shaped my career path.',
+        ],
+        status: 'Successfully Placed • ACCENTURE',
+        linkedin: 'https://www.linkedin.com/in/s-sneha-58a539213',
+      },
+      {
+        name: 'Malothu Balram',
+        title: 'Analytics Engineer',
+        image: '/12.jpg',
+        paragraphs: [
+          `I completed the Data Analytics and Data Science course at Nyeras Edutech and Innovation Pvt. Ltd., where I gained strong practical exposure to analytics tools, real-time projects, and problem-solving techniques.`,
+          'The structured training and hands-on learning helped me build the right skill set and confidence. I\'m happy to share that I\'m now working as an Analytics Engineer at DAZN. I\'m grateful to Nyeras for the guidance and support that helped me reach this milestone.',
+        ],
+        status: 'Successfully Placed • DAZN',
+        linkedin: 'https://www.linkedin.com/in/malothu-balram-39211519b',
+      },
+      {
+        name: 'Ganesh Sai Katta',
+        title: 'Software Engineer',
+        image: '/ganesh nyeras.jpeg',
+        paragraphs: [
+          `My journey into data analytics and data science truly took shape at Nyeras Edutech and Innovation Pvt. Ltd. The practical learning approach and real-world problem solving prepared me well for industry expectations. I\'m glad to have taken this path and am excited to be working as a Software Engineer at Impetus today.`,
+          'Thankful to the Nyeras team for the right direction and support',
+        ],
+        status: 'Successfully Placed • IMPETUS',
+        linkedin: 'https://www.linkedin.com/in/ganesh-sai-katta-824097189',
+      },
+      {
+        name: 'Harsha Vardhan Reddy Kovvuru',
+        title: 'Technical Consulting Engineer',
+        image: '/harsha.jpeg',
+        paragraphs: [
+          `Training in Cyber Security at Nyeras Edutech and Innovation Pvt. Ltd. gave me strong hands-on exposure and a clear understanding of real-world security challenges. The practical approach and mentorship helped me build confidence and industry-ready skills.`,
+          'I\'m proud to share that I\'m now working as a Technical Consulting Engineer at Cisco. Grateful to Nyeras for shaping this journey and supporting my career growth.',
+        ],
+        status: 'Successfully Placed • CISCO',
+        linkedin: 'https://www.linkedin.com/in/harsha-vardhan-reddy-kovvuru-763a7623a',
+      },
+      {
+        name: 'Harsha Vardhan Kesanapalli',
+        title: 'DevOps Engineer',
+        image: '/harsha new nyeras.jpeg',
+        paragraphs: [
+          `The DevOps training at Nyeras Edutech and Innovation Pvt. Ltd. gave me hands-on experience with real-world tools and workflows. The practical learning approach helped me understand industry practices and build strong confidence. I\'m happy to share that I\'m now working as a DevOps Engineer at DXC Technology.`,
+          'Thankful to the Nyeras team for the right direction and support',
+        ],
+        status: 'Successfully Placed • DXC Technology',
+        linkedin: 'https://www.linkedin.com/in/khvs',
+      },
+      {
+        name: 'PhaniBhushan Rao Kallamari',
+        title: 'SAP BW Consultant',
+        image: '/phanibhu.jpeg',
+        paragraphs: [
+          `I completed the SAP course at Nyeras Edutech and Innovation Pvt. Ltd., where I gained strong practical knowledge and hands-on experience. The structured training helped me build confidence and industry-ready skills.`,
+          'I\'m happy to share that I\'m now working as a SAP BW Consultant at LTI Mindtree. Grateful to Nyeras for the guidance and support throughout my journey.',
+        ],
+        status: 'Successfully Placed • LTI Mindtree',
+        linkedin: 'https://www.linkedin.com/in/phanibhushan-rao-kallamari-054ab623a',
+      },
+      {
         name: 'Swathi',
         title: 'HRM Graduate at Nyeras',
         image: '/image1.jpeg',
         paragraphs: [
-          `I’m Swathi. I joined Nyeras for my HRM course in June and completed an internship at Nyeras. At first, I didn’t know what to expect or how things would go, but Pavan Sir guided me in detail and made everything easy to understand.`,
-          `I’m really happy to share that I’ve been placed successfully. It’s been an amazing journey with Nyeras. Nyeras provided proper training, real-time projects, and conducted mock interviews. After joining this organization, I built my confidence and was able to attend interviews confidently. That confidence was built thanks to the one and only CEO & Founder of Nyeras, Mr. K.S. Pavan Sai. Thank you, Sir, for your guidance, and a big thanks to the entire Nyeras team. Everyone treated me like a friend. I’m proud to say they provide 100% placement opportunities for students.`,
+          `I joined Nyeras for the HRM course in June and completed my internship there. With clear guidance, structured training, real-time projects, and mock interviews, I gradually built strong confidence. I'm happy to share that I've been successfully placed. I'm truly grateful to the Nyeras team for their continuous support and mentorship throughout my journey.`,
           `Thank you, Nyeras team, for all the support and guidance!`,
         ],
-        status: 'Successfully Placed • HR Management',
+        status: 'Successfully Placed • VEDUPSKILLING',
         linkedin: 'https://www.linkedin.com/in/pg-swathi-gowda-184a3428a/',
       },
       {
@@ -21,29 +86,25 @@ const PlacedShowcase = () => {
         title: 'Business Development Associate • HRM Graduate',
         image: '/rithika.jpg',
         paragraphs: [
-          `Excited to share that I’ve taken a significant step in my professional journey by joining Skyra Techscape Pvt. Ltd. This opportunity came after my enriching experience at Nyeras Edutech and Innovation Pvt. Ltd., where I developed essential skills in communication, client handling, and business growth strategies. During my time there, I also pursued a course in Human Resource Management, which strengthened my abilities in recruitment, people management, and organizational processes.`,
-          `The combination of these experiences helped me grow both personally and professionally, ultimately enabling me to secure this role at Skyra Techscape. I am grateful to Nyeras for the platform and support in helping me transition confidently to this new chapter.`,
+          `Excited to share that I’ve taken a significant step in my professional journey by joining Nyeras Edutech and Innovation Pvt. Ltd. Through my training and hands-on experience, I developed strong skills in communication, client handling, business growth, and Human Resource Management. These experiences helped me grow professionally and confidently transition into this role. I’m grateful to Nyeras for the guidance and support throughout my journey.`,
         ],
-        status: 'Successfully Placed • Business Development & HRM',
+        status: 'Successfully Placed • NYERAS',
         linkedin: 'https://www.linkedin.com/in/rithikaboopathi05/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
       },
       {
         name: 'Karthiban L',
-        title: 'HR Executive • HRM Graduate',
+        title: 'BPS Trainee • HRM Graduate',
         image: '/karthiban.jpg',
         paragraphs: [
-          `I’m Karthiban. I joined the HRM course in June and successfully completed my internship as part of this journey. At the beginning, I was unsure of what to expect, but with the clear guidance and constant support of Pavan Sir, the learning process became structured and easy to understand.`,
-          `I’m delighted to share that I have successfully secured a position as an HR Executive.`,
-          `The practical training and real-time project exposure gave me the knowledge, skills, and confidence to face interviews effectively. The motivation and mentorship from Pavan Sir played a key role in building my self-belief. The team’s friendly and encouraging environment made the entire learning experience truly impactful.`,
-          `I’m proud to say that the high-quality training and dedicated support I received have helped me achieve my career goal.`,
-          `A heartfelt thank you to Pavan Sir and the entire team for their continuous support and guidance throughout my journey.`,
+          `I joined the HRM course in June and completed my internship with structured guidance and continuous mentorship. The practical training and real-time projects helped me build strong skills and confidence. I’m happy to share that I’ve successfully secured a position as an HR Executive.`,
+          `I’m truly grateful for the support, motivation, and professional learning environment that made this journey impactful.`,
         ],
-        status: 'Successfully Placed • HR Executive',
+        status: 'Successfully Placed • TCS',
         linkedin: 'https://www.linkedin.com/in/karthiban-l-a17093364/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
       },
       {
         name: 'Marglin Raja',
-        title: 'Business Development • HRM Graduate',
+        title: 'Business Development • SKYRA TECHSCAPE',
         image: '/marglin.jpg',
         paragraphs: [
           `I’m excited to share that I’ve joined Skyra Techscape Pvt. Ltd. This new role marks an important milestone in my career. During my time at Nyeras Edutech and Innovation Pvt. Ltd., I gained valuable experience and also pursued a course in Human Resource Management, which strengthened my skills in recruitment, people management, and organizational processes.`,
@@ -92,39 +153,90 @@ const PlacedShowcase = () => {
         </div>
         <div className="relative">
           <div className="relative bg-[#6600CC] rounded-2xl shadow-2xl shadow-purple-900/30">
-            <div className="p-4 sm:p-6 lg:p-8 transition-all duration-500 h-[460px] sm:h-[520px] lg:h-[480px]">
-              <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10 h-full">
+            <div className="p-6 sm:p-8 lg:p-10 transition-all duration-500 h-[480px] sm:h-[500px] lg:h-[450px]">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-8 h-full">
+                {/* Compact Profile Image Section */}
                 <div className="flex-shrink-0 w-full lg:w-1/3">
-                  <div className={`aspect-[4/3] w-full overflow-hidden rounded-xl ring-1 ring-white/20 shadow-lg flex items-center justify-center bg-white/5 transition-all duration-300 ${isFading ? (dir === 1 ? 'translate-x-2 opacity-0' : '-translate-x-2 opacity-0') : 'translate-x-0 opacity-100'}`}>
-                    <img src={active.image} alt={`Placed Student ${active.name}`} className="h-full w-full object-cover object-center transition-transform duration-500" />
-                  </div>
-                </div>
-                <div className="w-full lg:w-2/3 text-white h-full overflow-y-auto pr-1 sm:pr-2 break-words">
-                  <div className={`flex items-start gap-3 transition-all duration-300 ${isFading ? (dir === 1 ? '-translate-x-2 opacity-0' : 'translate-x-2 opacity-0') : 'translate-x-0 opacity-100'}`}>
-                    <span className="text-3xl leading-none">“</span>
-                    <div className="transition-opacity duration-300" key={active.name}>
-                      <h3 className="text-xl sm:text-2xl font-semibold">
-                        {active.name} — {active.title}
-                      </h3>
-                      {active.paragraphs.map((p, i) => (
-                        <p key={i} className="mt-3 text-white/90 leading-relaxed">
-                          {p}
-                        </p>
-                      ))}
-                      <span className="mt-4 inline-block text-3xl leading-none">”</span>
+                  <div className={`relative transition-all duration-700 ease-out ${isFading ? (dir === 1 ? 'translate-x-4 opacity-0' : '-translate-x-4 opacity-0') : 'translate-x-0 opacity-100'}`}>
+                    {/* Image Container with Premium Frame */}
+                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-2xl">
+                      <img 
+                        src={active.image} 
+                        alt={`${active.name} - Successfully placed student profile`} 
+                        className="w-full h-full object-cover object-center transition-all duration-700 hover:scale-105"
+                      />
+                      
+                      {/* Verification Badge */}
+                      <div className="absolute top-3 right-3 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      
+                      {/* Subtle Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
                     </div>
                   </div>
-                  <div className="mt-6 flex items-center gap-3 text-white/80">
-                    <div className="h-2 w-2 rounded-full bg-emerald-300" />
-                    <span className="text-sm">{active.status}</span>
-                    <a
-                      href={active.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-auto inline-flex items-center text-sm font-medium text-white hover:text-white/90 underline underline-offset-4"
-                    >
-                      Connect with me on LinkedIn
-                    </a>
+                </div>
+
+                {/* Compact Content Section */}
+                <div className="w-full lg:w-2/3 text-white h-full overflow-hidden">
+                  <div className={`h-full flex flex-col justify-between transition-all duration-700 ease-out ${isFading ? (dir === 1 ? '-translate-x-4 opacity-0' : 'translate-x-4 opacity-0') : 'translate-x-0 opacity-100'}`}>
+                    
+                    {/* Profile Header */}
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-2">
+                        <span className="text-3xl font-light text-white/80 leading-none">"</span>
+                        <div className="flex-1">
+                          <h3 className="text-xl sm:text-2xl font-semibold text-white mb-1 leading-tight">
+                            {active.name}
+                          </h3>
+                          <p className="text-base text-white/90 font-medium leading-relaxed">
+                            {active.title}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Status Badge */}
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                        <span className="text-xs text-white/90 font-medium">{active.status}</span>
+                      </div>
+                    </div>
+
+                    {/* Story Content - Compact */}
+                    <div className="flex-1 overflow-hidden py-3">
+                      <div className="space-y-2">
+                        {active.paragraphs.map((paragraph, i) => (
+                          <p key={i} className="text-white/85 leading-relaxed text-sm font-light line-clamp-3">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Footer with Quote and LinkedIn */}
+                    <div className="space-y-3">
+                      {/* Closing Quote */}
+                      <div className="flex justify-end">
+                        <span className="text-3xl font-light text-white/80 leading-none">"</span>
+                      </div>
+
+                      {/* LinkedIn Connection */}
+                      <div className="pt-2 border-t border-white/20">
+                        <a
+                          href={active.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-white text-[#6600CC] rounded-lg font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-sm"
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clipRule="evenodd" />
+                          </svg>
+                          <span>Connect on LinkedIn</span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
