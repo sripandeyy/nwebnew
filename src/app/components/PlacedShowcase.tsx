@@ -153,8 +153,8 @@ const PlacedShowcase = () => {
         </div>
         <div className="relative">
           <div className="relative bg-[#6600CC] rounded-2xl shadow-2xl shadow-purple-900/30">
-            <div className="p-6 sm:p-8 lg:p-10 transition-all duration-500 h-[480px] sm:h-[500px] lg:h-[450px]">
-              <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-8 h-full">
+            <div className="p-4 sm:p-6 lg:p-8 transition-all duration-500 min-h-[500px] sm:min-h-[550px] lg:h-[450px]">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 h-full">
                 {/* Compact Profile Image Section */}
                 <div className="flex-shrink-0 w-full lg:w-1/3">
                   <div className={`relative transition-all duration-700 ease-out ${isFading ? (dir === 1 ? 'translate-x-4 opacity-0' : '-translate-x-4 opacity-0') : 'translate-x-0 opacity-100'}`}>
@@ -184,31 +184,31 @@ const PlacedShowcase = () => {
                   <div className={`h-full flex flex-col justify-between transition-all duration-700 ease-out ${isFading ? (dir === 1 ? '-translate-x-4 opacity-0' : 'translate-x-4 opacity-0') : 'translate-x-0 opacity-100'}`}>
                     
                     {/* Profile Header */}
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-start gap-2">
-                        <span className="text-3xl font-light text-white/80 leading-none">"</span>
+                        <span className="text-2xl sm:text-3xl font-light text-white/80 leading-none">"</span>
                         <div className="flex-1">
-                          <h3 className="text-xl sm:text-2xl font-semibold text-white mb-1 leading-tight">
+                          <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-1 leading-tight">
                             {active.name}
                           </h3>
-                          <p className="text-base text-white/90 font-medium leading-relaxed">
+                          <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
                             {active.title}
                           </p>
                         </div>
                       </div>
                       
                       {/* Status Badge */}
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                      <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
                         <span className="text-xs text-white/90 font-medium">{active.status}</span>
                       </div>
                     </div>
 
                     {/* Story Content - Compact */}
-                    <div className="flex-1 overflow-hidden py-3">
-                      <div className="space-y-2">
+                    <div className="flex-1 overflow-hidden py-2 sm:py-3">
+                      <div className="space-y-1 sm:space-y-2">
                         {active.paragraphs.map((paragraph, i) => (
-                          <p key={i} className="text-white/85 leading-relaxed text-sm font-light line-clamp-3">
+                          <p key={i} className="text-white/85 leading-relaxed text-xs sm:text-sm font-light line-clamp-3 sm:line-clamp-4">
                             {paragraph}
                           </p>
                         ))}
@@ -216,10 +216,10 @@ const PlacedShowcase = () => {
                     </div>
 
                     {/* Footer with Quote and LinkedIn */}
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       {/* Closing Quote */}
                       <div className="flex justify-end">
-                        <span className="text-3xl font-light text-white/80 leading-none">"</span>
+                        <span className="text-2xl sm:text-3xl font-light text-white/80 leading-none">"</span>
                       </div>
 
                       {/* LinkedIn Connection */}
@@ -228,12 +228,13 @@ const PlacedShowcase = () => {
                           href={active.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-white text-[#6600CC] rounded-lg font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-sm"
+                          className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-white text-[#6600CC] rounded-lg font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-xs sm:text-sm"
                         >
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clipRule="evenodd" />
                           </svg>
-                          <span>Connect on LinkedIn</span>
+                          <span className="hidden sm:inline">Connect on LinkedIn</span>
+                          <span className="sm:hidden">LinkedIn</span>
                         </a>
                       </div>
                     </div>
@@ -246,20 +247,20 @@ const PlacedShowcase = () => {
           <button
             onClick={prev}
             aria-label="Previous profile"
-            className="group absolute -left-3 xs:-left-4 sm:-left-6 lg:-left-8 top-1/2 -translate-y-1/2 z-10 inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl hover:shadow-purple-500/30 ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 ease-out active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 animate-pulse hover:animate-none"
+            className="group absolute -left-2 xs:-left-3 sm:-left-4 lg:-left-8 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 xs:h-9 xs:w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl hover:shadow-purple-500/30 ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 ease-out active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 animate-pulse hover:animate-none"
           >
             <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <svg className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:-translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg className="h-4 w-4 xs:h-4 xs:w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 transition-transform duration-300 group-hover:-translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fillRule="evenodd" d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
           </button>
           <button
             onClick={next}
             aria-label="Next profile"
-            className="group absolute -right-3 xs:-right-4 sm:-right-6 lg:-right-8 top-1/2 -translate-y-1/2 z-10 inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl hover:shadow-purple-500/30 ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 ease-out active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 animate-pulse hover:animate-none"
+            className="group absolute -right-2 xs:-right-3 sm:-right-4 lg:-right-8 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 xs:h-9 xs:w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl hover:shadow-purple-500/30 ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 ease-out active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 animate-pulse hover:animate-none"
           >
             <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <svg className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg className="h-4 w-4 xs:h-4 xs:w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fillRule="evenodd" d="M7.293 4.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 11-1.414-1.414L11.586 10 7.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
