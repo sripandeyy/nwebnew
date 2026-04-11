@@ -195,10 +195,10 @@ const PlansPage = () => {
       online: { price: '₹15000 + GST', pre: 'https://rzp.io/rzp/NYE2kPR4m', full: 'https://rzp.io/rzp/NYFPAdL' },
     },
     pro: {
-      offline: { price: '₹40000 + GST', pre: 'https://rzp.io/rzp/NYE5kPRoffline', full: 'https://rzp.io/rzp/NYFPOff' },
-      online: { price: '₹20000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
-      recorded: { price: '₹40000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPOff' },
-      live: { price: '₹20000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
+      offline: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE5kPRoffline', full: 'https://rzp.io/rzp/NYFPOff' },
+      online: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
+      recorded: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPOff' },
+      live: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
     },
   };
 
