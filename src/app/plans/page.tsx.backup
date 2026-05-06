@@ -173,10 +173,10 @@ const PlansPage = () => {
       online: { price: '₹15000 + GST', pre: 'https://rzp.io/rzp/NY2kPP', full: 'https://pages.razorpay.com/FPAdL' },
     },
     pro: {
-      offline: { price: '₹40000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPOff' },
-      online: { price: '₹20000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPProL' },
-      recorded: { price: '₹40000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPOff' },
-      live: { price: '₹20000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPProL' },
+      offline: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPOff' },
+      online: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPProL' },
+      recorded: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPOff' },
+      live: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NY3kPP', full: 'https://pages.razorpay.com/FPProL' },
     },
   };
 
