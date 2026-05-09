@@ -217,27 +217,16 @@ const RefundPolicyContent: React.FC = () => {
             </Section>
 
             <Section id="refund-eligibility" title="2. Refund Eligibility" icon={ShieldCheck}>
-              <p className="font-semibold mb-2">Refunds are applicable only under the following conditions:</p>
-              
+              <p className="font-semibold mb-2">Refunds are available only in limited circumstances to ensure fairness for all parties.</p>
+
               <div className="mt-4">
                 <h4 className="text-lg font-medium text-gray-900 flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  Before Course Start:
-                </h4>
-                <ul className="list-disc pl-10 mt-2 space-y-1">
-                  <li>If cancellation is requested <strong>at least 7 days before the course start date</strong>, a <strong>90% refund</strong> of the fee will be issued (10% deducted as administrative charges).</li>
-                  <li>If requested <strong>within 7 days of the course start date but before commencement</strong>, a <strong>50% refund</strong> will be issued.</li>
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <h4 className="text-lg font-medium text-gray-900 flex items-center">
                   <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
-                  After Course Commencement:
+                  General Refund Terms:
                 </h4>
                 <ul className="list-disc pl-10 mt-2 space-y-1">
-                  <li>Once a course/program has started, <strong>no refunds</strong> will be provided.</li>
-                  <li>However, learners may request <strong>course rescheduling or credit transfer</strong> to another batch (subject to availability and management approval).</li>
+                  <li>Once registration is complete and payment is processed, funds are <strong>non-refundable</strong>, as this confirms your commitment to our services.</li>
+                  <li>We will gladly process a <strong>full refund</strong> if, despite our best efforts, we are unable to deliver the services as promised and outlined in our agreement.</li>
                 </ul>
               </div>
 
