@@ -211,7 +211,7 @@ export default function Artificialintelligence() {
                   className="group flex-1 inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 ease-in-out transform hover:scale-105"
                   onClick={(e) => {
                     e.preventDefault();
-                    const numbers = ["7013586357", "9182566926"];
+                    const numbers = ["7899232512", "9182566926"];
                     const randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
                     window.location.href = `tel:${randomNumber}`;
                   }}

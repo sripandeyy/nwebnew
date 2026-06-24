@@ -88,10 +88,10 @@ const ContactContent: React.FC = () => {
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900">Phone</h3>
                     <a 
-                      href="tel:+917013586357" 
+                      href="tel:+917899232512" 
                       className="text-purple-600 hover:text-purple-700 hover:underline"
                     >
-                      +91 70135 86357
+                      +91 7899232512
                     </a>
                   </div>
                 </div>

@@ -206,8 +206,8 @@ export default function HomePage() {
               <p className="text-gray-600">Hyderabad, 500072</p>
               <p className="text-gray-600 mt-4">
                 <Phone className="inline-block w-5 h-5 mr-2 text-orange-600" />
-                <a href="tel:+917013586357" className="hover:text-orange-600 transition duration-300">
-                  +91 7013586357
+                <a href="tel:+917899232512" className="hover:text-orange-600 transition duration-300">
+                  +91 7899232512
                 </a>
               </p>
             </div>

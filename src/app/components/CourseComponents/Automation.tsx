@@ -207,7 +207,7 @@ export default function Automation() {
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
-                    const numbers = ["7013586357", "9182566926"];
+                    const numbers = ["7899232512", "9182566926"];
                     const randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
                     window.location.href = `tel:${randomNumber}`;
                   }}

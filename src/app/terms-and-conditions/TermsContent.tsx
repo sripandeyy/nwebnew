@@ -339,11 +339,11 @@ const TermsContent = () => {
                   <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <h3 className="font-medium text-gray-900 mb-3">Call Us</h3>
                     <a 
-                      href="tel:+917013586357" 
+                      href="tel:+917899232512" 
                       className="inline-flex items-center text-purple-700 hover:text-purple-900"
                     >
                       <Phone className="h-5 w-5 mr-2" />
-                      +91 70135 86357
+                      +91 7899232512
                     </a>
                   </div>
                   <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 md:col-span-2">

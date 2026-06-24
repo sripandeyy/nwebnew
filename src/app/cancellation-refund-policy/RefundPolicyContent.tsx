@@ -284,7 +284,7 @@ const RefundPolicyContent: React.FC = () => {
                 </p>
                 <p className="text-gray-700 flex items-center">
                   <Phone className="h-4 w-4 mr-2 text-purple-600" />
-                  <a href="tel:+917013586357" className="text-purple-600 hover:underline">+91 70135 86357</a>
+                  <a href="tel:+917899232512" className="text-purple-600 hover:underline">+91 7899232512</a>
                 </p>
               </div>
             </Section>
