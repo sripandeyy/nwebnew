@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState } from "react"
+import { motion } from "framer-motion"
 import { Check, X, Sparkles, Zap, Crown, Star, ArrowRight } from "lucide-react"
 import Topbar from "../components/Topbar"
 import Header from "../components/Header"
@@ -17,6 +17,7 @@ const PlansPage = () => {
   const [hoveredCard, setHoveredCard] = useState<PlanType | null>(null)
   const [dragProgress, setDragProgress] = useState<{ [key: string]: number }>({})
   const [isUnlocking, setIsUnlocking] = useState<{ [key: string]: boolean }>({})
+  const [modalSessionKey, setModalSessionKey] = useState(0)
 
   const resetAllPlanState = () => {
     setSelectedSubPlan(null)
@@ -26,19 +27,12 @@ const PlansPage = () => {
   }
 
   const openPlan = (planId: PlanType) => {
-    // Fresh open: clear sub-step and per-interaction states
     setSelectedSubPlan(null)
     setDragProgress({})
     setIsUnlocking({})
+    setModalSessionKey((key) => key + 1)
     setSelectedPlan(planId)
   }
-
-  useEffect(() => {
-    // When switching plan or closing, ensure subplan/drag states reset
-    setSelectedSubPlan(null)
-    setDragProgress({})
-    setIsUnlocking({})
-  }, [selectedPlan])
 
   const plans = [
     {
@@ -159,17 +153,19 @@ const PlansPage = () => {
       subPlans: [
         {
           type: "offline" as SubPlanType,
-          name: " Offline Program",
+          name: " Job Guarantee Program",
           features: [
             "In-person mentorship",
             "Real-world workshops",
             "Networking opportunities",
             "Hands-on project guidance",
+            "Pay 70% of the total amount of the program to start your journey",
+            "The remaining 30% is payable only after you successfully land a job",
           ],
         },
         {
           type: "online" as SubPlanType,
-          name: " Online Program",
+          name: " Job Assistance Program",
           features: [
             "Attend from anywhere",
             "Access recordings + live sessions",
@@ -195,10 +191,10 @@ const PlansPage = () => {
       online: { price: '₹15000 + GST', pre: 'https://rzp.io/rzp/NYE2kPR4m', full: 'https://rzp.io/rzp/NYFPAdL' },
     },
     pro: {
-      offline: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE5kPRoffline', full: 'https://rzp.io/rzp/NYFPOff' },
-      online: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
-      recorded: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPOff' },
-      live: { price: '₹30000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
+      offline: { price: '₹120000 + GST', pre: 'https://rzp.io/rzp/NYE5kPRoffline', full: 'https://rzp.io/rzp/NYFPOff' },
+      online: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
+      recorded: { price: '₹120000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPOff' },
+      live: { price: '₹60000 + GST', pre: 'https://rzp.io/rzp/NYE3kPRPRO', full: 'https://rzp.io/rzp/NYFPProL' },
     },
   };
 
@@ -482,26 +478,23 @@ const PlansPage = () => {
     </main>
 
       {/* Premium 3D Modal */}
-      <AnimatePresence mode="wait" onExitComplete={() => { setSelectedSubPlan(null); setDragProgress({}); setIsUnlocking({}); }}>
-        {selectedPlan && (
+      {selectedPlan && (
+        <motion.div 
+          key={`plan-modal-${modalSessionKey}`}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          onClick={resetAllPlanState}
+        >
           <motion.div 
-            className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-50"
-            style={{ pointerEvents: 'auto' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.01 } }}
-            onClick={resetAllPlanState}
+            className="relative max-w-lg w-full mx-2 sm:mx-4 overflow-hidden max-h-[95vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.8, rotateX: -20 }}
+            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+            style={{ transformStyle: 'preserve-3d' }}
           >
-            <motion.div 
-              key={selectedPlan || 'none'}
-              className="relative max-w-lg w-full mx-2 sm:mx-4 overflow-hidden max-h-[95vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.8, rotateX: -20 }}
-              animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotateX: 20 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-              style={{ transformStyle: 'preserve-3d' }}
-            >
               {/* Glassmorphism Card */}
               <div className="relative rounded-3xl overflow-hidden backdrop-blur-2xl border border-white/20 shadow-2xl"
                 style={{
@@ -530,7 +523,7 @@ const PlansPage = () => {
                       {plans.find(p => p.id === selectedPlan)?.name} Plan
                     </motion.h3>
                     <motion.button 
-                      onClick={() => { setSelectedSubPlan(null); setSelectedPlan(null) }}
+                      onClick={resetAllPlanState}
                       className="text-white/80 hover:text-white transition-colors p-1.5 sm:p-2 hover:bg-white/10 rounded-full flex-shrink-0"
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
@@ -594,7 +587,7 @@ const PlansPage = () => {
                               </motion.div>
                               <h4 className="text-base sm:text-lg md:text-xl font-bold text-white">{subPlan.name}</h4>
                             </div>
-                            <div className="text-xs sm:text-sm font-semibold text-white/90 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full border border-white/10 self-start sm:self-auto">{priceLabel}</div>
+                            <div className="text-xs sm:text-sm font-semibold text-white/90 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full border border-white/10 self-start sm:self-auto whitespace-nowrap shrink-0">{priceLabel}</div>
                           </div>
                           
                           <ul className="relative space-y-2 sm:space-y-3 mb-4 sm:mb-6">
@@ -825,7 +818,7 @@ const PlansPage = () => {
                         <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
                           {plans.find(p => p.id === selectedSubPlan!.plan)?.name} - {selectedSubPlan!.type === 'live' ? 'Live' : selectedSubPlan!.type === 'recorded' ? 'Recorded' : selectedSubPlan!.type === 'online' ? 'Online' : 'Offline'}
                         </h4>
-                        <div className="text-xs sm:text-sm font-semibold text-white/90 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full border border-white/10">
+                        <div className="text-xs sm:text-sm font-semibold text-white/90 bg-white/10 px-2.5 sm:px-3 py-1 rounded-full border border-white/10 whitespace-nowrap shrink-0">
                           {paymentConfig[selectedSubPlan!.plan][selectedSubPlan!.type].price}
                         </div>
                       </div>
@@ -873,7 +866,7 @@ const PlansPage = () => {
                         </button>
                         <button
                           className="text-white/80 hover:text-white text-xs sm:text-sm underline underline-offset-4 text-center sm:text-left"
-                          onClick={() => { setSelectedSubPlan(null); setSelectedPlan(null); }}
+                          onClick={resetAllPlanState}
                         >
                           Close
                         </button>
@@ -884,8 +877,7 @@ const PlansPage = () => {
               </div>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+      )}
       <Footer />
     </div>
   )
