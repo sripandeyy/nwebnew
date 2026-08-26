@@ -3,6 +3,7 @@ import "./globals.css";
 import { Roboto } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import AnimatedBackground from './components/AnimatedBackground';
+import ChatBot from './components/Chatbot';
 const inter = Roboto({ weight: '700', subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({
           crawlSpeed={200}
           />
         {children}
+        <ChatBot />
       </body>
     </html>
   );

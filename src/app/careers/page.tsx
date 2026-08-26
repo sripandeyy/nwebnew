@@ -6,7 +6,6 @@ import { ArrowRightIcon, Rocket, TrendingUp, Globe, Users, Briefcase, Scale } fr
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Topbar from '../components/Topbar'
-import ChatBot from '../components/Chatbot'
 import WorkWithUs from '../components/WorkWithUs'
 
 const jobPostings = [
@@ -133,7 +132,6 @@ export default function CareersPage() {
 
         
       </main>
-      <ChatBot />
       <Footer />
       <WorkWithUs isOpen={isWorkWithUsOpen} onClose={() => setIsWorkWithUsOpen(false)} initialRole={initialRole ?? undefined} />
     </div>

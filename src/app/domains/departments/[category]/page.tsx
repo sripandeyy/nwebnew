@@ -7,8 +7,7 @@ import { getCoursesForDepartmentCategory } from "../../data";
 import Topbar from "../../../components/Topbar";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
-import FloatingParticles from "../../../components/FloatingParticles";
-import { ChevronRight, GraduationCap, BookOpen } from "lucide-react";
+import { GraduationCap, BookOpen } from "lucide-react";
 
 export default function DepartmentCategoryPage() {
   const { category } = useParams<{ category: string }>();
@@ -28,41 +27,8 @@ export default function DepartmentCategoryPage() {
     );
   }
 
-  // Filter courses by category
-  const allowedByCategory: Record<string, Set<string>> = {
-    "cse-it": new Set([
-      "python",
-      "web-development-fullstack",
-      "data-science",
-      "machine-learning",
-      "cyber-security",
-      "blockchain",
-      "artificial-intelligence",
-      "business-analytics",
-      "selenium-java",
-      "android-app-development",
-      "digital-marketing",
-      "sap",
-      "ar-vr",
-    ]),
-    "ece": new Set(["iot", "embedded-systems", "vlsi", "robotics", "sensory-science-ece", "hev", "power-systems"]),
-    "mech-civil": new Set(["autocad-mech", "autocad-civil", "hev", "machine"]),
-    "management": new Set(["hr-management", "hrm-classes", "supply-chain", "finance", "salesforce"]),
-    "bio-food": new Set([
-      "bioinformatics",
-      "microbiology",
-      "molecular-biology",
-      "genetic-engineering",
-      "nano-tech",
-      "food-science",
-      "medical-coding",
-      "sensory-science",
-    ]),
-  };
-  const allowed = allowedByCategory[category as string] ?? new Set();
-  const filteredCourses = data.courses.filter((c) => allowed.has(c.slug));
   const uniqueCoursesMap = new Map<string, typeof data.courses[number]>();
-  for (const c of filteredCourses) {
+  for (const c of data.courses) {
     const existing = uniqueCoursesMap.get(c.slug);
     if (!existing) {
       uniqueCoursesMap.set(c.slug, c);
@@ -133,7 +99,7 @@ export default function DepartmentCategoryPage() {
                   <div className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                     100%
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Job Assistance</div>
+                  <div className="text-sm text-gray-600 mt-1">Job Assistance Program</div>
                 </div>
                 <div className="w-px h-12 bg-gray-200" />
                 <div>

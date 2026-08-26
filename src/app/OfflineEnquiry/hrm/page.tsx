@@ -7,7 +7,6 @@ import { useState, useEffect } from "react"
 import Header from "../../components/Header"
 import Topbar from "../../components/Topbar"
 import Footer from "../../components/Footer"
-import Chat from "../../components/Chatbot"
 // Animation styles
 const AnimatedBackground = () => {
   return (
@@ -625,7 +624,6 @@ export default function HrCoursePage() {
             </div>
           </section>
         </div>
-        <Chat />
         <Footer />
       </div>
     </>

@@ -4,8 +4,6 @@ import Link from "next/link"
 import Header from "../components/Header"
 import Topbar from "../components/Topbar"
 import Footer from "../components/Footer"
-import ChatBot from "../components/Chatbot"
-
 
 export default function AboutPage() {
   return (
@@ -91,7 +89,6 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <ChatBot />
       <Footer />
     </div>
     </>

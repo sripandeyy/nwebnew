@@ -6,7 +6,6 @@ import { Briefcase, Code, Database, Globe, Laptop, MapPin, Phone, Server} from "
 import Header from "../components/Header"
 import Topbar from "../components/Topbar"
 import Footer from "../components/Footer"
-import Chat from "../components/Chatbot"
 import Head from "next/head"
 export default function HomePage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" })
@@ -213,7 +212,6 @@ export default function HomePage() {
             </div>
           </section>
         </main>
-        <Chat />
         <Footer />
       </div>
     </>

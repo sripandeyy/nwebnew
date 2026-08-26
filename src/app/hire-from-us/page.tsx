@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Topbar from '../components/Topbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ChatBot from '../components/Chatbot';
 import Alert, { AlertProvider } from '../utils/Alert';
 import axios from 'axios'
 export default function HireFromUsForm() {
@@ -293,8 +292,6 @@ export default function HireFromUsForm() {
     </form>
     </div>
     </div>
-    <ChatBot />
-  
     <Footer />
     </AlertProvider>
     </>

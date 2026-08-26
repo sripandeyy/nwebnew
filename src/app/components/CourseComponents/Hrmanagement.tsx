@@ -9,7 +9,6 @@ import { Download, PhoneCall } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '../../components/Footer'
-import ChatBot from '../Chatbot';
 import Form from '../../components/Form';
 import Connect from '../Connect';
 export default function Hrmanagement() {
@@ -510,7 +509,6 @@ export default function Hrmanagement() {
       </div>
       <Connect />
       <Form />
-      <ChatBot />
       <Footer />
     </>
   )

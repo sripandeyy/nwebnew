@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "web-development-fullstack",
+    "title": "Full Stack Development",
+    "file": "/courses/web-development-fullstack.png"
+  },
+  {
+    "slug": "dotnet",
+    "title": ".NET Development",
+    "file": "/courses/dotnet.png"
+  },
+  {
+    "slug": "agentic-ai",
+    "title": "Agentic AI",
+    "file": "/courses/agentic-ai.png"
+  },
+  {
+    "slug": "machine-learning",
+    "title": "AI/ML & Machine Learning",
+    "file": "/courses/machine-learning.png"
+  },
+  {
+    "slug": "android-app-development",
+    "title": "App Development",
+    "file": "/courses/android-app-development.png"
+  },
+  {
+    "slug": "aws",
+    "title": "AWS",
+    "file": "/courses/aws.png"
+  },
+  {
+    "slug": "azure",
+    "title": "Azure",
+    "file": "/courses/azure.png"
+  },
+  {
+    "slug": "ccna-200-301",
+    "title": "CCNA 200-301",
+    "file": "/courses/ccna-200-301.png"
+  },
+  {
+    "slug": "cloud-computing",
+    "title": "Cloud Computing",
+    "file": "/courses/cloud-computing.png"
+  },
+  {
+    "slug": "data-analytics",
+    "title": "Data Analytics",
+    "file": "/courses/data-analytics.png"
+  },
+  {
+    "slug": "data-engineering",
+    "title": "Data Engineering",
+    "file": "/courses/data-engineering.png"
+  },
+  {
+    "slug": "data-science",
+    "title": "Data Science",
+    "file": "/courses/data-science.png"
+  },
+  {
+    "slug": "data-structures",
+    "title": "Data Structures",
+    "file": "/courses/data-structures.png"
+  },
+  {
+    "slug": "deep-learning",
+    "title": "Deep Learning",
+    "file": "/courses/deep-learning.png"
+  },
+  {
+    "slug": "devops",
+    "title": "DevOps",
+    "file": "/courses/devops.png"
+  },
+  {
+    "slug": "docker",
+    "title": "Docker",
+    "file": "/courses/docker.png"
+  },
+  {
+    "slug": "python-fullstack",
+    "title": "Python Full Stack Development",
+    "file": "/courses/python-fullstack.png"
+  },
+  {
+    "slug": "generative-ai-llm",
+    "title": "Generative AI & LLM",
+    "file": "/courses/generative-ai-llm.png"
+  },
+  {
+    "slug": "java",
+    "title": "Java",
+    "file": "/courses/java.png"
+  },
+  {
+    "slug": "java-fullstack",
+    "title": "Java Full Stack",
+    "file": "/courses/java-fullstack.png"
+  },
+  {
+    "slug": "manual-testing",
+    "title": "Manual Testing",
+    "file": "/courses/manual-testing.png"
+  },
+  {
+    "slug": "metaverse",
+    "title": "Metaverse",
+    "file": "/courses/metaverse.png"
+  },
+  {
+    "slug": "artificial-intelligence",
+    "title": "Artificial Intelligence",
+    "file": "/courses/artificial-intelligence.png"
+  },
+  {
+    "slug": "python",
+    "title": "Python",
+    "file": "/courses/python.png"
+  },
+  {
+    "slug": "quantum-computing",
+    "title": "Quantum Computing",
+    "file": "/courses/quantum-computing.png"
+  },
+  {
+    "slug": "sap",
+    "title": "SAP",
+    "file": "/courses/sap.png"
+  },
+  {
+    "slug": "sap-grc-arm",
+    "title": "SAP GRC ARM",
+    "file": "/courses/sap-grc-arm.png"
+  },
+  {
+    "slug": "sap-mm",
+    "title": "SAP MM",
+    "file": "/courses/sap-mm.png"
+  },
+  {
+    "slug": "sap-security",
+    "title": "SAP Security",
+    "file": "/courses/sap-security.png"
+  },
+  {
+    "slug": "sap-successfactors",
+    "title": "SAP SuccessFactors",
+    "file": "/courses/sap-successfactors.png"
+  },
+  {
+    "slug": "sap-ui5-fiori",
+    "title": "SAP UI5 Fiori OData",
+    "file": "/courses/sap-ui5-fiori.png"
+  },
+  {
+    "slug": "sas-programming",
+    "title": "SAS Programming",
+    "file": "/courses/sas-programming.png"
+  },
+  {
+    "slug": "selenium-java",
+    "title": "Selenium Testing",
+    "file": "/courses/selenium-java.png"
+  },
+  {
+    "slug": "servicenow",
+    "title": "ServiceNow",
+    "file": "/courses/servicenow.png"
+  },
+  {
+    "slug": "ui-ux",
+    "title": "UI/UX Design",
+    "file": "/courses/ui-ux.png"
+  },
+  {
+    "slug": "web3",
+    "title": "Web3",
+    "file": "/courses/web3.png"
+  },
+  {
+    "slug": "web-development",
+    "title": "Web Development",
+    "file": "/courses/web-development.png"
+  },
+  {
+    "slug": "ai-domain",
+    "title": "AI Domain",
+    "file": "/courses/ai-domain.png"
+  },
+  {
+    "slug": "ar-vr",
+    "title": "AR/VR",
+    "file": "/courses/ar-vr.png"
+  },
+  {
+    "slug": "bioinformatics",
+    "title": "Bioinformatics",
+    "file": "/courses/bioinformatics.png"
+  },
+  {
+    "slug": "blockchain",
+    "title": "Blockchain",
+    "file": "/courses/blockchain.png"
+  },
+  {
+    "slug": "cyber-security",
+    "title": "Cybersecurity",
+    "file": "/courses/cyber-security.png"
+  },
+  {
+    "slug": "graphic-design",
+    "title": "Graphic Design",
+    "file": "/courses/graphic-design.png"
+  },
+  {
+    "slug": "iot",
+    "title": "Internet of Things (IoT)",
+    "file": "/courses/iot.png"
+  },
+  {
+    "slug": "computer-organization",
+    "title": "Computer Organization & Architecture",
+    "file": "/courses/computer-organization.png"
+  },
+  {
+    "slug": "dbms",
+    "title": "Database Management Systems (DBMS)",
+    "file": "/courses/dbms.png"
+  },
+  {
+    "slug": "probability-statistics",
+    "title": "Probability & Statistics",
+    "file": "/courses/probability-statistics.png"
+  },
+  {
+    "slug": "embedded-systems",
+    "title": "Embedded Systems",
+    "file": "/courses/embedded-systems.png"
+  },
+  {
+    "slug": "vlsi",
+    "title": "VLSI",
+    "file": "/courses/vlsi.png"
+  },
+  {
+    "slug": "signals-and-systems",
+    "title": "Signals & Systems",
+    "file": "/courses/signals-and-systems.png"
+  },
+  {
+    "slug": "scld",
+    "title": "SCLD",
+    "file": "/courses/scld.png"
+  },
+  {
+    "slug": "robotics",
+    "title": "Robotics",
+    "file": "/courses/robotics.png"
+  },
+  {
+    "slug": "power-systems",
+    "title": "Power Systems",
+    "file": "/courses/power-systems.png"
+  },
+  {
+    "slug": "hev",
+    "title": "Hybrid & Electric Vehicles",
+    "file": "/courses/hev.png"
+  },
+  {
+    "slug": "autocad-mech",
+    "title": "AutoCAD",
+    "file": "/courses/autocad-mech.png"
+  },
+  {
+    "slug": "catia",
+    "title": "CATIA",
+    "file": "/courses/catia.png"
+  },
+  {
+    "slug": "car-design",
+    "title": "Car Design",
+    "file": "/courses/car-design.png"
+  },
+  {
+    "slug": "machine",
+    "title": "Machine Design",
+    "file": "/courses/machine.png"
+  },
+  {
+    "slug": "drone-engineering",
+    "title": "Drone Engineering",
+    "file": "/courses/drone-engineering.png"
+  },
+  {
+    "slug": "ic-engine-design",
+    "title": "IC Engine Design",
+    "file": "/courses/ic-engine-design.png"
+  },
+  {
+    "slug": "aspen-hysys",
+    "title": "Aspen HYSYS",
+    "file": "/courses/aspen-hysys.png"
+  },
+  {
+    "slug": "aspen-plus",
+    "title": "Aspen Plus",
+    "file": "/courses/aspen-plus.png"
+  },
+  {
+    "slug": "petroleum-engineering",
+    "title": "Petroleum Engineering",
+    "file": "/courses/petroleum-engineering.png"
+  },
+  {
+    "slug": "construction-planning",
+    "title": "Construction Planning",
+    "file": "/courses/construction-planning.png"
+  },
+  {
+    "slug": "business-analytics",
+    "title": "Business Analytics",
+    "file": "/courses/business-analytics.png"
+  },
+  {
+    "slug": "finance",
+    "title": "Finance",
+    "file": "/courses/finance.png"
+  },
+  {
+    "slug": "digital-marketing",
+    "title": "Digital Marketing",
+    "file": "/courses/digital-marketing.png"
+  },
+  {
+    "slug": "hr-management",
+    "title": "Human Resources (HR)",
+    "file": "/courses/hr-management.png"
+  },
+  {
+    "slug": "stock-marketing",
+    "title": "Stock Market",
+    "file": "/courses/stock-marketing.png"
+  },
+  {
+    "slug": "supply-chain",
+    "title": "Supply Chain Management",
+    "file": "/courses/supply-chain.png"
+  },
+  {
+    "slug": "salesforce",
+    "title": "Salesforce",
+    "file": "/courses/salesforce.png"
+  },
+  {
+    "slug": "acca-f4-business",
+    "title": "ACCA F4 Business",
+    "file": "/courses/acca-f4-business.png"
+  },
+  {
+    "slug": "entrepreneurship",
+    "title": "Entrepreneurship",
+    "file": "/courses/entrepreneurship.png"
+  },
+  {
+    "slug": "investment-banking",
+    "title": "Investment Banking",
+    "file": "/courses/investment-banking.png"
+  },
+  {
+    "slug": "microsoft-excel",
+    "title": "Microsoft Excel",
+    "file": "/courses/microsoft-excel.png"
+  },
+  {
+    "slug": "placement-preparation",
+    "title": "Placement Preparation",
+    "file": "/courses/placement-preparation.png"
+  },
+  {
+    "slug": "power-bi",
+    "title": "Power BI",
+    "file": "/courses/power-bi.png"
+  },
+  {
+    "slug": "ai-for-economics",
+    "title": "AI for Economics",
+    "file": "/courses/ai-for-economics.png"
+  },
+  {
+    "slug": "product-management",
+    "title": "Product Management",
+    "file": "/courses/product-management.png"
+  },
+  {
+    "slug": "microbiology",
+    "title": "Microbiology",
+    "file": "/courses/microbiology.png"
+  },
+  {
+    "slug": "molecular-biology",
+    "title": "Molecular Biology",
+    "file": "/courses/molecular-biology.png"
+  },
+  {
+    "slug": "medical-coding",
+    "title": "Medical Coding",
+    "file": "/courses/medical-coding.png"
+  },
+  {
+    "slug": "nano-tech",
+    "title": "Nanotechnology",
+    "file": "/courses/nano-tech.png"
+  },
+  {
+    "slug": "genetic-engineering",
+    "title": "Genetic Engineering",
+    "file": "/courses/genetic-engineering.png"
+  },
+  {
+    "slug": "biostatistics",
+    "title": "Biostatistics",
+    "file": "/courses/biostatistics.png"
+  },
+  {
+    "slug": "clinical-sas",
+    "title": "Clinical SAS",
+    "file": "/courses/clinical-sas.png"
+  },
+  {
+    "slug": "pharmacovigilance",
+    "title": "Pharmacovigilance",
+    "file": "/courses/pharmacovigilance.png"
+  },
+  {
+    "slug": "psychology",
+    "title": "Psychology",
+    "file": "/courses/psychology.png"
+  },
+  {
+    "slug": "food-science",
+    "title": "Food Science and Technology",
+    "file": "/courses/food-science.png"
+  },
+  {
+    "slug": "sensory-science",
+    "title": "Sensory Science",
+    "file": "/courses/sensory-science.png"
+  }
+]

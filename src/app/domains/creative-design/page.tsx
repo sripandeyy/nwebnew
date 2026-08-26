@@ -87,7 +87,7 @@ export default function CreativeDesignPage() {
                   <div className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                     100%
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Job Assistance</div>
+                  <div className="text-sm text-gray-600 mt-1">Job Assistance Program</div>
                 </div>
                 <div className="w-px h-12 bg-gray-200" />
                 <div>

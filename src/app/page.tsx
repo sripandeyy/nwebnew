@@ -8,7 +8,6 @@ import Footer from './components/Footer';
 import HeroB from './components/HeroB';
 import Faq from './components/faq';
 // import WhatsAppButton from './components/BacktoTop';
-import ChatBot from './components/Chatbot';
 import TestimonialsGrid from './components/Testimonials';
 import ServicesPremium from './components/ServicesPremium';
 import Marquee from './components/Marquee';
@@ -59,7 +58,6 @@ export default function LandingPage() {
           <App />
           <Newsletter />
         </main>
-        <ChatBot />
         {/* <WhatsAppButton /> */}
         <Footer />
       </div>
