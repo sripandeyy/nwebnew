@@ -132,8 +132,10 @@ export default function DepartmentCategoryPage() {
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = '/placeholder.png';
-                        target.className = 'w-full h-full object-cover';
+                        if (target.dataset.fallbackApplied === "1") return;
+                        target.dataset.fallbackApplied = "1";
+                        target.src = "/placeholder.png";
+                        target.className = "w-full h-full object-cover";
                       }}
                     />
                   </div>

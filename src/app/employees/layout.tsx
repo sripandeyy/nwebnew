@@ -1,40 +1,20 @@
 'use client';
-import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 const inter = Roboto({ weight: '700', subsets: ['latin'] });
 import {
     Bell,
-    Clock,
     Menu,
-    ClipboardList,
     Users,
-    MessageCircle,
-    DollarSign,
-    Wallet,
-    Clock4,
-    Umbrella,
-    FileText,
-    UserPlus,
-    Calendar,
-    TrendingUp,
-    FolderOpen,
-    Headphones,
-    Plane,
-    Award,
-    ClipboardCheck,
-    BarChart,
-    FileEdit,
     Settings,
     LayoutDashboard,
-    UsersRound,
     FolderKanban,
     CalendarDays,
     Files,
 } from "lucide-react"
 import { useState } from "react"
 
-export default function RootLayout({
+export default function EmployeesLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -48,10 +28,9 @@ export default function RootLayout({
         { title: "Attendance", icon: CalendarDays, url: "/employees/attendance" },
         { title: "Documents", icon: Files, url: "/employees/documents" },
     ];
+    // Nested under root layout — do not render another <html>/<body>
     return (
-        <html lang="en">
-            <body className={inter.className}
-            >
+                <>
                 <NextTopLoader
                     color="orange"
                     showSpinner={false}
@@ -137,7 +116,6 @@ export default function RootLayout({
                     </main> */}
 
                 </div>
-            </body>
-        </html >
+                </>
     );
 }
