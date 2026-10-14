@@ -21,15 +21,17 @@ interface FloatingParticlesProps {
   color?: string
 }
 
-const FloatingParticles = ({ count = 15, color = "purple" }: FloatingParticlesProps) => {
+const FloatingParticles = ({ count = 12, color = "grey" }: FloatingParticlesProps) => {
   const [particles, setParticles] = useState<Particle[]>([])
   const [isClient, setIsClient] = useState(false)
 
   const colorVariants: Record<string, string> = {
-    purple: "from-purple-400/30 to-pink-400/30",
-    blue: "from-blue-400/30 to-cyan-400/30",
-    green: "from-green-400/30 to-emerald-400/30",
-    orange: "from-orange-400/30 to-red-400/30",
+    grey: "from-slate-400/20 to-slate-600/20 dark:from-slate-600/20 dark:to-slate-800/20",
+    slate: "from-slate-400/20 to-slate-600/20 dark:from-slate-600/20 dark:to-slate-800/20",
+    purple: "from-slate-400/20 to-slate-600/20",
+    blue: "from-blue-400/20 to-cyan-400/20",
+    green: "from-green-400/20 to-emerald-400/20",
+    orange: "from-orange-400/20 to-amber-400/20",
   }
 
   useEffect(() => {

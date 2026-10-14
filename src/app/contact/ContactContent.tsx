@@ -40,41 +40,41 @@ const ContactContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
       <Topbar />
       <Header />
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-purple-800 to-indigo-900 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+      <div className="relative bg-slate-900 border-b border-slate-800 text-white overflow-hidden">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-32">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-            <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-              We'd love to hear from you. Fill the form or reach us directly.
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Contact Us</h1>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              We&apos;d love to hear from you. Fill the form or reach us directly.
             </p>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in touch</h2>
-              <p className="text-gray-600 mb-8">Our team typically responds within 24 hours.</p>
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-200 dark:border-slate-800">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Get in touch</h2>
+              <p className="text-slate-600 dark:text-slate-300 mb-8">Our team typically responds within 24 hours.</p>
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 bg-purple-100 p-3 rounded-lg text-purple-600">
+                  <div className="flex-shrink-0 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
                     <Mail className="h-6 w-6" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900">Email</h3>
+                    <h3 className="text-lg font-medium text-slate-900 dark:text-white">Email</h3>
                     <a 
                       href="mailto:support@nyeras.com" 
-                      className="text-purple-600 hover:text-purple-700 hover:underline"
+                      className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium hover:underline"
                     >
                       support@nyeras.com
                     </a>
@@ -82,14 +82,14 @@ const ContactContent: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 bg-purple-100 p-3 rounded-lg text-purple-600">
+                  <div className="flex-shrink-0 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
                     <Phone className="h-6 w-6" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900">Phone</h3>
+                    <h3 className="text-lg font-medium text-slate-900 dark:text-white">Phone</h3>
                     <a 
                       href="tel:+917899232512" 
-                      className="text-purple-600 hover:text-purple-700 hover:underline"
+                      className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium hover:underline"
                     >
                       +91 7899232512
                     </a>
@@ -97,12 +97,12 @@ const ContactContent: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 bg-purple-100 p-3 rounded-lg text-purple-600">
+                  <div className="flex-shrink-0 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
                     <MapPin className="h-6 w-6" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900">Address</h3>
-                    <address className="not-italic text-gray-600">
+                    <h3 className="text-lg font-medium text-slate-900 dark:text-white">Address</h3>
+                    <address className="not-italic text-slate-600 dark:text-slate-300">
                       Floor No.2, 1161, AECS Layout Main Rd,<br />
                       AECS Layout - A Block, AECS Layout,<br />
                       Singasandra, Kudlu,<br />
@@ -112,51 +112,51 @@ const ContactContent: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 bg-purple-100 p-3 rounded-lg text-purple-600">
+                  <div className="flex-shrink-0 bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
                     <Clock className="h-6 w-6" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900">Business Hours</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-lg font-medium text-slate-900 dark:text-white">Business Hours</h3>
+                    <p className="text-slate-600 dark:text-slate-300">
                       Tuesday - Sunday: 11:00 AM - 8:00 PM
                     </p>
                     
-                    <p className="text-gray-600">
+                    <p className="text-slate-600 dark:text-slate-300">
                       Monday: Closed
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Prefer email?</h3>
-                <p className="text-gray-600 mb-4">
+              <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-4">Prefer email?</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
                   Write to{' '}
                   <a 
                     href="mailto:support@nyeras.com" 
-                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                    className="text-slate-800 dark:text-slate-200 font-semibold hover:underline"
                   >
                     support@nyeras.com
                   </a>{' '}
-                  and we'll contact you directly.
+                  and we&apos;ll contact you directly.
                 </p>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h2>
+          <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-md border border-slate-200 dark:border-slate-800">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Send us a message</h2>
             
             {isSubmitted ? (
-              <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+              <div className="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 rounded-xl p-4 mb-6">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <CheckCircle className="h-5 w-5 text-green-400" />
+                    <CheckCircle className="h-5 w-5 text-emerald-500" />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm text-green-700">
-                      Thank you for your message! We'll get back to you soon.
+                    <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                      Thank you for your message! We&apos;ll get back to you soon.
                     </p>
                   </div>
                 </div>
@@ -165,8 +165,8 @@ const ContactContent: React.FC = () => {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Name <span className="text-red-500">*</span>
+                <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Name <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -175,14 +175,14 @@ const ContactContent: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="Your name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email <span className="text-red-500">*</span>
+                <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Email <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -191,13 +191,13 @@ const ContactContent: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
                   Phone
                 </label>
                 <input
@@ -206,14 +206,14 @@ const ContactContent: React.FC = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message <span className="text-red-500">*</span>
+                <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Message <span className="text-rose-500">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -222,7 +222,7 @@ const ContactContent: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -230,7 +230,7 @@ const ContactContent: React.FC = () => {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
+                  className="w-full flex justify-center items-center px-6 py-3.5 rounded-xl shadow-md text-base font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-700/50 hover-lift focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
                 >
                   <Send className="h-5 w-5 mr-2" />
                   Send Message
@@ -242,11 +242,11 @@ const ContactContent: React.FC = () => {
 
         {/* Alternative Contact */}
         <div className="mt-16 text-center">
-          <p className="text-gray-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Alternatively, mail us at{' '}
             <a 
               href="mailto:support@nyeras.com" 
-              className="text-purple-600 hover:text-purple-700 hover:underline font-medium"
+              className="text-slate-800 dark:text-slate-200 hover:underline font-semibold"
             >
               support@nyeras.com
             </a>

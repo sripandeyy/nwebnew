@@ -97,22 +97,14 @@ export default async function Page({ params }: PageProps) {
     }
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
-        {/* Animated Background Elements */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
-        </div>
-
+      <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
         <div className="relative z-10 px-4 py-8 sm:py-12 lg:py-16">
           <div className="max-w-6xl mx-auto">
             {/* Header Section */}
             <div className="text-center mb-8 sm:mb-12">
               <div className="inline-flex items-center justify-center mb-4">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-lg opacity-50"></div>
-                  <div className="relative bg-gradient-to-r from-purple-600 to-indigo-600 p-1 rounded-full">
+                  <div className="relative bg-slate-900 dark:bg-slate-800 p-1 rounded-full border border-slate-700">
                     <img 
                       src="/favicon.png" 
                       alt="Nyera Logo" 
@@ -121,35 +113,29 @@ export default async function Page({ params }: PageProps) {
                   </div>
                 </div>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-3">
                 Certificate Verification
               </h1>
-              <p className="text-gray-600 text-lg sm:text-xl">
+              <p className="text-slate-600 dark:text-slate-300 text-lg sm:text-xl">
                 Verify the authenticity of your certificate
               </p>
             </div>
 
             {/* Main Certificate Card */}
-            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 overflow-hidden mb-8">
-              {/* Certificate Header with Gradient */}
-              <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 p-8 sm:p-10 text-white relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                    backgroundSize: '60px 60px'
-                  }}></div>
-                </div>
+            <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-8">
+              {/* Certificate Header with Rich Slate Grey */}
+              <div className="bg-slate-900 dark:bg-slate-850 p-8 sm:p-10 text-white relative overflow-hidden border-b border-slate-800">
                 <div className="relative z-10">
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <div>
-                      <p className="text-purple-100 text-sm sm:text-base font-medium mb-2">Certificate ID</p>
+                      <p className="text-slate-400 text-sm sm:text-base font-medium mb-1">Certificate ID</p>
                       <p className="text-2xl sm:text-3xl font-bold font-mono tracking-wider">{certificate.id || id}</p>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-4 py-2 rounded-full">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="font-semibold">Verified</span>
+                      <span className="font-semibold text-sm">Verified</span>
                     </div>
                   </div>
                 </div>
@@ -160,8 +146,7 @@ export default async function Page({ params }: PageProps) {
                 {/* Certificate Badge */}
                 <div className="flex justify-center mb-8">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                    <div className="relative bg-gradient-to-br from-purple-100 to-indigo-100 p-6 rounded-full border-4 border-purple-300 shadow-xl">
+                    <div className="relative bg-slate-100 dark:bg-slate-800 p-6 rounded-full border-4 border-slate-300 dark:border-slate-700 shadow-xl">
                       <div className="w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
                         <img 
                           src="/favicon.png" 
@@ -176,54 +161,54 @@ export default async function Page({ params }: PageProps) {
                 {/* Certificate Title */}
                 <div className="text-center mb-10">
                   <div className="inline-block mb-4">
-                    <span className="text-xs sm:text-sm font-semibold text-purple-600 bg-purple-100 px-4 py-2 rounded-full uppercase tracking-wider">
+                    <span className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-full uppercase tracking-wider">
                       Certificate of Completion
                     </span>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4">
                     This is to certify that
                   </h2>
-                  <h3 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+                  <h3 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-6">
                     {certificate.name || 'Student Name'}
                   </h3>
-                  <p className="text-xl sm:text-2xl text-gray-600 mb-2">
+                  <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-300 mb-2">
                     has successfully completed the course
                   </p>
-                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mt-4">
+                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 dark:text-slate-200 mt-4">
                     {certificate.course || 'Course Name'}
                   </h4>
                 </div>
 
                 {/* Course Details Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-6 border border-purple-100 hover:shadow-lg transition-shadow">
-                    <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-4 mx-auto">
-                      <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-center w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full mb-4 mx-auto text-slate-700 dark:text-slate-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
-                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">Start Date</p>
-                    <p className="text-lg font-bold text-gray-900 text-center">{formatDate(certificate.startDate)}</p>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">Start Date</p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white text-center">{formatDate(certificate.startDate)}</p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100 hover:shadow-lg transition-shadow">
-                    <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-full mb-4 mx-auto">
-                      <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-center w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full mb-4 mx-auto text-slate-700 dark:text-slate-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
-                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">End Date</p>
-                    <p className="text-lg font-bold text-gray-900 text-center">{formatDate(certificate.endDate)}</p>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">End Date</p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white text-center">{formatDate(certificate.endDate)}</p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-6 border border-pink-100 hover:shadow-lg transition-shadow">
-                    <div className="flex items-center justify-center w-12 h-12 bg-pink-100 rounded-full mb-4 mx-auto">
-                      <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-center w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full mb-4 mx-auto text-slate-700 dark:text-slate-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
-                    <p className="text-sm font-medium text-gray-500 mb-2 text-center">Issued On</p>
-                    <p className="text-lg font-bold text-gray-900 text-center">{formatDate(certificate.issueDate)}</p>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">Issued On</p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white text-center">{formatDate(certificate.issueDate)}</p>
                   </div>
                 </div>
 
@@ -234,47 +219,45 @@ export default async function Page({ params }: PageProps) {
                       href={certificate.certificate_upload} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 overflow-hidden"
+                      className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl shadow-lg border border-slate-700/50 hover-lift transition-all"
                     >
-                      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      <svg className="w-5 h-5 mr-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
-                      <span className="relative z-10">View Full Certificate</span>
+                      <span>View Full Certificate</span>
                     </a>
                     <a 
                       href={certificate.certificate_upload} 
                       download 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 overflow-hidden"
+                      className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-md border border-slate-300 dark:border-slate-700 hover-lift transition-all"
                     >
-                      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      <svg className="w-5 h-5 mr-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      <span className="relative z-10">Download Certificate</span>
+                      <span>Download Certificate</span>
                     </a>
                   </div>
                 )}
 
                 {/* Verification Info */}
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
+                <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full">
-                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                       </div>
                     </div>
                     <div className="ml-4 flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">Verification Information</h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        This certificate was issued by <span className="font-semibold text-purple-600">Nyeras Edutech and Innovations Pvt Limited</span> and can be verified online using the certificate ID: <span className="font-mono font-bold text-gray-900">{certificate.id || id}</span>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Verification Information</h3>
+                      <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                        This certificate was issued by <span className="font-semibold text-slate-900 dark:text-white">Nyeras Edutech and Innovations Pvt Limited</span> and can be verified online using the certificate ID: <span className="font-mono font-bold text-slate-900 dark:text-white">{certificate.id || id}</span>
                       </p>
-                      <p className="text-sm text-gray-600 mt-2">
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                         Verified on {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </p>
                     </div>
@@ -282,15 +265,15 @@ export default async function Page({ params }: PageProps) {
                 </div>
 
                 {/* Additional Info */}
-                <div className="mt-8 pt-8 border-t border-gray-200">
+                <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-2">Email Address</p>
-                      <p className="text-base font-semibold text-gray-900 break-all">{certificate.email}</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Email Address</p>
+                      <p className="text-base font-semibold text-slate-900 dark:text-white break-all">{certificate.email}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-2">Status</p>
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Status</p>
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                         <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
@@ -303,7 +286,7 @@ export default async function Page({ params }: PageProps) {
             </div>
 
             {/* Footer Note */}
-            <div className="text-center text-gray-600 text-sm">
+            <div className="text-center text-slate-500 dark:text-slate-400 text-sm">
               <p>This certificate is digitally verified and authentic</p>
               <p className="mt-1">© {new Date().getFullYear()} Nyeras Edutech and Innovations Pvt Limited. All rights reserved.</p>
             </div>

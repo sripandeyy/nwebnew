@@ -51,22 +51,22 @@ export function LoginForm() {
     <div>
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Employee Email
           </label>
           <input
             id="email"
             type="email"
             required
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                      focus:outline-none focus:border-[#6600CC] focus:ring-1 focus:ring-[#6600CC]"
+            className="mt-1 block w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm shadow-xs placeholder-slate-400
+                      focus:outline-none focus:border-slate-800 dark:focus:border-slate-400 focus:ring-1 focus:ring-slate-800"
             placeholder="abcd@nyeras.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Password
           </label>
           <input
@@ -74,8 +74,8 @@ export function LoginForm() {
             type="password"
             required
             placeholder="*******"
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                      focus:outline-none focus:border-[#6600CC] focus:ring-1 focus:ring-[#6600CC]"
+            className="mt-1 block w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm shadow-xs placeholder-slate-400
+                      focus:outline-none focus:border-slate-800 dark:focus:border-slate-400 focus:ring-1 focus:ring-slate-800"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -83,8 +83,8 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#6600CC] hover:bg-[#4d0099] 
-                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6600CC] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-2.5 px-4 border border-slate-700/50 rounded-xl shadow-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700
+                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed hover-lift transition-all"
         >
           {isLoading ? (
             <svg className="animate-spin h-5 w-5 mx-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

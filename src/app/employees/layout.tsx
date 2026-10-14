@@ -95,9 +95,9 @@ export default function EmployeesLayout({
                         <div className="mt-6 px-4">
                             <h3 className="mb-2 text-sm font-semibold text-gray-600">Quick Links</h3>
                             <div className="space-y-1">
-                                {quickLinks.map((item) => (
+                                {quickLinks.map((item, idx) => (
                                     <a
-                                        key={item.title}
+                                        key={`emp-ql-${item.title}-${idx}`}
                                         href={item.url}
                                         className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left text-gray-700 hover:bg-orange-100"
                                     >

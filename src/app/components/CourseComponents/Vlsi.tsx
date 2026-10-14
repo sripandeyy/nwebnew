@@ -425,7 +425,7 @@ export default function Aws() {
                 <Link href="https://pages.razorpay.com/nyeras-vlsi-integration">
                   <button
                     type="submit"
-                    className="max-w-xs flex-1 bg-[#6600CC] border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-[#4d0099] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-[#4d0099] sm:w-full transition-colors duration-300"
+                    className="max-w-xs flex-1 bg-slate-900 dark:bg-slate-800 border border-slate-700/50 rounded-xl py-3 px-8 flex items-center justify-center text-base font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 sm:w-full hover-lift transition-all"
                   >
                     Enroll Now
                   </button>

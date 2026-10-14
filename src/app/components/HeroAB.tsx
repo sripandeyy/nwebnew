@@ -5,7 +5,7 @@ import "aos/dist/aos.css";
 
 export default function HeroAB() {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 800, once: true });
 
     // Counter Animation Logic
     const animateCounter = (
@@ -36,7 +36,7 @@ export default function HeroAB() {
     ];
 
     counters.forEach(({ selector, start, end, suffix }) => {
-      const element = document.querySelector(selector) as HTMLElement; // Cast to HTMLElement
+      const element = document.querySelector(selector) as HTMLElement;
       if (element) {
         animateCounter(element, start, end, suffix, 2000); 
       }
@@ -44,50 +44,41 @@ export default function HeroAB() {
   }, []);
 
   return (
-    <>
-      <section className="relative py-10 bg-white/40">
-        <div className="relative z-10 max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl" data-aos="fade-up">
-              Our Students are always happy
-            </h3>
-            <p className="mt-3" data-aos="fade-up" data-aos-delay="200">
-              Student satisfaction is our top priority. We are proud to have a 98% satisfaction rate.
-            </p>
-          </div>
-
-          <div className="mt-12">
-            <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x">
-              <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="100">
-                <h4 className="text-4xl text-[#6600cc] font-semibold count-educators">0</h4>
-                <p className="mt-3 font-medium">Educators</p>
-              </li>
-
-              <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="200">
-                <h4 className="text-4xl text-[#6600cc] font-semibold count-downloads">0</h4>
-                <p className="mt-3 font-medium">Downloads</p>
-              </li>
-
-              <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="300">
-                <h4 className="text-4xl text-[#6600cc] font-semibold count-alumni">0</h4>
-                <p className="mt-3 font-medium">Alumni</p>
-              </li>
-
-              <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="400">
-                <h4 className="text-4xl text-[#6600cc] font-semibold count-placements">0</h4>
-                <p className="mt-3 font-medium">Placements</p>
-              </li>
-            </ul>
-          </div>
+    <section className="relative py-14 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-y border-slate-100 dark:border-slate-800">
+      <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
+        <div className="max-w-2xl mx-auto text-center">
+          <h3 className="text-slate-900 dark:text-white text-3xl font-extrabold sm:text-4xl tracking-tight" data-aos="fade-up">
+            Our Students are Always Happy
+          </h3>
+          <p className="mt-3 text-slate-600 dark:text-slate-400" data-aos="fade-up" data-aos-delay="100">
+            Student satisfaction is our top priority. We are proud to maintain a 98% learner satisfaction rate.
+          </p>
         </div>
-        <div
-          className="absolute inset-0 max-w-md mx-auto h-72 blur-[118px]"
-          style={{
-            background:
-              "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.26) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)",
-          }}
-        ></div>
-      </section>
-    </>
+
+        <div className="mt-12">
+          <ul className="flex flex-col items-center justify-center gap-y-10 sm:flex-row sm:flex-wrap lg:divide-x lg:divide-slate-200 dark:lg:divide-slate-800">
+            <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="100">
+              <h4 className="text-4xl font-extrabold text-slate-900 dark:text-white count-educators">0</h4>
+              <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Expert Educators</p>
+            </li>
+
+            <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="200">
+              <h4 className="text-4xl font-extrabold text-slate-900 dark:text-white count-downloads">0</h4>
+              <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Resource Downloads</p>
+            </li>
+
+            <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="300">
+              <h4 className="text-4xl font-extrabold text-slate-900 dark:text-white count-alumni">0</h4>
+              <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Trained Alumni</p>
+            </li>
+
+            <li className="text-center px-12 md:px-16" data-aos="zoom-in" data-aos-delay="400">
+              <h4 className="text-4xl font-extrabold text-slate-900 dark:text-white count-placements">0</h4>
+              <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Placement Record</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -51,8 +51,8 @@ export default function FilterModal({ isOpen, onClose, onApplyFilters, currentFi
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-        <div className="bg-[#6600CC] text-white p-4 flex justify-between items-center">
-          <h3 className="font-medium text-lg">Filter Leads</h3>
+        <div className="bg-slate-900 text-white p-4 flex justify-between items-center border-b border-slate-800">
+          <h3 className="font-semibold text-base">Filter Leads</h3>
           <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors duration-200">
             <svg
               className="w-5 h-5"
@@ -77,7 +77,7 @@ export default function FilterModal({ isOpen, onClose, onApplyFilters, currentFi
                 name="course"
                 value={filters.course}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
               >
                 <option value="">All Courses</option>
                 {courseOptions.map((course) => (
@@ -97,7 +97,7 @@ export default function FilterModal({ isOpen, onClose, onApplyFilters, currentFi
                 name="action"
                 value={filters.action}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
               >
                 <option value="">All Actions</option>
                 {actionOptions.map((action) => (
@@ -117,7 +117,7 @@ export default function FilterModal({ isOpen, onClose, onApplyFilters, currentFi
                 name="myAction"
                 value={filters.myAction}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
               >
                 <option value="">All My Actions</option>
                 {myActionOptions.map((myAction) => (
@@ -133,14 +133,14 @@ export default function FilterModal({ isOpen, onClose, onApplyFilters, currentFi
             <button
               type="button"
               onClick={handleReset}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors duration-200"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm transition-colors duration-200"
             >
               Reset
             </button>
             <button
               type="button"
               onClick={handleApply}
-              className="px-4 py-2 bg-[#6600CC] hover:bg-[#4d0099] text-white rounded-md transition-colors duration-200"
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-colors duration-200 hover-lift"
             >
               Apply Filters
             </button>

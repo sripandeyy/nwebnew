@@ -1,8 +1,7 @@
 'use client';
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import { Mail, Phone, User, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -20,131 +19,171 @@ const Contact: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
-
-  useEffect(() => {
-    AOS.init({ duration: 1000, easing: 'ease-in-out' });
-  }, []);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
-    setFeedbackMessage('');
+    setFeedback(null);
     try {
       await axios.post('/api/Contact', formData);
-      setFeedbackMessage('Thank you for contacting us!');
+      setFeedback({ type: 'success', message: 'Thank you! Your message has been received. Our team will get back to you shortly.' });
       setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
       console.error(error);
-      setFeedbackMessage('Something went wrong. Please try again later.');
+      setFeedback({ type: 'error', message: 'Something went wrong while sending your message. Please try again or call our support.' });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <main className="relative py-16 bg-white/40">
-      <div className="relative z-10 max-w-screen-xl mx-auto sm:px-4 md:px-8">
-        <div
-          className="max-w-lg space-y-3 px-4 sm:mx-auto sm:text-center sm:px-0"
-          data-aos="fade-up"
-        >
-          <h3 className="text-[#6600CC] font-semibold">Contact</h3>
-          <p className="text-black text-3xl font-semibold sm:text-4xl">
-            Get in touch
-          </p>
-          <p className="text-gray-700">
-            We&apos;d love to hear from you! Please fill out the form below.
+    <section id="contact" className="relative py-16 sm:py-24 overflow-hidden">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold mb-3 backdrop-blur-md">
+            <Mail className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+            <span>Get in Touch</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Have Questions? We’re Here to Help
+          </h2>
+          <p className="mt-3 text-slate-600 dark:text-slate-300 text-base">
+            Reach out to our admissions team for course advice, fee details, or placement insights.
           </p>
         </div>
-        <div
-          className="mt-12 mx-auto px-4 p-8 bg-white sm:max-w-lg sm:px-8 sm:rounded-xl"
-          data-aos="fade-up"
-        >
+
+        {/* Form Card */}
+        <div className="rounded-3xl bg-white dark:bg-slate-900 glossy-black-card p-6 sm:p-10 shadow-xl backdrop-blur-md">
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="font-medium text-gray-700">
-                Full name
-              </label>
-              <input
-                type="text"
-                id="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-orange-500 shadow-sm rounded-lg"
-                placeholder="Enter your full name"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Full Name */}
+              <div>
+                <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                    type="text"
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 text-sm rounded-xl skeuo-input text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+                    placeholder="e.g. Rahul Sharma"
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 text-sm rounded-xl skeuo-input text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+                    placeholder="rahul@example.com"
+                  />
+                </div>
+              </div>
             </div>
+
+            {/* Phone Number */}
             <div>
-              <label htmlFor="email" className="font-medium text-gray-700">
-                Email
+              <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                Phone Number
               </label>
-              <input
-                type="email"
-                id="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-orange-500 shadow-sm rounded-lg"
-                placeholder="Enter your email address"
-              />
+              <div className="relative">
+                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 text-sm rounded-xl skeuo-input text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+                  placeholder="+91 98765 43210"
+                />
+              </div>
             </div>
+
+            {/* Message */}
             <div>
-              <label htmlFor="phone" className="font-medium text-gray-700">
-                Phone number
+              <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                How Can We Help You?
               </label>
-              <input
-                type="tel"
-                id="phone"
-                placeholder="Enter your 10-digit phone number"
-                required
-                pattern="[0-9]{10}"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-orange-500 shadow-sm rounded-lg"
-              />
+              <div className="relative">
+                <MessageSquare className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <textarea
+                  id="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 text-sm rounded-xl skeuo-input text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+                  placeholder="Tell us about the domain or placement program you're interested in..."
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor="message" className="font-medium text-gray-700">
-                Message
-              </label>
-              <textarea
-                id="message"
-                required
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-orange-500 shadow-sm rounded-lg text-gray-700"
-                placeholder="Enter your message"
-              ></textarea>
+
+            {/* Feedback Alert */}
+            {feedback && (
+              <div
+                className={`flex items-center gap-2.5 p-4 rounded-xl text-sm font-medium ${
+                  feedback.type === 'success'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                    : 'bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300'
+                }`}
+              >
+                {feedback.type === 'success' ? (
+                  <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                ) : (
+                  <AlertCircle className="w-5 h-5 shrink-0 text-rose-600 dark:text-rose-400" />
+                )}
+                <span>{feedback.message}</span>
+              </div>
+            )}
+
+            {/* Submit CTA */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-4 px-6 rounded-2xl skeuo-btn-primary text-white font-extrabold text-sm sm:text-base disabled:opacity-75 flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Submitting Inquiry...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message to Admissions</span>
+                    <Send className="w-4 h-4" />
+                  </>
+                )}
+              </button>
             </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full px-4 py-2 text-white font-medium bg-[#6600CC] hover:bg-[#4d0099] active:bg-[#3a0073] rounded-lg duration-300 transition-colors"
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
           </form>
-          {feedbackMessage && (
-            <p className="mt-4 text-center text-gray-700">{feedbackMessage}</p>
-          )}
         </div>
+
       </div>
-      <div
-        className="absolute inset-0 max-w-md mx-auto h-72 blur-[118px]"
-        style={{
-          background:
-            "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.26) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)",
-        }}
-        data-aos="fade-in"
-      ></div>
-    </main>
+    </section>
   );
 };
 

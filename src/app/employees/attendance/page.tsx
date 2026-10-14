@@ -185,7 +185,7 @@ export default function AttendanceDashboard() {
                                 <>
                                     <div className={`text-sm mb-1 font-medium ${i % 7 === 0 ? "text-red-500" : ""}`}>{day}</div>
                                     {i % 7 === 1 ? (
-                                        <div className="bg-purple-100 text-purple-800 text-xs p-1 inline-block">Weekly off</div>
+                                        <div className="bg-slate-100 text-slate-800 rounded text-xs p-1 inline-block font-medium">Weekly off</div>
                                     ) : (
                                         // <div className="bg-green-100 text-green-800 text-xs p-1 inline-block">Present</div>
                                         <div className="bg-gray-100 text-black text-xs p-1 inline-block">NA</div>

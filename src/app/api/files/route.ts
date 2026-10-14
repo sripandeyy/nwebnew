@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import * as ftp from "basic-ftp"; // ✅ Ensure correct import
-import fs from "fs";
+import { Readable } from "stream";
 
 export async function POST(req: Request) {
     try {
@@ -30,7 +30,6 @@ export async function POST(req: Request) {
         });
 
         // Convert Buffer to Readable Stream
-        const { Readable } = require("stream");
         const readableStream = Readable.from(buffer);
 
         // Upload file

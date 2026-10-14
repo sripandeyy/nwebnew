@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Star, Sparkles, Rocket, Award, Users, TrendingUp } from "lucide-react"
+import { Star, Rocket, Award, Users, TrendingUp } from "lucide-react"
 import FloatingParticles from "./FloatingParticles"
 import Premium3DIcon from "./Premium3DIcon"
 
@@ -32,9 +32,9 @@ const HeroPremium = () => {
   }, [words.length])
 
   const features = [
-    { icon: <Award className="w-8 h-8" />, gradient: "from-yellow-400 via-orange-500 to-red-500", label: "Certified" },
-    { icon: <Users className="w-8 h-8" />, gradient: "from-blue-400 via-indigo-500 to-purple-500", label: "15K+ Students" },
-    { icon: <TrendingUp className="w-8 h-8" />, gradient: "from-green-400 via-emerald-500 to-teal-500", label: "100% Growth" },
+    { icon: <Award className="w-8 h-8" />, gradient: "from-amber-400 via-amber-500 to-amber-600", label: "Certified" },
+    { icon: <Users className="w-8 h-8" />, gradient: "from-slate-700 via-slate-800 to-slate-900", label: "15K+ Students" },
+    { icon: <TrendingUp className="w-8 h-8" />, gradient: "from-emerald-400 via-emerald-500 to-teal-500", label: "100% Growth" },
   ]
 
   return (
@@ -56,21 +56,21 @@ const HeroPremium = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <p className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-gray-900 whitespace-nowrap mb-4 sm:mb-6">
+              <p className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-slate-900 dark:text-white whitespace-nowrap mb-4 sm:mb-6">
                 Education is the
                 {' '}
-                <span className="font-black text-purple-600">
+                <span className="font-black text-slate-700 dark:text-slate-300">
                   {words[wordIndex]}
                 </span>
                 {' '}
                 to your future.
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
-                <span className="block text-gray-900">Unlock Your</span>
-                <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+                <span className="block text-slate-900 dark:text-white">Unlock Your</span>
+                <span className="block bg-gradient-to-r from-slate-900 via-slate-700 to-slate-500 dark:from-white dark:via-slate-200 dark:to-slate-400 bg-clip-text text-transparent">
                   Potential
                 </span>
-                <span className="block text-gray-900">with Nyeras</span>
+                <span className="block text-slate-900 dark:text-white">with Nyeras</span>
               </h1>
             </motion.div>
 
@@ -79,7 +79,7 @@ const HeroPremium = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+              className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
               Empower your learning journey with our cutting-edge online program. Gain skills, knowledge, and confidence to excel in today&apos;s digital world.
             </motion.p>
@@ -89,27 +89,14 @@ const HeroPremium = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 justify-center lg:justify-start"
             >
               <motion.a
                 href="/domains/departments"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white font-bold rounded-2xl shadow-2xl overflow-hidden"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative px-8 py-4 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold rounded-2xl shadow-lg border border-slate-700/60 hover-lift transition-all"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
-                  animate={{
-                    x: ["-100%", "100%"],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  style={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                />
                 <span className="relative flex items-center gap-2">
                   Explore Courses
                   <Rocket className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -118,9 +105,9 @@ const HeroPremium = () => {
 
               <motion.a
                 href="/plans"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white border-2 border-purple-600 text-purple-600 font-bold rounded-2xl shadow-lg hover:shadow-2xl transition-shadow backdrop-blur-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-slate-400 font-bold rounded-2xl shadow-sm hover-lift transition-all backdrop-blur-sm"
               >
                 <span className="flex items-center gap-2">
                   Enroll Now
@@ -136,7 +123,7 @@ const HeroPremium = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="flex flex-wrap items-center gap-8 pt-8"
+              className="flex flex-wrap items-center gap-8 pt-8 justify-center lg:justify-start"
             >
               {/* Student Avatars */}
               <div className="flex items-center">
@@ -146,22 +133,18 @@ const HeroPremium = () => {
                       key={i}
                       src={src}
                       alt="Student"
-                      className="w-12 h-12 rounded-full border-4 border-white shadow-lg"
-                      whileHover={{ scale: 1.2, zIndex: 10 }}
+                      className="w-12 h-12 rounded-full border-4 border-white dark:border-slate-800 shadow-md"
+                      whileHover={{ scale: 1.1, zIndex: 10 }}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 + i * 0.1 }}
                     />
                   ))}
-                  <motion.div
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 border-4 border-white text-white font-bold text-xs shadow-lg"
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1 }}
+                  <div
+                    className="flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 dark:bg-slate-800 border-4 border-white dark:border-slate-800 text-white font-bold text-xs shadow-md"
                   >
                     15K+
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
@@ -217,7 +200,7 @@ const HeroPremium = () => {
                 <Premium3DIcon
                   icon={<Rocket className="w-16 h-16" />}
                   size="xl"
-                  gradient="from-purple-500 via-pink-500 to-blue-500"
+                  gradient="from-slate-800 via-slate-700 to-slate-900"
                 />
               </motion.div>
 

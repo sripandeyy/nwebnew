@@ -71,16 +71,16 @@ export default function HireFromUsForm() {
    <Topbar />
     <Header />
    
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white py-12 px-4 sm:px-6 lg:px-8 pt-28">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 pt-28">
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold text-[#6600CC] mb-6 text-center">Hire Our Students</h1>
-      <p className="text-gray-600 text-lg text-center mb-6">
-        Fill out the form below to submit a job posting for our students.
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 text-center">Hire Our Students</h1>
+      <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg text-center mb-8">
+        Fill out the form below to submit a job posting for our pre-vetted students.
       </p>
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-900 shadow-xl rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="recruiterName" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="recruiterName" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Recruiter Name
           </label>
           <input
@@ -89,13 +89,13 @@ export default function HireFromUsForm() {
             name="recruiterName"
             value={formData.recruiterName}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="John Doe"
             required
           />
         </div>
         <div>
-          <label htmlFor="recruiterEmail" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="recruiterEmail" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Recruiter Email
           </label>
           <input
@@ -104,13 +104,13 @@ export default function HireFromUsForm() {
             name="recruiterEmail"
             value={formData.recruiterEmail}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="abcd@nyeras.com"
             required
           />
         </div>
         <div>
-          <label htmlFor="recruiterPhone" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="recruiterPhone" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Recruiter Phone
           </label>
           <input
@@ -119,13 +119,13 @@ export default function HireFromUsForm() {
             name="recruiterPhone"
             value={formData.recruiterPhone}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="+1 (555) 123-4567"
             required
           />
         </div>
         <div>
-          <label htmlFor="companyName" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="companyName" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Company Name
           </label>
           <input
@@ -134,13 +134,13 @@ export default function HireFromUsForm() {
             name="companyName"
             value={formData.companyName}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="Nyeras"
             required
           />
         </div>
         <div>
-          <label htmlFor="companyWebsite" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="companyWebsite" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Company Website
           </label>
           <input
@@ -149,13 +149,13 @@ export default function HireFromUsForm() {
             name="companyWebsite"
             value={formData.companyWebsite}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="https://www.example.com"
             required
           />
         </div>
         <div>
-          <label htmlFor="jobTitle" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="jobTitle" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Job Title
           </label>
           <input
@@ -164,13 +164,13 @@ export default function HireFromUsForm() {
             name="jobTitle"
             value={formData.jobTitle}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="Software Engineer"
             required
           />
         </div>
         <div>
-          <label htmlFor="jobType" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="jobType" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Job Type
           </label>
           <select
@@ -178,7 +178,7 @@ export default function HireFromUsForm() {
             name="jobType"
             value={formData.jobType}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             required
           >
             <option value="full-time">Full-time</option>
@@ -188,7 +188,7 @@ export default function HireFromUsForm() {
           </select>
         </div>
         <div>
-          <label htmlFor="experienceLevel" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="experienceLevel" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Experience Level
           </label>
           <select
@@ -196,7 +196,7 @@ export default function HireFromUsForm() {
             name="experienceLevel"
             value={formData.experienceLevel}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             required
           >
             <option value="entry">Entry Level</option>
@@ -206,7 +206,7 @@ export default function HireFromUsForm() {
           </select>
         </div>
         <div>
-          <label htmlFor="location" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="location" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Location
           </label>
           <input
@@ -215,13 +215,13 @@ export default function HireFromUsForm() {
             name="location"
             value={formData.location}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="New York, NY (or Remote)"
             required
           />
         </div>
         <div>
-          <label htmlFor="salary" className="block text-gray-700 text-sm font-bold mb-2">
+          <label htmlFor="salary" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
             Salary Range (Optional)
           </label>
           <input
@@ -230,13 +230,13 @@ export default function HireFromUsForm() {
             name="salary"
             value={formData.salary}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="eg. 6LPA-10LPA"
           />
         </div>
       </div>
       <div className="mt-6">
-        <label htmlFor="jobDescription" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="jobDescription" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
           Job Description
         </label>
         <textarea
@@ -244,13 +244,13 @@ export default function HireFromUsForm() {
           name="jobDescription"
           value={formData.jobDescription}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+          className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 h-32"
           placeholder="Describe the job role, responsibilities, and requirements..."
           required
         ></textarea>
       </div>
       <div className="mt-6">
-        <label htmlFor="skills" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="skills" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
           Required Skills
         </label>
         <input
@@ -259,14 +259,14 @@ export default function HireFromUsForm() {
           name="skills"
           value={formData.skills}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
           placeholder="e.g., JavaScript, React, Node.js"
           required
         />
-        <p className="text-gray-600 text-xs italic mt-1">Enter skills separated by commas</p>
+        <p className="text-slate-500 text-xs italic mt-1">Enter skills separated by commas</p>
       </div>
       <div className="mt-6">
-        <label htmlFor="additionalInfo" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="additionalInfo" className="block text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">
           Additional Information (Optional)
         </label>
         <textarea
@@ -274,7 +274,7 @@ export default function HireFromUsForm() {
           name="additionalInfo"
           value={formData.additionalInfo}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+          className="border border-slate-200 dark:border-slate-700 rounded-xl w-full py-2.5 px-3.5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 h-32"
           placeholder="Any other details you&apos;d like to share..."
         ></textarea>
       </div>
@@ -282,7 +282,7 @@ export default function HireFromUsForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#6600CC] hover:bg-[#4d0099] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6600CC] transition duration-150 ease-in-out w-full ${
+          className={`inline-flex items-center justify-center px-6 py-3.5 rounded-xl shadow-md text-base font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-700/50 hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all w-full ${
             isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >

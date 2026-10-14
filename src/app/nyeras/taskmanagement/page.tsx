@@ -144,11 +144,11 @@ export default function SalesTaskTracker() {
   const getTypeIcon = (type: Task["type"]) => {
     switch (type) {
       case "lead":
-        return <CircleDashed className="w-4 h-4 text-purple-600" />
+        return <CircleDashed className="w-4 h-4 text-slate-600" />
       case "opportunity":
         return <CircleEllipsis className="w-4 h-4 text-blue-600" />
       case "task":
-        return <CheckCircle2 className="w-4 h-4 text-green-600" />
+        return <CheckCircle2 className="w-4 h-4 text-emerald-600" />
     }
   }
 

@@ -110,15 +110,15 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
-        <div className="bg-[#6600CC] text-white p-5 flex justify-between items-center">
+        <div className="bg-slate-900 text-white p-5 flex justify-between items-center border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <UserPlus className="h-5 w-5" />
+            <UserPlus className="h-5 w-5 text-slate-300" />
             <h3 className="font-semibold text-lg">Add New Lead</h3>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={copyFormLink}
-              className="bg-blue-600 hover:bg-blue-700 rounded-lg px-3 py-1.5 text-sm text-white flex items-center gap-1.5 transition-colors duration-200 focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 focus:outline-none"
+              className="bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-white flex items-center gap-1.5 transition-colors duration-200 focus:ring-2 focus:ring-slate-500 focus:ring-offset-1 focus:outline-none"
               title="Copy Form Link"
               disabled={isLoading}
             >
@@ -144,7 +144,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 flex items-center gap-1.5">
                 <User className="h-4 w-4 text-gray-500" />
                 <span>
-                  Full Name <span className="text-[#6600CC]">*</span>
+                  Full Name <span className="text-slate-900 font-bold">*</span>
                 </span>
               </label>
               <input
@@ -153,7 +153,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6600CC] focus:border-[#6600CC] transition-all duration-200 placeholder:text-gray-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-slate-800 transition-all duration-200 placeholder:text-gray-400"
                 placeholder="Enter full name"
                 required
                 disabled={isLoading}
@@ -165,7 +165,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 flex items-center gap-1.5">
                 <Mail className="h-4 w-4 text-gray-500" />
                 <span>
-                  Email Address <span className="text-[#6600CC]">*</span>
+                  Email Address <span className="text-slate-900 font-bold">*</span>
                 </span>
               </label>
               <input
@@ -174,7 +174,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6600CC] focus:border-[#6600CC] transition-all duration-200 placeholder:text-gray-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-slate-800 transition-all duration-200 placeholder:text-gray-400"
                 placeholder="example@email.com"
                 required
                 disabled={isLoading}
@@ -186,7 +186,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 flex items-center gap-1.5">
                 <Phone className="h-4 w-4 text-gray-500" />
                 <span>
-                  Phone Number <span className="text-[#6600CC]">*</span>
+                  Phone Number <span className="text-slate-900 font-bold">*</span>
                 </span>
               </label>
               <input
@@ -195,7 +195,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6600CC] focus:border-[#6600CC] transition-all duration-200 placeholder:text-gray-400"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-slate-800 transition-all duration-200 placeholder:text-gray-400"
                 placeholder="Enter phone number"
                 required
                 disabled={isLoading}
@@ -207,7 +207,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
               <label htmlFor="course" className="block text-sm font-medium text-gray-700 flex items-center gap-1.5">
                 <BookOpen className="h-4 w-4 text-gray-500" />
                 <span>
-                  Interested Course <span className="text-[#6600CC]">*</span>
+                  Interested Course <span className="text-slate-900 font-bold">*</span>
                 </span>
               </label>
               <select
@@ -215,7 +215,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
                 name="course"
                 value={formData.course}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6600CC] focus:border-[#6600CC] transition-all duration-200 appearance-none bg-white"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-slate-800 transition-all duration-200 appearance-none bg-white"
                 required
                 disabled={isLoading}
               >
@@ -241,7 +241,7 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 bg-[#6600CC] hover:bg-[#4d0099] text-white rounded-lg font-medium shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center min-w-[120px] focus:ring-2 focus:ring-[#6600CC] focus:ring-offset-1 focus:outline-none"
+              className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-medium shadow-sm hover:shadow transition-all duration-200 flex items-center justify-center min-w-[120px] focus:ring-2 focus:ring-slate-800 focus:ring-offset-1 focus:outline-none hover-lift"
               disabled={isLoading}
             >
               {isLoading ? (

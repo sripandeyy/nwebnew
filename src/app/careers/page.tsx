@@ -64,12 +64,12 @@ export default function CareersPage() {
     }
   }
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-50 to-white pt-20">
+    <div className="min-h-screen flex flex-col bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 pt-20">
       <Topbar />
       <Header />
-      <section className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-[#6600CC]">
-        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Careers</h1>
-        <p className="text-xl text-purple-100 max-w-3xl mx-auto">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-slate-900 border-b border-slate-800">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4">Careers</h1>
+        <p className="text-xl text-slate-300 max-w-3xl mx-auto">
           Become part of a dynamic team that is shaping the future of education.
         </p>
       </section>
@@ -77,26 +77,25 @@ export default function CareersPage() {
   
 
         <section className="mb-20">
-          {/* <h2 className="text-3xl sm:text-4xl font-bold text-orange-600 mb-10 text-center">Open Positions</h2> */}
           <div className="space-y-10">
             {jobPostings.map((job, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-purple-100">
-                <div className="bg-purple-50 px-6 py-4">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#6600CC]">{job.title}</h3>
+              <div key={index} className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-slate-200 dark:border-slate-800 hover:-translate-y-1">
+                <div className="bg-slate-50 dark:bg-slate-850 px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{job.title}</h3>
                 </div>
                 <div className="p-6 sm:p-8">
-                  <p className="text-gray-700 mb-6 text-lg">{job.description}</p>
+                  <p className="text-slate-600 dark:text-slate-300 mb-6 text-lg">{job.description}</p>
                   <div className="mb-6">
-                    <h4 className="font-semibold text-[#6600CC] mb-3 text-xl">Responsibilities:</h4>
-                    <ul className="list-disc list-inside text-gray-700 space-y-2">
+                    <h4 className="font-semibold text-slate-900 dark:text-white mb-3 text-xl">Responsibilities:</h4>
+                    <ul className="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-2">
                       {job.responsibilities.map((resp, i) => (
                         <li key={i} className="text-lg">{resp}</li>
                       ))}
                     </ul>
                   </div>
                   <div className="mb-8">
-                    <h4 className="font-semibold text-[#6600CC] mb-3 text-xl">Requirements:</h4>
-                    <ul className="list-disc list-inside text-gray-700 space-y-2">
+                    <h4 className="font-semibold text-slate-900 dark:text-white mb-3 text-xl">Requirements:</h4>
+                    <ul className="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-2">
                       {job.requirements.map((req, i) => (
                         <li key={i} className="text-lg">{req}</li>
                       ))}
@@ -104,10 +103,9 @@ export default function CareersPage() {
                   </div>
                   <button 
                     onClick={() => openApplication(job.title)}
-                    className="inline-flex items-center bg-[#6600CC] text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-[#4d0099] transition-colors duration-300 transform hover:scale-105"
+                    className="inline-flex items-center bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white py-3 px-8 rounded-xl text-base font-semibold shadow-md border border-slate-700/50 hover-lift transition-all"
                   >
                     Apply Now
-                    {/* <ArrowRightIcon className="w-5 h-5 ml-2" /> */}
                   </button>
                 </div>
               </div>
@@ -116,15 +114,15 @@ export default function CareersPage() {
         </section>
 
         <section className="mb-20">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#6600CC] mb-10 text-center">Why Join Us?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-10 text-center">Why Join Us?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {perks.map((perk, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="text-[#6600CC] mb-4">
-                  <perk.Icon size={48} />
+              <div key={index} className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-200 dark:border-slate-800">
+                <div className="text-slate-800 dark:text-slate-200 mb-4">
+                  <perk.Icon size={44} />
                 </div>
-                <h3 className="text-2xl font-bold text-[#6600CC] mb-3">{perk.title}</h3>
-                <p className="text-gray-700 text-lg">{perk.description}</p>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{perk.title}</h3>
+                <p className="text-slate-600 dark:text-slate-300 text-base">{perk.description}</p>
               </div>
             ))}
           </div>

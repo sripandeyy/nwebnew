@@ -61,8 +61,8 @@ export default function EmployeePortal() {
           <button className="font-medium text-blue-700 hover:underline">Click here</button>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {menuItems.map((item) => (
-            <Link href={item.link} key={item.title} className="flex flex-col items-center rounded-lg bg-white p-4 text-center shadow-sm transition-all hover:shadow-md hover:bg-orange-50">
+          {menuItems.map((item, idx) => (
+            <Link href={item.link} key={`emp-menu-${item.title}-${idx}`} className="flex flex-col items-center rounded-lg bg-white p-4 text-center shadow-sm transition-all hover:shadow-md hover:bg-orange-50">
               <item.icon className="mb-2 h-8 w-8 text-orange-500" />
               <span className="text-sm font-medium text-gray-700">{item.title}</span>
             </Link>

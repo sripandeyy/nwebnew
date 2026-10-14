@@ -45,9 +45,9 @@ export default function ChatSupport() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {isOpen ? (
-        <div className="bg-white rounded-lg shadow-xl w-80 overflow-hidden transition-all duration-300 transform scale-100 opacity-100">
-          <div className="bg-[#6600CC] text-white p-4 flex justify-between items-center">
-            <h3 className="font-medium">Support Ticket</h3>
+        <div className="bg-white rounded-xl shadow-xl w-80 overflow-hidden transition-all duration-300 transform scale-100 opacity-100 border border-slate-200">
+          <div className="bg-slate-900 text-white p-4 flex justify-between items-center border-b border-slate-800">
+            <h3 className="font-semibold text-sm">Support Ticket</h3>
             <button
               onClick={() => setIsOpen(false)}
               className="text-white hover:text-white/80 transition-colors duration-200"
@@ -68,7 +68,7 @@ export default function ChatSupport() {
             {isSubmitted ? (
               <div className="text-center py-8">
                 <svg
-                  className="w-16 h-16 text-green-500 mx-auto mb-4"
+                  className="w-16 h-16 text-emerald-500 mx-auto mb-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -94,7 +94,7 @@ export default function ChatSupport() {
                     type="text"
                     id="title"
                     name="title"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
                     placeholder="Brief description of your issue"
                     required
                   />
@@ -108,7 +108,7 @@ export default function ChatSupport() {
                     type="email"
                     id="email"
                     name="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
                     placeholder="Your email address"
                     required
                   />
@@ -122,7 +122,7 @@ export default function ChatSupport() {
                     id="description"
                     name="description"
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#6600CC]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 text-sm"
                     placeholder="Please provide details about your issue"
                     required
                   />
@@ -131,7 +131,7 @@ export default function ChatSupport() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#6600CC] hover:bg-[#4d0099] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed hover-lift"
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
@@ -142,7 +142,7 @@ export default function ChatSupport() {
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-[#6600CC] hover:bg-[#4d0099] text-white rounded-full p-3 shadow-lg transition-colors duration-200 flex items-center justify-center"
+          className="bg-slate-900 hover:bg-slate-800 text-white rounded-full p-3.5 shadow-lg hover-lift transition-all flex items-center justify-center border border-slate-700"
         >
           <svg
             className="w-6 h-6"

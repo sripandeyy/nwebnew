@@ -1,5 +1,5 @@
 import dbConfig from '../../../dbConfig'; // Import MySQL config
-import mysql from 'mysql2/promise';
+import mysql, { type ResultSetHeader } from 'mysql2/promise';
 import { NextRequest } from 'next/server';
 
 export async function DELETE(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function DELETE(req: NextRequest) {
         }
 
         const connection = await mysql.createConnection(dbConfig);
-        const [result]: any = await connection.execute('DELETE FROM reminders WHERE id = ?', [id]);
+        const [result] = await connection.execute<ResultSetHeader>('DELETE FROM reminders WHERE id = ?', [id]);
         await connection.end();
 
         if (result.affectedRows === 0) {

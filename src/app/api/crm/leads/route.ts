@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const connection = await mysql.createConnection(dbConfig);
 
     let query: string;
-    let params: any[] = [];
+    let params: string[] = [];
 
     if (email.toLowerCase() === 'ramkumar.malothu@nyeras.com') {
       query = `

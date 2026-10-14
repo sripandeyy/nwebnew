@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import * as ftp from "basic-ftp";
 import mysql from "mysql2/promise";
+import { Readable } from "stream";
 import dbConfig from "../../dbConfig";
 
 // Helper: read a File from FormData and upload to FTP; returns the final FTP path or URL
@@ -14,7 +15,6 @@ async function uploadToFtp(file: File, client: ftp.Client, folderPath = "/domain
   const buffer = Buffer.from(await file.arrayBuffer());
 
   // Convert Buffer to a Readable stream
-  const { Readable } = require("stream");
   const readableStream = Readable.from(buffer);
 
   // Upload to FTP
@@ -157,12 +157,12 @@ export async function POST(req: Request) {
         educationDocsUrls,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error uploading documents:", error);
     if (client) client.close();
 
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: (error instanceof Error && error.message) || "Internal Server Error" },
       { status: 500 }
     );
   }

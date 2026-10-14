@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   
       const connection = await mysql.createConnection(dbConfig)
   
-      const [result] = await connection.execute(
+      await connection.execute(
         "INSERT INTO employees (name, email, phone, position, department, salary, date_joined, rfid, isdocs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [name, email, phone, position, department, salary, date_joined, rfid, isdocs],
       )

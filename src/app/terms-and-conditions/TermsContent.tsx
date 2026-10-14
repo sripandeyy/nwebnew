@@ -59,24 +59,24 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
   }, []);
 
   return (
-    <div id={id} className={`mb-6 border-b border-gray-200 pb-6 scroll-mt-24 ${className}`}>
+    <div id={id} className={`mb-6 border-b border-slate-200 dark:border-slate-800 pb-6 scroll-mt-24 ${className}`}>
       <button
-        className="flex w-full items-center justify-between text-left text-lg font-semibold text-gray-800 hover:text-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded-lg p-2 -m-2"
+        className="flex w-full items-center justify-between text-left text-lg font-semibold text-slate-850 dark:text-white hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 rounded-lg p-2 -m-2"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
         <div className="flex items-center">
-          <Icon className="h-5 w-5 text-purple-600 mr-3" />
+          <Icon className="h-5 w-5 text-slate-700 dark:text-slate-300 mr-3" />
           <span>{title}</span>
         </div>
         {isOpen ? (
-          <ChevronUp className="h-5 w-5 text-gray-500" />
+          <ChevronUp className="h-5 w-5 text-slate-500" />
         ) : (
-          <ChevronDown className="h-5 w-5 text-gray-500" />
+          <ChevronDown className="h-5 w-5 text-slate-500" />
         )}
       </button>
       {isOpen && (
-        <div className="mt-4 pl-8 text-gray-600">
+        <div className="mt-4 pl-8 text-slate-600 dark:text-slate-300">
           {children}
         </div>
       )}
@@ -86,21 +86,21 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
 
 const HighlightBox: React.FC<HighlightBoxProps> = ({ type = 'info', children }) => {
   const bgColor = {
-    info: 'bg-blue-50 border-blue-200',
-    warning: 'bg-yellow-50 border-yellow-200',
-    success: 'bg-green-50 border-green-200',
+    info: 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
+    warning: 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800',
+    success: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800',
   }[type];
 
   const icon = {
-    info: <Info className="h-5 w-5 text-blue-500" />,
-    warning: <AlertTriangle className="h-5 w-5 text-yellow-500" />,
-    success: <CheckCircle className="h-5 w-5 text-green-500" />,
+    info: <Info className="h-5 w-5 text-slate-600 dark:text-slate-400" />,
+    warning: <AlertTriangle className="h-5 w-5 text-amber-500" />,
+    success: <CheckCircle className="h-5 w-5 text-emerald-500" />,
   }[type];
 
   return (
     <div className={`${bgColor} border-l-4 p-4 my-4 rounded-r-lg flex items-start`}>
       <div className="flex-shrink-0 mr-3">{icon}</div>
-      <div className="text-sm text-gray-700">{children}</div>
+      <div className="text-sm text-slate-700 dark:text-slate-300">{children}</div>
     </div>
   );
 };
@@ -139,30 +139,30 @@ const TermsContent = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
       <Topbar />
       <Header />
       
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-purple-800 to-indigo-900 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[300px] flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-center">Terms and Conditions</h1>
+      <div className="relative bg-slate-900 border-b border-slate-800 text-white overflow-hidden">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 min-h-[260px] flex items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center">Terms and Conditions</h1>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col lg:flex-row w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
         {/* Sidebar Navigation - Desktop */}
         <div className="hidden lg:block w-64 flex-shrink-0 mr-12">
           <div className="sticky top-24">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <FileText className="h-5 w-5 text-purple-600 mr-2" />
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+                <FileText className="h-5 w-5 text-slate-700 dark:text-slate-300 mr-2" />
                 Table of Contents
               </h3>
-              <nav className="space-y-2">
-                <div className="text-sm text-gray-500 italic p-2">
-                  Scroll to navigate the content
+              <nav className="space-y-1">
+                <div className="text-xs text-slate-400 italic p-2">
+                  Scroll to navigate
                 </div>
                 {[
                   { id: 'acceptance', label: '1. Acceptance of Terms' },
@@ -178,11 +178,11 @@ const TermsContent = () => {
                   { id: 'amendments', label: '11. Amendments' },
                   { id: 'governing-law', label: '12. Governing Law & Jurisdiction' },
                   { id: 'contact', label: '13. Contact Information' },
-                ].map((item) => (
+                ].map((item, idx) => (
                   <button
-                    key={item.id}
+                    key={`terms-nav-${item.id}-${idx}`}
                     onClick={(e) => scrollToSection(item.id, e)}
-                    className="block w-full text-left px-3 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 hover:bg-purple-50 rounded-md transition-colors"
+                    className="block w-full text-left px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                   >
                     {item.label}
                   </button>
@@ -190,14 +190,14 @@ const TermsContent = () => {
               </nav>
             </div>
             
-            <div className="mt-6 p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
-              <h4 className="font-medium text-gray-900 mb-2">Need Help?</h4>
-              <p className="text-sm text-gray-600 mb-4">
+            <div className="mt-6 p-6 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Need Help?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
                 If you have any questions about these Terms, please contact our support team.
               </p>
               <button
                 onClick={(e) => scrollToSection('contact', e)}
-                className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="w-full flex items-center justify-center px-4 py-2.5 rounded-xl shadow-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-700/50 hover-lift transition-all"
               >
                 <Mail className="h-4 w-4 mr-2" /> Contact Support
               </button>
@@ -207,8 +207,8 @@ const TermsContent = () => {
 
         {/* Main Content */}
         <div className="flex-1">
-          <div className="prose prose-purple max-w-none">
-            <p className="text-gray-600 mb-8">
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-slate-600 dark:text-slate-300 mb-8">
               Welcome to Nyeras! By accessing or using our website, platform, or services ("Services"), you ("User", "Student", or "You") agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our Services.
             </p>
 
@@ -317,40 +317,40 @@ const TermsContent = () => {
             </Section>
 
             <section id="contact" className="scroll-mt-24">
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-xl border border-purple-100 mt-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                  <Mail className="h-6 w-6 text-purple-600 mr-2" />
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 mt-12 shadow-sm">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
+                  <Mail className="h-6 w-6 text-slate-700 dark:text-slate-300 mr-2" />
                   13. Contact Information
                 </h2>
-                <p className="text-gray-700 mb-6">
+                <p className="text-slate-600 dark:text-slate-300 mb-6">
                   For any questions or concerns about these Terms, please contact us at:
                 </p>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <h3 className="font-medium text-gray-900 mb-3">Email Us</h3>
+                  <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Email Us</h3>
                     <a 
                       href="mailto:support@nyeras.com" 
-                      className="inline-flex items-center text-purple-700 hover:text-purple-900"
+                      className="inline-flex items-center text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium hover:underline"
                     >
-                      <Mail className="h-5 w-5 mr-2" />
+                      <Mail className="h-4 w-4 mr-2 text-slate-500" />
                       support@nyeras.com
                     </a>
                   </div>
-                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                    <h3 className="font-medium text-gray-900 mb-3">Call Us</h3>
+                  <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Call Us</h3>
                     <a 
                       href="tel:+917899232512" 
-                      className="inline-flex items-center text-purple-700 hover:text-purple-900"
+                      className="inline-flex items-center text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium hover:underline"
                     >
-                      <Phone className="h-5 w-5 mr-2" />
+                      <Phone className="h-4 w-4 mr-2 text-slate-500" />
                       +91 7899232512
                     </a>
                   </div>
-                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 md:col-span-2">
-                    <h3 className="font-medium text-gray-900 mb-3">Visit Us</h3>
+                  <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 md:col-span-2">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Visit Us</h3>
                     <div className="flex items-start">
-                      <MapPin className="h-5 w-5 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
-                      <address className="not-italic text-gray-700">
+                      <MapPin className="h-5 w-5 text-slate-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <address className="not-italic text-slate-600 dark:text-slate-300">
                         Floor No.2, 1161, AECS Layout Main Rd,<br />
                         AECS Layout - A Block, AECS Layout,<br />
                         Singasandra, Kudlu,<br />
@@ -362,7 +362,7 @@ const TermsContent = () => {
               </div>
             </section>
 
-            <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500">
               <p>© {new Date().getFullYear()} Nyeras Edutech Innovations Private Limited. All rights reserved.</p>
             </div>
           </div>
@@ -372,7 +372,7 @@ const TermsContent = () => {
       {/* Back to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+        className="fixed bottom-6 right-6 bg-slate-900 dark:bg-slate-800 text-white p-3 rounded-full shadow-lg hover:bg-slate-800 dark:hover:bg-slate-700 transition-all hover-lift focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 z-50 border border-slate-700/50"
         aria-label="Back to top"
       >
         <ChevronUp className="h-5 w-5" />

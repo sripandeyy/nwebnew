@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import type { RowDataPacket } from 'mysql2/promise'
 import { getDb } from '../../db'
 
 export async function POST(req: Request) {
@@ -11,11 +12,11 @@ export async function POST(req: Request) {
     }
 
     const db = getDb()
-    const [rows] = await db.execute(
+    const [rows] = await db.execute<RowDataPacket[]>(
       'SELECT id, crm_uid, name, email, password, role, status FROM crm_login WHERE LOWER(email) = LOWER(?) LIMIT 1',
       [email]
     )
-    const user = Array.isArray(rows) ? (rows as any[])[0] : undefined
+    const user = rows[0]
     if (!user) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
@@ -35,6 +36,7 @@ export async function POST(req: Request) {
       status: user.status,
     })
   } catch (err) {
+    console.error('CRM login failed', err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }

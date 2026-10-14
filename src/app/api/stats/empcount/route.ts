@@ -1,28 +1,27 @@
 import dbConfig from '../../dbConfig'; // Your MySQL database configuration
-import mysql from 'mysql2/promise';
-import { NextRequest } from 'next/server';
+import mysql, { type RowDataPacket } from 'mysql2/promise';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const connection = await mysql.createConnection(dbConfig);
 
     // 1. Total employees
-    const [rows] = await connection.execute(
+    const [rows] = await connection.execute<RowDataPacket[]>(
       `SELECT COUNT(*) AS totalEmployees FROM employees`
     );
-    const totalEmployees = (rows as any[])[0]?.totalEmployees;
+    const totalEmployees = rows[0]?.totalEmployees;
 
     // 2. Documents (count of records where isdocs = 'no')
-    const [docsRows] = await connection.execute(
+    const [docsRows] = await connection.execute<RowDataPacket[]>(
       `SELECT COUNT(*) AS docsCount FROM employees WHERE isdocs = 'no'`
     );
-    const docsCount = (docsRows as any[])[0]?.docsCount;
+    const docsCount = docsRows[0]?.docsCount;
 
     // 3. Leave Requests pending
-    const [pendingLeavesRows] = await connection.execute(
+    const [pendingLeavesRows] = await connection.execute<RowDataPacket[]>(
       `SELECT COUNT(*) AS pendingLeaves FROM leave_requests WHERE status = 'pending'`
     );
-    const pendingLeaves = (pendingLeavesRows as any[])[0]?.pendingLeaves;
+    const pendingLeaves = pendingLeavesRows[0]?.pendingLeaves;
 
     // 4. Recent Leave Requests (limit 5)
     //    Adjust ordering criteria as per your schema, for example "ORDER BY created_at DESC"

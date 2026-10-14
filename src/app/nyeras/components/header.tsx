@@ -50,7 +50,7 @@ export default function Header({ companyName, userName, userRole }: HeaderProps)
   };
 
   return (
-    <header className="bg-[#6600CC] shadow-[0px_4px_10px_rgba(0,0,0,0.2)]">
+    <header className="bg-slate-900 border-b border-slate-800 shadow-md">
       <div className="px-4 sm:px-6 py-3">
         <div className="flex justify-between items-center">
           <div className="flex items-center">

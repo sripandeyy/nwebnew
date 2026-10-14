@@ -456,7 +456,7 @@ export const cseItCourses: Course[] = [
     "/courses/ar-vr.png"
   ),
   course(
-    "bioinformatics",
+    "bioinformatics-tech",
     "Bioinformatics",
     "Sequence analysis, BLAST, genomics pipelines, and computational biology tools.",
     [
@@ -591,7 +591,7 @@ export const eceCourses: Course[] = [
     "/courses/scld.png"
   ),
   course(
-    "iot",
+    "iot-systems",
     "Internet of Things (IoT)",
     "IoT devices, MQTT, sensors, and cloud-connected smart systems.",
     [
@@ -602,7 +602,7 @@ export const eceCourses: Course[] = [
     "/courses/iot.png"
   ),
   course(
-    "robotics",
+    "robotics-automation",
     "Robotics",
     "Robot kinematics, control systems, ROS, and simulation environments.",
     [
@@ -624,7 +624,7 @@ export const eceCourses: Course[] = [
     "/courses/power-systems.png"
   ),
   course(
-    "hev",
+    "hev-powertrains",
     "Hybrid & Electric Vehicles",
     "EV powertrains, battery management, motor control, and charging infrastructure.",
     [
@@ -1079,3 +1079,523 @@ export const foodTechCourses: Course[] = [
     "/courses/sensory-science.png"
   ),
 ];
+
+export const futureSkillsSchoolCourses: Course[] = [
+  {
+    slug: "cpp-programming-foundations",
+    title: "C++ Programming Foundations",
+    summary:
+      "C++ shows students how computers really work underneath: memory, logic and structure. Build high-performance problem-solving habits that carry into any language.",
+    curriculum: [
+      {
+        title: "1. Getting Started",
+        topics: [
+          "What programming is",
+          "Compiler and IDE setup",
+          "Program structure & syntax",
+          "Compiling and running a first program",
+        ],
+      },
+      {
+        title: "2. Variables & Data",
+        topics: [
+          "Data types and constants",
+          "Input/output with cin and cout",
+          "Arithmetic, assignment and logical operators",
+          "Hands-on: Build a simple calculator or unit converter",
+        ],
+      },
+      {
+        title: "3. Decision Making",
+        topics: [
+          "if, else-if, else conditions",
+          "Nested conditions & switch statements",
+          "Decision-based problem solving",
+          "Hands-on: Create a grade or menu-based quiz",
+        ],
+      },
+      {
+        title: "4. Loops & Logic",
+        topics: [
+          "while, do-while, and for loops",
+          "break and continue control flows",
+          "Nested loops & pattern logic",
+          "Hands-on: Number games and star patterns",
+        ],
+      },
+      {
+        title: "5. Functions",
+        topics: [
+          "Declaration and definition",
+          "Parameters and return values",
+          "Pass by value vs reference",
+          "Hands-on: Split calculator into modular functions",
+        ],
+      },
+      {
+        title: "6. Arrays & Strings",
+        topics: [
+          "1D and 2D arrays & iteration",
+          "C-style strings and std::string",
+          "Basic string handling & traversal",
+          "Hands-on: Marks analyser & word counter",
+        ],
+      },
+      {
+        title: "7. Memory Concepts",
+        topics: [
+          "Addresses & pointers in C++",
+          "Dereferencing and references",
+          "Stack vs heap & dynamic arrays",
+          "Hands-on: Trace memory using visual diagrams",
+        ],
+      },
+      {
+        title: "8. Object-Oriented Programming",
+        topics: [
+          "Classes and objects",
+          "Access specifiers & encapsulation",
+          "Constructors and destructors",
+          "Hands-on: Model a Student or Book class",
+        ],
+      },
+      {
+        title: "9. Inheritance & Polymorphism",
+        topics: [
+          "Base and derived classes",
+          "Overriding and overloading",
+          "Virtual functions & abstract classes",
+          "Hands-on: Extend into Student and Teacher classes",
+        ],
+      },
+      {
+        title: "10. Practical C++ & Capstone",
+        topics: [
+          "File reading and writing (fstream)",
+          "Exception handling (try, catch, throw)",
+          "Vectors, maps, pairs, sort and find",
+          "Capstone: Console app (quiz, library or records)",
+        ],
+      },
+    ],
+    certificates: [
+      { name: "Nyeras Future Skills School Certificate" },
+      { name: "Console Software Capstone Certificate" },
+    ],
+    image: "/courses/cpp-foundations.png",
+    category: "Future Skills School Program",
+    duration: "6–8 Weeks",
+  },
+  {
+    slug: "java-full-stack-foundations",
+    title: "Java & Full-Stack Foundations",
+    summary:
+      "Follow the path from code to a working application: Java fundamentals, then how the web, interfaces, APIs and data fit together end-to-end.",
+    curriculum: [
+      {
+        title: "1. Software & Full-Stack Landscape",
+        topics: [
+          "What software products are",
+          "Frontend, backend and database roles",
+          "How a web application is structured",
+          "Hands-on: Map popular apps into frontend/backend/data",
+        ],
+      },
+      {
+        title: "2. Java Fundamentals",
+        topics: [
+          "Program structure & JVM execution",
+          "Variables, data types & operators",
+          "Input/output, conditions & loops",
+          "Hands-on: Write a number checker and calculator",
+        ],
+      },
+      {
+        title: "3. Object-Oriented Java",
+        topics: [
+          "Classes and objects",
+          "Encapsulation and constructors",
+          "Inheritance and polymorphism",
+          "Hands-on: Model a Student or Library class",
+        ],
+      },
+      {
+        title: "4. Collections & Practical Programming",
+        topics: [
+          "Structured data & Java collections",
+          "Reusable modular code",
+          "Debugging and error handling",
+          "Hands-on: Store and search list of records",
+        ],
+      },
+      {
+        title: "5. Web Foundations",
+        topics: [
+          "How websites and web apps work",
+          "HTML semantic document structure",
+          "CSS layout and modern styling",
+          "Hands-on: Build a personal profile page",
+        ],
+      },
+      {
+        title: "6. Frontend Thinking",
+        topics: [
+          "Pages, components and forms",
+          "User interaction and interface logic",
+          "Client-side events & DOM basics",
+          "Hands-on: Add a working form with field validation",
+        ],
+      },
+      {
+        title: "7. Backend & APIs (Intro)",
+        topics: [
+          "Backend responsibilities & servers",
+          "HTTP request and response lifecycle",
+          "API fundamentals & data serialization",
+          "Hands-on: Follow request from browser to server",
+        ],
+      },
+      {
+        title: "8. Data & Applications",
+        topics: [
+          "Why applications require persistent data",
+          "Basic database concepts and tables",
+          "Storing and retrieving information",
+          "Hands-on: Design data tables for a small app",
+        ],
+      },
+      {
+        title: "9. Development Practices",
+        topics: [
+          "Project organisation & directory structure",
+          "Version-control concepts & Git",
+          "Testing mindset and bug prevention",
+          "Responsible AI-assisted development",
+        ],
+      },
+      {
+        title: "10. Project & Presentation",
+        topics: [
+          "Plan, build and test a small application",
+          "Connecting code, interface and database",
+          "Presentation skills & project walkthrough",
+          "Capstone: Full working application demo day",
+        ],
+      },
+    ],
+    certificates: [
+      { name: "Nyeras Future Skills School Certificate" },
+      { name: "Web & Full-Stack Capstone Certificate" },
+    ],
+    image: "/courses/java-fullstack.png",
+    category: "Future Skills School Program",
+    duration: "6–8 Weeks",
+  },
+  {
+    slug: "ai-machine-learning-foundations",
+    title: "AI & Machine Learning Foundations",
+    summary:
+      "Understand how AI systems solve problems and learn from data, from search and heuristics to neural networks, evaluation metrics, and responsible AI ethics.",
+    curriculum: [
+      {
+        title: "1. What is AI?",
+        topics: [
+          "Definitions, goals and real-world applications",
+          "Problem-solving agents & perception",
+          "Search, planning and learning concepts",
+          "Hands-on: Spot and critique AI in everyday apps",
+        ],
+      },
+      {
+        title: "2. How AI Solves Problems",
+        topics: [
+          "State spaces, actions, goals and paths",
+          "Intuitive BFS and DFS search",
+          "Informed search and heuristics",
+          "Hands-on: Solve a maze or puzzle using search ideas",
+        ],
+      },
+      {
+        title: "3. From Search to Learning",
+        topics: [
+          "Why learning from data helps",
+          "Supervised learning intuition",
+          "Unsupervised & reinforcement learning concepts",
+          "Hands-on: Sort real examples into three types",
+        ],
+      },
+      {
+        title: "4. Data & Machine Learning",
+        topics: [
+          "Features and target variables",
+          "Training, validation and test splits",
+          "Missing values, normalisation & encoding",
+          "Hands-on: Clean and format a small dataset",
+        ],
+      },
+      {
+        title: "5. Exploring Data",
+        topics: [
+          "Visualising datasets and distributions",
+          "Spotting patterns and correlations",
+          "Introductory analytical summaries",
+          "Hands-on: Chart a dataset and note 3 findings",
+        ],
+      },
+      {
+        title: "6. Prediction & Classification",
+        topics: [
+          "Regression and classification distinctions",
+          "Decision boundaries in data",
+          "Decision trees & practical examples",
+          "Hands-on: Build a simple decision tree model",
+        ],
+      },
+      {
+        title: "7. Model Evaluation",
+        topics: [
+          "Accuracy, precision, recall, and F1-score",
+          "Overfitting versus underfitting",
+          "Why rigorous evaluation matters",
+          "Hands-on: Evaluate a spam-filter prediction model",
+        ],
+      },
+      {
+        title: "8. Neural Networks",
+        topics: [
+          "Artificial neurons and layers",
+          "Activation functions (ReLU, Sigmoid)",
+          "Forward propagation overview",
+          "Hands-on: Trace values through a tiny network",
+        ],
+      },
+      {
+        title: "9. AI in Real Life",
+        topics: [
+          "Recommendation algorithms and search engines",
+          "Fraud detection and financial security",
+          "Robotics and logistics optimization",
+          "Hands-on: Case study discussion on modern deployments",
+        ],
+      },
+      {
+        title: "10. Responsible AI",
+        topics: [
+          "Data and algorithmic bias",
+          "Fairness, accountability and transparency",
+          "Human impact and safety boundaries",
+          "Debate: Where should humans stay in charge?",
+        ],
+      },
+      {
+        title: "11. Guided AI/ML Project",
+        topics: [
+          "Choose a real problem and identify data",
+          "Build a simple model or interactive prototype",
+          "Evaluate performance and prepare slides",
+          "Capstone: Guided AI/ML project showcase",
+        ],
+      },
+    ],
+    certificates: [
+      { name: "Nyeras Future Skills School Certificate" },
+      { name: "AI & Machine Learning Capstone Certificate" },
+    ],
+    image: "/courses/artificial-intelligence.png",
+    category: "Future Skills School Program",
+    duration: "6–8 Weeks",
+  },
+  {
+    slug: "ai-in-economics-data-thinking",
+    title: "AI in Economics & Data Thinking",
+    summary:
+      "Students learn to ask economic questions and answer them with data and clear reasoning: separating observations from assumptions, reading trends, and telling correlation from causation.",
+    curriculum: [
+      {
+        title: "1. AI & Economic Problems",
+        topics: [
+          "How AI can support decision-making",
+          "Problem formulation in economics",
+          "Examples of quantitative economic dilemmas",
+          "Hands-on: Turn a news headline into a testable question",
+        ],
+      },
+      {
+        title: "2. Data as Evidence",
+        topics: [
+          "Types of economic data (macro and micro)",
+          "Patterns and trends over time",
+          "Separating factual observations from assumptions",
+          "Hands-on: Read a chart: fact vs assumption",
+        ],
+      },
+      {
+        title: "3. Decisions Under Uncertainty",
+        topics: [
+          "Information asymmetry in markets",
+          "Uncertainty and probability in choices",
+          "How decisions change with new data",
+          "Hands-on: Decision game with new information",
+        ],
+      },
+      {
+        title: "4. Time-Series Thinking",
+        topics: [
+          "Time-series data fundamentals",
+          "Trends, seasonality, and decomposition",
+          "Introduction to economic forecasting",
+          "Hands-on: Plot a time-series and spot its trend",
+        ],
+      },
+      {
+        title: "5. Correlation vs Causation",
+        topics: [
+          "Why correlation does not imply causation",
+          "Confounding variables & misleading signals",
+          "Practical reasoning exercises",
+          "Hands-on: Find and deconstruct misleading correlations",
+        ],
+      },
+      {
+        title: "6. Markets & Consumer Behaviour",
+        topics: [
+          "Consumer and producer decisions",
+          "Pricing dynamics and elasticity",
+          "Competition and market structures",
+          "Hands-on: Mock market: price a product",
+        ],
+      },
+      {
+        title: "7. AI Applications in Economics",
+        topics: [
+          "Nowcasting economic indicators",
+          "Search-based indicators and sentiment",
+          "Uncertainty signals and high-frequency data",
+          "Hands-on: Explore how search trends reflect demand",
+        ],
+      },
+      {
+        title: "8. Capstone Project & Presentation",
+        topics: [
+          "Investigate a real-world economic question",
+          "Use suitable public data and verify facts",
+          "Explain evidence and present conclusions",
+          "Capstone: Data-driven presentation on a real-world question",
+        ],
+      },
+    ],
+    certificates: [
+      { name: "Nyeras Future Skills School Certificate" },
+      { name: "Data Thinking & Economics Capstone Certificate" },
+    ],
+    image: "/courses/ai-for-economics.png",
+    category: "Future Skills School Program",
+    duration: "4–6 Weeks",
+  },
+  {
+    slug: "finance-stock-market-awareness",
+    title: "Finance & Stock Market Awareness",
+    summary:
+      "Positioned as financial literacy and stock market awareness, not as a recommendation to trade or invest. Learn how money, markets, risk and regulation work to make informed life decisions.",
+    curriculum: [
+      {
+        title: "1. Understanding Money & Finance",
+        topics: [
+          "What finance is & its role in business",
+          "Daily financial decisions and tracking",
+          "Introductory financial statements",
+          "Hands-on: Build a personal monthly budget",
+        ],
+      },
+      {
+        title: "2. Financial Markets",
+        topics: [
+          "How financial markets operate",
+          "Stocks, bonds, mutual funds & instruments",
+          "Conceptual roles of capital allocation",
+          "Hands-on: Match financial instruments to their purpose",
+        ],
+      },
+      {
+        title: "3. Saving, Investing & Diversification",
+        topics: [
+          "Saving versus investing principles",
+          "The power of compound interest",
+          "Diversification & asset allocation as a concept",
+          "Hands-on: Compare saving and investing on paper",
+        ],
+      },
+      {
+        title: "4. Understanding Companies",
+        topics: [
+          "Introductory financial statements",
+          "Revenue, expenses, profit and margins",
+          "Simple financial health ratios",
+          "Hands-on: Read a simplified corporate income statement",
+        ],
+      },
+      {
+        title: "5. Risk & Decision-Making",
+        topics: [
+          "Types of financial risk (market, liquidity, inflation)",
+          "Risk management principles",
+          "Balancing risk and potential return",
+          "Hands-on: Risk and return scenario cards",
+        ],
+      },
+      {
+        title: "6. Stock Market Awareness",
+        topics: [
+          "Stocks, equity and company shares",
+          "Primary markets (IPO) vs secondary markets",
+          "Investors, brokers, exchanges and indices",
+          "Hands-on: Follow a market index (observation only)",
+        ],
+      },
+      {
+        title: "7. Charts & Market Information",
+        topics: [
+          "Basic chart types (line, bar, candlesticks)",
+          "Reading indicators & interpreting information",
+          "Avoiding speculative trading traps",
+          "Hands-on: Describe what a basic chart shows",
+        ],
+      },
+      {
+        title: "8. Regulation & Ethics",
+        topics: [
+          "SEBI and regulatory framework overview",
+          "Insider trading, market manipulation & fraud",
+          "Investor protection and transparency rights",
+          "Case study: Why financial market rules exist",
+        ],
+      },
+      {
+        title: "9. Financial Technology (FinTech)",
+        topics: [
+          "Analytics and digital financial services",
+          "UPI, payment gateways & security",
+          "Robo-advisory and emerging FinTech trends",
+          "Hands-on: Compare modern digital payment services",
+        ],
+      },
+      {
+        title: "10. Financial Literacy Capstone",
+        topics: [
+          "Synthesizing budget, savings and risk awareness",
+          "Designing a personal-finance or business-budget plan",
+          "Safe and ethical finance presentation",
+          "Capstone: Personal-finance or business-budget showcase",
+        ],
+      },
+    ],
+    certificates: [
+      { name: "Nyeras Future Skills School Certificate" },
+      { name: "Financial Literacy Capstone Certificate" },
+    ],
+    image: "/courses/finance.png",
+    category: "Future Skills School Program",
+    duration: "4–6 Weeks",
+  },
+];
+

@@ -51,16 +51,16 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
   }, []);
 
   return (
-    <div id={id} className={`mb-8 border-b border-gray-100 pb-8 scroll-mt-24 ${className}`}>
+    <div id={id} className={`mb-8 border-b border-slate-200 dark:border-slate-800 pb-8 scroll-mt-24 ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between text-left focus:outline-none group"
       >
-        <h2 className="text-xl font-bold text-gray-900 flex items-center">
-          <Icon className="h-5 w-5 text-purple-600 mr-3" />
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center">
+          <Icon className="h-5 w-5 text-slate-700 dark:text-slate-300 mr-3" />
           {title}
         </h2>
-        <span className="ml-4 text-gray-400 group-hover:text-gray-600">
+        <span className="ml-4 text-slate-400 group-hover:text-slate-600">
           {isOpen ? (
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -73,7 +73,7 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
         </span>
       </button>
       
-      <div className={`mt-4 text-gray-700 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+      <div className={`mt-4 text-slate-600 dark:text-slate-300 ${isOpen ? 'block' : 'hidden lg:block'}`}>
         {children}
       </div>
     </div>
@@ -85,21 +85,21 @@ const HighlightBox: React.FC<{ type?: 'info' | 'warning' | 'success'; children: 
   children 
 }) => {
   const bgColor = {
-    info: 'bg-blue-50 border-blue-200',
-    warning: 'bg-yellow-50 border-yellow-200',
-    success: 'bg-green-50 border-green-200'
+    info: 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
+    warning: 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800',
+    success: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800'
   }[type];
 
   const textColor = {
-    info: 'text-blue-800',
-    warning: 'text-yellow-800',
-    success: 'text-green-800'
+    info: 'text-slate-800 dark:text-slate-200',
+    warning: 'text-amber-800 dark:text-amber-200',
+    success: 'text-emerald-800 dark:text-emerald-200'
   }[type];
 
   const icon = {
-    info: <Info className="h-5 w-5 flex-shrink-0" />,
-    warning: <AlertTriangle className="h-5 w-5 flex-shrink-0" />,
-    success: <CheckCircle className="h-5 w-5 flex-shrink-0" />
+    info: <Info className="h-5 w-5 flex-shrink-0 text-slate-600 dark:text-slate-400" />,
+    warning: <AlertTriangle className="h-5 w-5 flex-shrink-0 text-amber-500" />,
+    success: <CheckCircle className="h-5 w-5 flex-shrink-0 text-emerald-500" />
   }[type];
 
   return (
@@ -163,30 +163,30 @@ const PrivacyContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-slate-50/50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
       <Topbar />
       <Header />
       
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-purple-800 to-indigo-900 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[300px] flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-center">Privacy Policy</h1>
+      <div className="relative bg-slate-900 border-b border-slate-800 text-white overflow-hidden">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 min-h-[260px] flex items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center">Privacy Policy</h1>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col lg:flex-row w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
         {/* Sidebar Navigation - Desktop */}
         <div className="hidden lg:block w-64 flex-shrink-0 mr-12">
           <div className="sticky top-24">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <FileText className="h-5 w-5 text-purple-600 mr-2" />
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+                <FileText className="h-5 w-5 text-slate-700 dark:text-slate-300 mr-2" />
                 Table of Contents
               </h3>
-              <nav className="space-y-2">
-                <div className="text-sm text-gray-500 italic p-2">
-                  Scroll to navigate the content
+              <nav className="space-y-1">
+                <div className="text-xs text-slate-400 italic p-2">
+                  Scroll to navigate
                 </div>
                 {[
                   { id: 'introduction', label: 'Introduction' },
@@ -201,14 +201,14 @@ const PrivacyContent: React.FC = () => {
                   { id: 'children-privacy', label: '9. Children\'s Privacy' },
                   { id: 'policy-changes', label: '10. Changes to Privacy Policy' },
                   { id: 'contact-us', label: '11. Contact Us' },
-                ].map((item) => (
+                ].map((item, idx) => (
                   <button
-                    key={item.id}
+                    key={`privacy-nav-${item.id}-${idx}`}
                     onClick={(e) => scrollToSection(item.id, e)}
-                    className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                       activeSection === item.id
-                        ? 'bg-purple-50 text-purple-700 font-medium'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-850 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     {item.label}
@@ -217,15 +217,15 @@ const PrivacyContent: React.FC = () => {
               </nav>
             </div>
             
-            <div className="mt-6 p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
-              <h4 className="font-medium text-gray-900 mb-2">Need Help?</h4>
-              <p className="text-sm text-gray-600 mb-4">
+            <div className="mt-6 p-6 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Need Help?</h4>
+              <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
                 If you have any questions about our Privacy Policy, please contact our support team.
               </p>
               <a
                 href="#contact-us"
                 onClick={(e) => scrollToSection('contact-us', e)}
-                className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                className="w-full flex items-center justify-center px-4 py-2.5 rounded-xl shadow-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-700/50 hover-lift transition-all"
               >
                 <Mail className="h-4 w-4 mr-2" /> Contact Support
               </a>
@@ -235,7 +235,7 @@ const PrivacyContent: React.FC = () => {
 
         {/* Main Content */}
         <div className="flex-1">
-          <div className="prose prose-purple max-w-none">
+          <div className="prose prose-slate dark:prose-invert max-w-none">
             <Section id="introduction" title="Introduction" icon={Info}>
               <p className="mb-4">
                 Nyeras EduTech Innovations Pvt Ltd ("Nyeras," "we," "our," "us") values the trust you place in us when you use our services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you interact with our website, applications, platforms, and services (collectively, "Services").
@@ -300,7 +300,7 @@ const PrivacyContent: React.FC = () => {
                 <li>Request deletion of your data, subject to legal or contractual obligations.</li>
                 <li>Opt out of marketing communications at any time.</li>
               </ul>
-              <p className="mt-4">To exercise your rights, please contact us at <a href="mailto:support@nyeras.com" className="text-purple-600 hover:underline">support@nyeras.com</a>.</p>
+              <p className="mt-4">To exercise your rights, please contact us at <a href="mailto:support@nyeras.com" className="text-slate-800 dark:text-slate-200 font-semibold hover:underline">support@nyeras.com</a>.</p>
             </Section>
 
             <Section id="cookies-policy" title="7. Cookies Policy" icon={Cookie}>
@@ -333,16 +333,16 @@ const PrivacyContent: React.FC = () => {
 
             <Section id="contact-us" title="11. Contact Us" icon={Mail}>
               <p className="mb-4">For questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-3">Nyeras EduTech Innovations Pvt Ltd</h4>
-                <p className="text-gray-700 mb-2">Registered Office Address</p>
-                <p className="text-gray-700 mb-2 flex items-center">
-                  <Mail className="h-4 w-4 mr-2 text-purple-600" />
-                  <a href="mailto:support@nyeras.com" className="text-purple-600 hover:underline">support@nyeras.com</a>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+                <h4 className="font-semibold text-slate-900 dark:text-white mb-3">Nyeras EduTech Innovations Pvt Ltd</h4>
+                <p className="text-slate-600 dark:text-slate-300 mb-2">Registered Office Address</p>
+                <p className="text-slate-600 dark:text-slate-300 mb-2 flex items-center">
+                  <Mail className="h-4 w-4 mr-2 text-slate-500" />
+                  <a href="mailto:support@nyeras.com" className="text-slate-800 dark:text-slate-200 font-semibold hover:underline">support@nyeras.com</a>
                 </p>
-                <p className="text-gray-700 flex items-center">
-                  <Phone className="h-4 w-4 mr-2 text-purple-600" />
-                  <a href="tel:+917899232512" className="text-purple-600 hover:underline">+91 7899232512</a>
+                <p className="text-slate-600 dark:text-slate-300 flex items-center">
+                  <Phone className="h-4 w-4 mr-2 text-slate-500" />
+                  <a href="tel:+917899232512" className="text-slate-800 dark:text-slate-200 font-semibold hover:underline">+91 7899232512</a>
                 </p>
               </div>
             </Section>

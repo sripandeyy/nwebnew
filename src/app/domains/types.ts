@@ -8,6 +8,10 @@ export type Course = {
   curriculum: CurriculumModule[];
   certificates: Certificate[];
   image?: string;
+  price?: string;
+  originalPrice?: string;
+  duration?: string;
+  category?: string;
 };
 export type Domain = {
   id: string;

@@ -208,7 +208,7 @@ export default function CRMPage() {
   // Handle lead deletion
   const handleDeleteLead = useCallback(async (id: string) => {
     try {
-      const response = await fetch(`/api/crm/leads/${id}`, {
+      const response = await fetch(`/api/crm/delete-lead?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
       })
       
@@ -225,53 +225,97 @@ export default function CRMPage() {
     }
   }, [])
   
-  // Handle lead update
-  const handleUpdateLead = useCallback(async (updatedLead: TableData) => {
+  // Handle lead action update
+  const handleActionChange = useCallback(async (id: string, newAction: string) => {
     try {
-      const response = await fetch(`/api/crm/leads/${updatedLead.id}`, {
-        method: 'PUT',
+      const response = await fetch('/api/crm/update-action', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedLead)
+        body: JSON.stringify({ id, myaction: newAction })
       })
       
-      if (!response.ok) throw new Error('Failed to update lead')
+      if (!response.ok) throw new Error('Failed to update action')
       
       // Update local state
       setLeads(prevLeads => 
         prevLeads.map(lead => 
-          lead.id === updatedLead.id ? updatedLead : lead
+          lead.id === id ? { ...lead, myaction: newAction, action: newAction } : lead
         )
       )
-      
-      return true
     } catch (err) {
-      console.error('Error updating lead:', err)
-      setError(err instanceof Error ? err.message : 'Failed to update lead')
-      return false
+      console.error('Error updating action:', err)
+      setError(err instanceof Error ? err.message : 'Failed to update action')
+    }
+  }, [])
+
+  // Handle lead notes update
+  const handleNotesChange = useCallback(async (id: string, notes: string) => {
+    try {
+      const response = await fetch('/api/crm/update-notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, notes })
+      })
+      
+      if (!response.ok) throw new Error('Failed to update notes')
+      
+      // Update local state
+      setLeads(prevLeads => 
+        prevLeads.map(lead => 
+          lead.id === id ? { ...lead, notes } : lead
+        )
+      )
+    } catch (err) {
+      console.error('Error updating notes:', err)
+      setError(err instanceof Error ? err.message : 'Failed to update notes')
     }
   }, [])
   
   // Handle bulk upload
   const handleBulkUpload = useCallback(async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    
     try {
-      const response = await fetch('/api/crm/bulk-upload', {
+      const text = await file.text()
+      const lines = text.split(/\r?\n/).filter((line) => line.trim() !== "")
+      if (lines.length <= 1) {
+        return { success: false, error: 'CSV file is empty or missing data rows' }
+      }
+      const headers = lines[0].toLowerCase().split(",").map((h) => h.trim())
+      const dataRows = lines.slice(1)
+      const parsedLeads = dataRows.map((row) => {
+        const values = row.split(",").map((v) => v.trim())
+        const rowData: Record<string, string> = {}
+        headers.forEach((header, index) => {
+          if (values[index] !== undefined) {
+            rowData[header] = values[index]
+          }
+        })
+        return {
+          name: rowData.name || "NA",
+          email: rowData.email || "NA",
+          phone: rowData.phone || rowData.mobile || "NA",
+          course: rowData.course || "NA",
+          assignedTo: rowData["assigned to"] || rowData.assignedto || user?.email || null,
+        }
+      })
+
+      const response = await fetch('/api/crm/bulk-add', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leads: parsedLeads,
+          assignedTo: user?.email || null
+        })
       })
       
       const result = await response.json()
       
       if (response.ok) {
-        // Refresh the leads after successful upload
         await fetchLeads()
         return { success: true }
       } else {
         return { 
           success: false, 
-          error: result.message || 'Failed to upload file' 
+          error: result.message || 'Failed to upload leads' 
         }
       }
     } catch (err) {
@@ -281,10 +325,12 @@ export default function CRMPage() {
         error: 'An error occurred during upload' 
       }
     }
-  }, [fetchLeads])
+  }, [fetchLeads, user?.email])
   
   // Handle filter application
-  const applyFilters = useCallback((newFilters: Partial<FilterState>) => {
+  const applyFilters = useCallback((newFilters: { course: string; action: string; myAction: string }) => {
+    setFilters(newFilters)
+    setIsFilterModalOpen(false)
   }, [])
   
   // Show loading state
@@ -322,21 +368,21 @@ export default function CRMPage() {
           <div className="flex space-x-3">
             <button
               onClick={() => setIsBulkUploadModalOpen(true)}
-              className="px-4 py-2 bg-[#6600CC] text-white rounded hover:bg-[#4d0099]"
+              className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors shadow-xs"
             >
               Bulk Upload
             </button>
             
             <button
               onClick={() => setIsAddLeadModalOpen(true)}
-              className="px-4 py-2 bg-[#6600CC] text-white rounded hover:bg-[#4d0099]"
+              className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors shadow-xs"
             >
               Add Lead
             </button>
             
             <button
               onClick={() => setIsFilterModalOpen(true)}
-              className="px-4 py-2 bg-[#6600CC]/10 text-[#6600CC] rounded hover:bg-[#6600CC]/20"
+              className="px-4 py-2 bg-slate-100 text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-200 transition-colors"
             >
               Filter
             </button>
@@ -349,7 +395,7 @@ export default function CRMPage() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsAssignDropdownOpen(!isAssignDropdownOpen)}
-                className="flex items-center px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+                className="flex items-center px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 transition-colors"
                 disabled={selectedLeads.length === 0 || isAssigning}
               >
                 Assign Selected
@@ -402,30 +448,8 @@ export default function CRMPage() {
             onSelectLead={handleSelectLead}
             onSelectAll={handleSelectAll}
             onDelete={handleDeleteLead}
-            onActionChange={async (id, value) => {
-              // Find the lead to update
-              const leadToUpdate = filteredLeads.find(lead => lead.id === id);
-              if (leadToUpdate) {
-                // Create an updated lead with the new action
-                const updatedLead = {
-                  ...leadToUpdate,
-                  action: value
-                };
-                await handleUpdateLead(updatedLead);
-              }
-            }}
-            onNotesChange={async (id, notes) => {
-              // Find the lead to update
-              const leadToUpdate = filteredLeads.find(lead => lead.id === id);
-              if (leadToUpdate) {
-                // Create an updated lead with the new notes
-                const updatedLead = {
-                  ...leadToUpdate,
-                  notes: notes
-                };
-                await handleUpdateLead(updatedLead);
-              }
-            }}
+            onActionChange={handleActionChange}
+            onNotesChange={handleNotesChange}
           />
         </div>
       </main>
@@ -436,13 +460,13 @@ export default function CRMPage() {
       <AddLeadModal
         isOpen={isAddLeadModalOpen}
         onClose={() => setIsAddLeadModalOpen(false)}
+        userEmail={user?.email || ''}
         onAddLead={(newLead) => {
           const newLeadWithDefaults: TableData = {
             ...newLead,
             id: Date.now().toString(),
             message: '',
             assignedto: newLead.assignedTo,
-            // Add any other required fields with default values
           }
           setLeads(prev => [...prev, newLeadWithDefaults])
           setIsAddLeadModalOpen(false)

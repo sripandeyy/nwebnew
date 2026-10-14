@@ -24,55 +24,49 @@ const PremiumCourseCard = ({
   summary,
   image,
   badge,
-  badgeColor = "from-purple-600 to-pink-600",
-  gradient = "from-purple-500 via-pink-500 to-blue-500",
+  badgeColor = "from-slate-800 to-slate-900",
+  gradient = "from-slate-700 via-slate-800 to-slate-900",
   icon,
   topics = [],
   index = 0,
 }: PremiumCourseCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      transition={{ delay: index * 0.08, duration: 0.4 }}
       className="relative h-full"
     >
       <Link href={href} className="block h-full group">
         {/* Glow Effect */}
-        <motion.div
-          className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-300`}
+        <div
+          className="absolute -inset-0.5 bg-slate-900/10 dark:bg-slate-400/10 rounded-3xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         />
 
         {/* Card Container */}
-        <motion.div 
-          className="relative bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 h-full flex flex-col"
-          whileTap={{ scale: 0.98 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        <div 
+          className="relative bg-white dark:bg-slate-900 rounded-3xl glossy-black-card h-full flex flex-col group-hover:-translate-y-1 transition-transform duration-300 overflow-hidden"
         >
           {/* Image Section */}
           {image && (
-            <div className="relative h-48 overflow-hidden bg-gray-100">
-              <motion.img
+            <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-800">
+              <img
                 src={image}
                 alt={title}
-                className="w-full h-full object-cover object-center"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.6 }}
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               
               {/* Badge Overlay */}
               {badge && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   className="absolute top-4 right-4"
                 >
-                  <span className={`inline-block px-3 py-1.5 bg-gradient-to-r ${badgeColor} text-white text-xs font-bold rounded-full shadow-lg`}>
+                  <span className={`inline-block px-3 py-1.5 bg-gradient-to-r ${badgeColor} text-white text-xs font-bold rounded-full shadow-md`}>
                     {badge}
                   </span>
-                </motion.div>
+                </div>
               )}
             </div>
           )}
@@ -81,69 +75,61 @@ const PremiumCourseCard = ({
           <div className="p-6 flex-1 flex flex-col">
             {/* Icon if no image */}
             {!image && icon && (
-              <motion.div
+              <div
                 className="mb-4 origin-center"
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { 
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 10 
-                  } 
-                }}
-                initial={false}
               >
                 <Premium3DIcon 
                   icon={icon} 
                   gradient={gradient} 
                   size="md" 
                 />
-              </motion.div>
+              </div>
             )}
 
             {/* Title */}
-            <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text group-hover:text-transparent transition-all line-clamp-2">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors line-clamp-2">
               {title}
             </h3>
 
             {/* Summary */}
             {summary && (
-              <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2 flex-1">
+              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2 flex-1">
                 {summary}
               </p>
             )}
 
-            {/* Topics */}
+            {/* Core Skills Preview Tags */}
             {topics.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="mt-2 mb-4 flex flex-wrap gap-1.5">
                 {topics.slice(0, 3).map((topic, i) => (
-                  <motion.span
+                  <span
                     key={i}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-lg"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-750 text-xs font-medium rounded-lg"
                   >
-                    <CheckCircle2 className="w-3 h-3" />
-                    {topic}
-                  </motion.span>
+                    <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
+                    <span className="truncate max-w-[140px]">{topic}</span>
+                  </span>
                 ))}
+                {topics.length > 3 && (
+                  <span className="inline-flex items-center px-2 py-1 bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 text-xs font-medium rounded-lg">
+                    +{topics.length - 3} skills
+                  </span>
+                )}
               </div>
             )}
 
             {/* CTA */}
-            <motion.div
-              className="flex items-center gap-2 text-purple-600 font-semibold mt-auto pt-4 border-t border-gray-100"
-              whileHover={{ gap: 12 }}
+            <div
+              className="flex items-center justify-between text-slate-900 dark:text-slate-100 font-semibold mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 group-hover:text-slate-700 dark:group-hover:text-white transition-colors text-xs sm:text-sm"
             >
-              <span>View Details</span>
-              <ArrowRight className="w-5 h-5" />
-            </motion.div>
+              <span>Explore Domain & All Skills</span>
+              <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </div>
           </div>
 
           {/* Decorative Corner */}
           <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${gradient} opacity-5 blur-2xl`} />
-        </motion.div>
+        </div>
       </Link>
     </motion.div>
   )

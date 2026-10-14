@@ -26,10 +26,10 @@ export async function POST(req: Request) {
 
     const pool = getDb();
     const sql = `INSERT INTO callback_requests (name, phone_number, email, course) VALUES (?, ?, ?, ?)`;
-    const [result] = await pool.execute(sql, [name, phone_number, email, course]);
+    await pool.execute(sql, [name, phone_number, email, course]);
 
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (err: any) {
+  } catch (err) {
     console.error('Callback request insert failed', err);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }

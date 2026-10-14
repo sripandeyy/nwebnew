@@ -16,7 +16,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const dataRef = db.collection('websitedata'); // Fetch from 'websitedata'
     const snapshot = await dataRef.get();
 
-    const emailMap = new Map<string, any>(); // To store unique emails
+    const emailMap = new Map<string, Record<string, unknown>>(); // To store unique emails
 
     snapshot.forEach((doc) => {
       const data = doc.data();

@@ -1,19 +1,72 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
-import { useRef, useState } from "react"
-import { ArrowRight } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowRight, ChevronDown, Menu, X, GraduationCap, Briefcase, ExternalLink, User, LogOut, Shield, Sparkles } from "lucide-react"
 import WorkWithUs from "./WorkWithUs"
- 
+import { useAuth } from "../context/AuthContext"
 
 const Header = () => {
+  const pathname = usePathname()
+  const isLandingPage = pathname === "/"
+  const { user, isAdmin, openAuthModal, logout } = useAuth()
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isDomainsOpen, setIsDomainsOpen] = useState(false)
   const [isWorkWithUsOpen, setIsWorkWithUsOpen] = useState(false)
+  const [isScrolledPastTop, setIsScrolledPastTop] = useState(false)
+  const [isScrollingUp, setIsScrollingUp] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  
   const closeTimer = useRef<number | null>(null)
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen)
+  const hoverTimeoutRef = useRef<number | null>(null)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      if (currentScrollY > 70) {
+        setIsScrolledPastTop(true)
+        // Check scroll direction
+        if (currentScrollY < lastScrollY.current - 4) {
+          // Scrolling UP -> Expand island
+          setIsScrollingUp(true)
+        } else if (currentScrollY > lastScrollY.current + 4) {
+          // Scrolling DOWN -> Collapse into Dynamic Island notch
+          setIsScrollingUp(false)
+        }
+      } else {
+        // At or near top of the page
+        setIsScrolledPastTop(false)
+        setIsScrollingUp(true)
+      }
+
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      window.clearTimeout(hoverTimeoutRef.current)
+      hoverTimeoutRef.current = null
+    }
+    setIsHovered(true)
   }
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) window.clearTimeout(hoverTimeoutRef.current)
+    hoverTimeoutRef.current = window.setTimeout(() => {
+      setIsHovered(false)
+      setIsDomainsOpen(false)
+    }, 250)
+  }
+
   const handleDomainsEnter = () => {
     if (closeTimer.current) {
       window.clearTimeout(closeTimer.current)
@@ -21,176 +74,512 @@ const Header = () => {
     }
     setIsDomainsOpen(true)
   }
+
   const handleDomainsLeave = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
-    closeTimer.current = window.setTimeout(() => setIsDomainsOpen(false), 150)
+    closeTimer.current = window.setTimeout(() => setIsDomainsOpen(false), 220)
   }
-  
+
+  // Normal full-width header only on landing page when at the top
+  const isNormalHeaderAtTop = isLandingPage && !isScrolledPastTop
+
+  // Dynamic Island mode is active on other pages OR when scrolled down on landing page
+  const isIslandExpanded = isScrollingUp || isHovered || isDomainsOpen || isSidebarOpen || (!isScrolledPastTop && !isLandingPage)
+
+  const renderNavContent = (isFullHeader: boolean) => (
+    <div
+      className={
+        isFullHeader
+          ? "w-full max-w-[1780px] mx-auto h-20 sm:h-22 px-4 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between gap-4 sm:gap-6"
+          : "w-full h-18 sm:h-20 px-5 sm:px-7 lg:px-8 xl:px-10 flex items-center justify-between gap-4 lg:gap-6 xl:gap-8"
+      }
+    >
+      {/* Logo */}
+      <Link
+        href="/"
+        className="flex items-center shrink-0 group focus-visible:ring-2 focus-visible:ring-slate-600 rounded-lg p-1"
+      >
+        <Image
+          height={44}
+          width={150}
+          className="h-8 sm:h-9 lg:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          src="/logo.png"
+          alt="Nyeras Logo"
+          priority
+        />
+      </Link>
+
+      {/* Desktop Navigation Links */}
+      <nav className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8 text-[14px] xl:text-[15px] 2xl:text-[16px] font-extrabold tracking-normal text-slate-900 dark:text-white shrink-0">
+        <Link
+          href="/"
+          className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200"
+        >
+          Home
+        </Link>
+
+        <Link
+          href="/about"
+          className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200"
+        >
+          About
+        </Link>
+
+        {/* Domains Dropdown */}
+        <div
+          className="relative py-2 px-1 shrink-0"
+          onMouseEnter={handleDomainsEnter}
+          onMouseLeave={handleDomainsLeave}
+        >
+          <Link
+            href="/domains"
+            className="inline-flex items-center gap-1.5 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer font-extrabold whitespace-nowrap"
+          >
+            <span>Domains</span>
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 stroke-[2.5] ${
+                isDomainsOpen ? "rotate-180 text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"
+              }`}
+            />
+          </Link>
+
+          {/* Domains Popup Menu */}
+          <AnimatePresence>
+            {isDomainsOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                transition={{ duration: 0.16, ease: "easeOut" }}
+                className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[360px] sm:w-[400px] z-50 pointer-events-auto"
+              >
+                <div className="bg-white dark:bg-slate-900 shadow-2xl rounded-2xl p-3.5 border border-slate-200 dark:border-slate-800">
+                  <div className="space-y-2">
+                    <Link
+                      href="/domains/departments"
+                      onClick={() => setIsDomainsOpen(false)}
+                      className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all group"
+                    >
+                      <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-slate-900 transition-colors shadow-xs shrink-0">
+                        <GraduationCap className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Academic & Tech</p>
+                          <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+                        </div>
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-0.5 whitespace-normal">
+                          Engineering, AI, Cloud, VLSI & Design
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/domains/job-guarantee"
+                      onClick={() => setIsDomainsOpen(false)}
+                      className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all group"
+                    >
+                      <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-xs shrink-0">
+                        <Briefcase className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Job Guarantee Tracks</p>
+                          <ArrowRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-all shrink-0" />
+                        </div>
+                        <p className="text-xs sm:text-sm text-emerald-700 dark:text-emerald-400 font-bold mt-0.5 whitespace-normal">
+                          100% Placement Assurance
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/domains/future-skills-school"
+                      onClick={() => setIsDomainsOpen(false)}
+                      className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all group"
+                    >
+                      <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-xs shrink-0">
+                        <Sparkles className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Future Skills School</p>
+                          <ArrowRight className="w-4 h-4 text-blue-500 group-hover:translate-x-1 transition-all shrink-0" />
+                        </div>
+                        <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-400 font-bold mt-0.5 whitespace-normal">
+                          Curated AI, Coding & Finance for Schools
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+
+                  <div className="mt-2 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 px-2 pb-1">
+                    <Link
+                      href="/domains"
+                      onClick={() => setIsDomainsOpen(false)}
+                      className="flex items-center justify-center gap-2 py-1.5 text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white transition-colors"
+                    >
+                      <span>Explore Full Domain Catalog</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <Link
+          href="/plans"
+          className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200"
+        >
+          Our Plans
+        </Link>
+
+        <Link
+          href="/blogs"
+          className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200"
+        >
+          Blogs
+        </Link>
+
+        <button
+          type="button"
+          onClick={() => setIsWorkWithUsOpen(true)}
+          className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200 text-left font-extrabold cursor-pointer"
+        >
+          Work With Us
+        </button>
+      </nav>
+
+      {/* Right Side Actions: LMS Portal, NxtMove & Sign In / Admin Studio */}
+      <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0">
+        {/* Visit LMS Portal Button */}
+        <a
+          href="https://lms.nyeras.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-secondary text-xs sm:text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:scale-105 active:scale-95 transition-all shadow-xs whitespace-nowrap shrink-0"
+        >
+          <GraduationCap className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+          <span>LMS Portal</span>
+          <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400" />
+        </a>
+
+        {/* Visit NxtMove Button */}
+        <a
+          href="https://nxtmove.nyeras.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-accent text-xs sm:text-sm font-extrabold text-white hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
+        >
+          <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center p-0.5 shrink-0 shadow-xs">
+            <Image src="/nxtmove-icon.png" alt="NxtMove" width={16} height={16} className="w-full h-full object-contain" />
+          </div>
+          <span>NxtMove</span>
+          <ExternalLink className="w-3.5 h-3.5 text-white/80" />
+        </a>
+
+        {/* Auth Action: Sign In or Logged-in User Controls */}
+        {user && isAdmin ? (
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/lms"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-slate-100 text-xs sm:text-sm font-extrabold hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
+            >
+              <Shield className="w-4 h-4 text-slate-200" />
+              <span>Admin Studio</span>
+            </Link>
+            <button
+              type="button"
+              onClick={logout}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0"
+              title="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden xl:inline max-w-[100px] truncate">{user.name || user.username}</span>
+            </button>
+          </div>
+        ) : user ? (
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/lms"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-slate-100 text-xs sm:text-sm font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all whitespace-nowrap shrink-0"
+            >
+              <GraduationCap className="w-4 h-4 text-slate-200" />
+              <span>My LMS</span>
+            </Link>
+            <button
+              type="button"
+              onClick={logout}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0"
+              title="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden xl:inline max-w-[100px] truncate">{user.name || user.username}</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => openAuthModal('signin')}
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-xs sm:text-sm font-extrabold text-white hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-md whitespace-nowrap shrink-0"
+          >
+            <User className="w-4 h-4 text-slate-200" />
+            <span>Sign In</span>
+          </button>
+        )}
+
+        {/* Mobile Menu Button */}
+        <button
+          type="button"
+          onClick={() => setIsSidebarOpen(true)}
+          aria-label="Open navigation menu"
+          className="lg:hidden p-2 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          <Menu className="h-6 w-6" />
+        </button>
+      </div>
+    </div>
+  )
 
   return (
     <>
-      <header className="fixed top-8 left-0 right-0 z-40">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="glass-effect bg-gradient-to-r from-[#f4e9ff] via-white to-[#f4e9ff] border border-[#e2ccff] shadow-lg rounded-full px-3 sm:px-5 md:px-6 flex items-center justify-between h-16 gap-3">
-            {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
-              <Image
-                height={44}
-                width={140}
-                className="h-auto w-[110px] sm:w-[130px] md:w-[150px]"
-                src="/logo.png"
-                alt="Nyeras Logo"
-              />
-            </Link>
-
-            {/* Navigation Links */}
-            <nav className="hidden md:flex items-center gap-7 lg:gap-9 text-sm lg:text-base font-semibold">
-              <Link
-                href="/"
-                className="flex items-center text-gray-800 hover:text-black transition-colors"
-              >
-                Home
-              </Link>
-
-              <Link
-                href="/about"
-                className="text-gray-700 hover:text-black transition-colors"
-              >
-                About
-              </Link>
-              {/* Domains Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={handleDomainsEnter}
-                onMouseLeave={handleDomainsLeave}
-              >
-                <Link
-                  href="/domains"
-                  className="inline-flex items-center gap-1 text-gray-700 hover:text-black transition-colors"
-                >
-                  Domains
-                  <svg
-                    className={`w-4 h-4 transition-transform ${isDomainsOpen ? "rotate-180" : "rotate-0"}`}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clipRule="evenodd" />
-                  </svg>
-                </Link>
-                {isDomainsOpen && (
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[360px] bg-white/95 backdrop-blur-xl shadow-xl ring-1 ring-black/5 rounded-2xl p-3 z-50">
-                    <ul className="divide-y">
-                      <li>
-                        <Link
-                          href="/domains/departments"
-                          className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors"
-                        >
-                          <span className="text-sm font-medium text-gray-900">Departments</span>
-                          <svg className="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L10.94 10 7.23 6.29a.75.75 0 011.06-1.06l4.24 4.24a.75.75 0 010 1.06l-4.24 4.24a.75.75 0 01-1.08 0z" clipRule="evenodd"/></svg>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/domains/job-guarantee"
-                          className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors"
-                        >
-                          <span className="text-sm font-medium text-gray-900">Job Guarantee</span>
-                          <svg className="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L10.94 10 7.23 6.29a.75.75 0 011.06-1.06l4.24 4.24a.75.75 0 010 1.06l-4.24 4.24a.75.75 0 01-1.08 0z" clipRule="evenodd"/></svg>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-              <Link
-                href="/plans"
-                className="text-gray-700 hover:text-black transition-colors"
-              >
-                Our Plans
-              </Link>
-              <button
-                onClick={() => setIsWorkWithUsOpen(true)}
-                className="text-gray-700 hover:text-black transition-colors"
-              >
-                Want to Work With Us
-              </button>
-            </nav>
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2 sm:gap-3 ml-4 pl-4 border-l border-gray-200">
-              <div className="relative">
-                <Link
-                  href="/plans"
-                  className="hidden md:inline-flex items-center gap-2 rounded-full bg-[#6600CC] px-4 sm:px-5 py-1.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-[#6600CC]/40 hover:shadow-[#6600CC]/60 hover:translate-y-[1px] transition-all"
-                >
-                  <span>Enroll Now</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <span className="pointer-events-none absolute -top-2 -right-1 hidden md:inline-flex items-center rounded-full bg-white/90 px-2 py-[2px] text-[10px] font-semibold text-sky-600 shadow-sm">
-                  Limited Seats
-                </span>
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button onClick={toggleSidebar} className="md:hidden text-gray-600 hover:text-gray-900">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Sidebar */}
-      <div
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-white z-50 transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 overflow-y-auto`}
-      >
-        <div className="p-4 flex items-center justify-between border-b border-gray-200">
-          <div className="flex items-center">
-            <Image src="/logo.png" alt="Nyeras Logo" width={80} height={80} className="rounded-full w-[80px] h-auto" />
-          </div>
-          <button onClick={toggleSidebar} className="text-black">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+      <AnimatePresence mode="wait">
+        {isNormalHeaderAtTop ? (
+          /* Normal Full-Width Header at top of Landing Page */
+          <header key="landing-top-header" className="fixed left-0 right-0 top-0 z-50 w-full pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="pointer-events-auto w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border-b border-slate-200/90 dark:border-slate-800 shadow-xs"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+              {renderNavContent(true)}
+            </motion.div>
+          </header>
+        ) : (
+          /* Dynamic Island Mode (Scrolled Down on Landing Page OR Any Other Page) */
+          <header key="dynamic-island-header" className="fixed left-0 right-0 top-3 sm:top-4 z-50 flex justify-center px-3 sm:px-6 lg:px-8 pointer-events-none">
+            <AnimatePresence mode="wait">
+              {!isIslandExpanded ? (
+                /* Collapsed Dynamic Island Notch */
+                <motion.div
+                  key="collapsed-island"
+                  initial={{ opacity: 0, scale: 0.85, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, y: -10 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 28,
+                    mass: 0.8,
+                  }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={() => setIsHovered(true)}
+                  className="pointer-events-auto h-12 min-w-[160px] sm:min-w-[185px] px-6 rounded-full glossy-black-card bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border border-slate-300 dark:border-slate-800 shadow-2xl flex items-center justify-center gap-3 cursor-pointer hover:scale-105 active:scale-100 transition-all duration-200"
+                >
+                  <Image
+                    height={32}
+                    width={110}
+                    className="h-6 sm:h-7 w-auto object-contain pointer-events-none"
+                    src="/logo.png"
+                    alt="Nyeras Logo"
+                    priority
+                  />
+                  <span className="w-2 h-2 rounded-full bg-slate-900 dark:bg-emerald-400 animate-pulse" />
+                </motion.div>
+              ) : (
+                /* Expanded Curved Dynamic Island Header - Dynamically sizing and generous max-width */
+                <motion.div
+                  key="expanded-island"
+                  initial={{ opacity: 0, scale: 0.96, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96, y: -10 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 380,
+                    damping: 28,
+                    mass: 0.8,
+                  }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="pointer-events-auto w-full max-w-[1680px] rounded-full glossy-black-card bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border border-slate-300 dark:border-slate-800 shadow-2xl overflow-visible"
+                >
+                  {renderNavContent(false)}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </header>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Sidebar Overlay & Drawer */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 md:hidden transition-opacity"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      <div
+        className={`fixed top-0 left-0 bottom-0 w-[280px] sm:w-[320px] bg-white dark:bg-slate-900 z-50 md:hidden shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        aria-modal="true"
+        role="dialog"
+      >
+        <div className="p-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
+          <Image src="/logo.png" alt="Nyeras Logo" width={110} height={32} className="h-7 w-auto" />
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(false)}
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
           </button>
         </div>
-        <nav className="mt-4 space-y-1">
-          <Link href="/" className="block py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-lg">
+
+        <nav className="p-4 flex-1 space-y-1 overflow-y-auto">
+          <Link
+            href="/"
+            onClick={() => setIsSidebarOpen(false)}
+            className="block py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          >
             Home
           </Link>
-          <Link href="/about" className="block py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-lg">
-            About
+          <Link
+            href="/about"
+            onClick={() => setIsSidebarOpen(false)}
+            className="block py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          >
+            About Us
           </Link>
-          <Link href="/domains" className="block py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-lg">
-            Domains
+          <Link
+            href="/domains"
+            onClick={() => setIsSidebarOpen(false)}
+            className="block py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          >
+            Domains & Courses
           </Link>
-          <Link href="/plans" className="block py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-lg">
+          <Link
+            href="/plans"
+            onClick={() => setIsSidebarOpen(false)}
+            className="block py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          >
             Our Plans
           </Link>
+
+          <Link
+            href="/blogs"
+            onClick={() => setIsSidebarOpen(false)}
+            className="block py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+          >
+            Blogs & Insights
+          </Link>
           <button
-            onClick={() => setIsWorkWithUsOpen(true)}
-            className="block w-full text-left py-2 px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-lg"
+            type="button"
+            onClick={() => {
+              setIsSidebarOpen(false)
+              setIsWorkWithUsOpen(true)
+            }}
+            className="w-full text-left py-2.5 px-3 text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
           >
             Want to Work With Us
           </button>
-          <div className="pt-3 mt-2 border-t border-gray-100">
-            <Link
-              href="/plans"
-              className="block w-full text-center rounded-full bg-[#6600CC] px-4 py-2 text-sm font-semibold text-white shadow-md"
-            >
-              Enroll Now
-            </Link>
-          </div>
         </nav>
+
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2.5">
+          {/* User Sign In / Profile / LMS in Mobile */}
+          {user ? (
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 mb-1">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-extrabold text-slate-900 dark:text-white truncate">{user.name}</p>
+                  <p className="text-[10px] text-slate-500 truncate">{isAdmin ? 'Master Admin' : 'Student'}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Link
+                  href="/lms"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-extrabold transition-colors"
+                >
+                  LMS
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout()
+                    setIsSidebarOpen(false)
+                  }}
+                  className="p-1.5 rounded-xl text-rose-500 hover:bg-rose-500/10"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setIsSidebarOpen(false)
+                openAuthModal('signin')
+              }}
+              className="w-full py-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-white font-extrabold text-sm flex items-center justify-center gap-2 mb-1 cursor-pointer"
+            >
+              <User className="w-4 h-4" />
+              <span>Sign In / Sign Up</span>
+            </button>
+          )}
+
+          <div className="grid grid-cols-2 gap-2.5 mb-1">
+            <Link
+              href="/lms"
+              onClick={() => setIsSidebarOpen(false)}
+              className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-slate-100 text-xs font-extrabold"
+            >
+              <GraduationCap className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+              <span>{isAdmin ? 'Admin Studio' : 'LMS Portal'}</span>
+            </Link>
+            <a
+              href="https://nxtmove.nyeras.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl skeuo-btn-accent text-white text-xs font-extrabold"
+            >
+              <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center p-0.5 shrink-0 shadow-xs">
+                <Image src="/nxtmove-icon.png" alt="NxtMove" width={16} height={16} className="w-full h-full object-contain" />
+              </div>
+              <span>NxtMove</span>
+            </a>
+          </div>
+
+          <Link
+            href="/plans"
+            onClick={() => setIsSidebarOpen(false)}
+            className="w-full text-center rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 py-2.5 text-sm font-extrabold text-white shadow-md transition-colors"
+          >
+            Enroll Now
+          </Link>
+          <a
+            href="https://wa.me/919999999999"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full text-center rounded-xl border border-slate-200 dark:border-slate-700 py-2.5 text-sm font-extrabold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          >
+            Chat on WhatsApp
+          </a>
+        </div>
       </div>
 
       {/* Work With Us Modal */}

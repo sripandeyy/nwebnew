@@ -44,16 +44,16 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
   }, []);
 
   return (
-    <div id={id} className={`mb-8 border-b border-gray-100 pb-8 scroll-mt-24 ${className}`}>
+    <div id={id} className={`mb-8 border-b border-slate-100 dark:border-slate-800 pb-8 scroll-mt-24 ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between text-left focus:outline-none group"
       >
-        <h2 className="text-xl font-bold text-gray-900 flex items-center">
-          <Icon className="h-5 w-5 text-purple-600 mr-3" />
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center">
+          <Icon className="h-5 w-5 text-slate-700 dark:text-slate-300 mr-3 transition-transform group-hover:scale-110" />
           {title}
         </h2>
-        <span className="ml-4 text-gray-400 group-hover:text-gray-600">
+        <span className="ml-4 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-colors">
           {isOpen ? (
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -66,7 +66,7 @@ const Section: React.FC<SectionProps> = ({ id, title, children, icon: Icon, clas
         </span>
       </button>
 
-      <div className={`mt-4 text-gray-700 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+      <div className={`mt-4 text-slate-700 dark:text-slate-300 ${isOpen ? 'block' : 'hidden lg:block'}`}>
         {children}
       </div>
     </div>
@@ -78,15 +78,15 @@ const HighlightBox: React.FC<{ type?: 'info' | 'warning' | 'success'; children: 
   children
 }) => {
   const bgColor = {
-    info: 'bg-blue-50 border-blue-200',
-    warning: 'bg-yellow-50 border-yellow-200',
-    success: 'bg-green-50 border-green-200'
+    info: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/50',
+    warning: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50',
+    success: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50'
   }[type];
 
   const textColor = {
-    info: 'text-blue-800',
-    warning: 'text-yellow-800',
-    success: 'text-green-800'
+    info: 'text-blue-800 dark:text-blue-300',
+    warning: 'text-amber-800 dark:text-amber-300',
+    success: 'text-emerald-800 dark:text-emerald-300'
   }[type];
 
   const icon = {
@@ -96,7 +96,7 @@ const HighlightBox: React.FC<{ type?: 'info' | 'warning' | 'success'; children: 
   }[type];
 
   return (
-    <div className={`${bgColor} border-l-4 ${textColor} p-4 my-4 rounded-r`}>
+    <div className={`${bgColor} border-l-4 ${textColor} p-4 my-4 rounded-r shadow-xs`}>
       <div className="flex">
         <div className="flex-shrink-0 mr-3">
           {icon}
@@ -151,44 +151,49 @@ const RefundPolicyContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <Topbar />
       <Header />
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-purple-800 to-indigo-900 text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[300px] flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-center">Cancellation & Refund Policy</h1>
+      <div className="relative bg-gradient-to-br from-slate-900 via-slate-850 to-slate-800 text-white overflow-hidden py-16 border-b border-slate-800">
+        <div className="absolute inset-0 bg-radial-vignette opacity-20 pointer-events-none" />
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 flex flex-col items-center justify-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium mb-4">
+            <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+            <span>Official Policy</span>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-center tracking-tight">Cancellation & Refund Policy</h1>
+          <p className="mt-3 text-slate-400 text-center max-w-xl text-sm md:text-base">
+            Clear, transparent terms governing enrollments, cancellations, and refund procedures at Nyeras EduTech.
+          </p>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col lg:flex-row w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
         {/* Sidebar Navigation - Desktop */}
         <div className="hidden lg:block w-64 flex-shrink-0 mr-12">
           <div className="sticky top-24">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h3>
-              <nav className="space-y-2">
-                <div className="text-sm text-gray-500 italic p-2">
-                  Scroll to navigate the content
-                </div>
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Quick Links</h3>
+              <nav className="space-y-1">
                 {[
                   { id: 'introduction', label: 'Introduction' },
-                  { id: 'course-enrollment', label: '1. Course Enrollment & Cancellation' },
+                  { id: 'course-enrollment', label: '1. Course Enrollment' },
                   { id: 'refund-eligibility', label: '2. Refund Eligibility' },
                   { id: 'special-circumstances', label: '3. Special Circumstances' },
                   { id: 'refund-process', label: '4. Refund Process' },
-                  { id: 'non-refundable', label: '5. Non-Refundable Components' },
+                  { id: 'non-refundable', label: '5. Non-Refundable Items' },
                   { id: 'contact-us', label: '6. Contact Us' }
-                ].map((item) => (
+                ].map((item, idx) => (
                   <button
-                    key={item.id}
+                    key={`refund-nav-${item.id}-${idx}`}
                     onClick={(e) => scrollToSection(item.id, e)}
-                    className={`block w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    className={`block w-full text-left px-3 py-2 text-sm rounded-lg transition-all ${
                       activeSection === item.id
-                        ? 'bg-purple-50 text-purple-700 font-medium'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-slate-900 dark:bg-slate-800 text-white font-semibold shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                   >
                     {item.label}
@@ -201,17 +206,17 @@ const RefundPolicyContent: React.FC = () => {
 
         {/* Main Content */}
         <div className="flex-1">
-          <div className="prose prose-indigo max-w-none">
+          <div className="prose prose-slate dark:prose-invert max-w-none">
             <Section id="introduction" title="Introduction" icon={FileText}>
               <p>
-                At <strong>Nyeras EduTech Innovations Pvt Ltd</strong> ("Nyeras," "we," "our," "us"), we are committed to delivering high-quality learning programs and services. This Cancellation & Refund Policy outlines the terms under which cancellations and refunds may be requested by users. By enrolling in our courses or using our Services, you agree to this policy.
+                At <strong>Nyeras EduTech Innovations Pvt Ltd</strong> (&quot;Nyeras,&quot; &quot;we,&quot; &quot;our,&quot; &quot;us&quot;), we are committed to delivering high-quality learning programs and services. This Cancellation &amp; Refund Policy outlines the terms under which cancellations and refunds may be requested by users. By enrolling in our courses or using our Services, you agree to this policy.
               </p>
             </Section>
 
             <Section id="course-enrollment" title="1. Course Enrollment & Cancellation" icon={Calendar}>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Once you enroll in a course/program and payment is confirmed, your seat is reserved.</li>
-                <li>Cancellations must be requested in writing via <a href="mailto:support@nyeras.com" className="text-purple-600 hover:underline">support@nyeras.com</a> within the specified timeframe (see Section 2).</li>
+                <li>Cancellations must be requested in writing via <a href="mailto:support@nyeras.com" className="text-slate-900 dark:text-slate-200 font-semibold underline underline-offset-2 hover:text-slate-700">support@nyeras.com</a> within the specified timeframe (see Section 2).</li>
                 <li>After the cancellation window expires, no cancellation or refund requests will be entertained.</li>
               </ul>
             </Section>
@@ -220,8 +225,8 @@ const RefundPolicyContent: React.FC = () => {
               <p className="font-semibold mb-2">Refunds are available only in limited circumstances to ensure fairness for all parties.</p>
 
               <div className="mt-4">
-                <h4 className="text-lg font-medium text-gray-900 flex items-center">
-                  <AlertTriangle className="h-5 w-5 text-yellow-500 mr-2" />
+                <h4 className="text-lg font-medium text-slate-900 dark:text-white flex items-center">
+                  <AlertTriangle className="h-5 w-5 text-amber-500 mr-2" />
                   General Refund Terms:
                 </h4>
                 <ul className="list-disc pl-10 mt-2 space-y-1">
@@ -231,16 +236,16 @@ const RefundPolicyContent: React.FC = () => {
               </div>
 
               <div className="mt-6">
-                <h4 className="text-lg font-medium text-gray-900 flex items-center">
-                  <XCircle className="h-5 w-5 text-red-500 mr-2" />
+                <h4 className="text-lg font-medium text-slate-900 dark:text-white flex items-center">
+                  <XCircle className="h-5 w-5 text-rose-500 mr-2" />
                   Workshops/Short-Term Programs:
                 </h4>
                 <p className="mt-2 pl-8">Fees for one-day or short-term workshops/events are <strong>non-refundable</strong> once registration is confirmed.</p>
               </div>
 
               <div className="mt-6">
-                <h4 className="text-lg font-medium text-gray-900 flex items-center">
-                  <XCircle className="h-5 w-5 text-red-500 mr-2" />
+                <h4 className="text-lg font-medium text-slate-900 dark:text-white flex items-center">
+                  <XCircle className="h-5 w-5 text-rose-500 mr-2" />
                   Subscription/Online Content:
                 </h4>
                 <p className="mt-2 pl-8">Payments made for self-paced learning modules, digital resources, or subscriptions are <strong>non-refundable</strong> due to instant access being granted.</p>
@@ -275,16 +280,16 @@ const RefundPolicyContent: React.FC = () => {
 
             <Section id="contact-us" title="6. Contact Us" icon={Mail}>
               <p className="mb-4">For any queries regarding cancellations or refunds, please reach out to us at:</p>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-3">Nyeras EduTech Innovations Pvt Ltd</h4>
-                <p className="text-gray-700 mb-2">Registered Office Address</p>
-                <p className="text-gray-700 mb-2 flex items-center">
-                  <Mail className="h-4 w-4 mr-2 text-purple-600" />
-                  <a href="mailto:support@nyeras.com" className="text-purple-600 hover:underline">support@nyeras.com</a>
+              <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="font-bold text-slate-900 dark:text-white mb-3">Nyeras EduTech Innovations Pvt Ltd</h4>
+                <p className="text-slate-600 dark:text-slate-400 mb-2">Registered Office Address</p>
+                <p className="text-slate-700 dark:text-slate-300 mb-2 flex items-center">
+                  <Mail className="h-4 w-4 mr-2 text-slate-500 dark:text-slate-400" />
+                  <a href="mailto:support@nyeras.com" className="text-slate-900 dark:text-slate-200 font-medium hover:underline">support@nyeras.com</a>
                 </p>
-                <p className="text-gray-700 flex items-center">
-                  <Phone className="h-4 w-4 mr-2 text-purple-600" />
-                  <a href="tel:+917899232512" className="text-purple-600 hover:underline">+91 7899232512</a>
+                <p className="text-slate-700 dark:text-slate-300 flex items-center">
+                  <Phone className="h-4 w-4 mr-2 text-slate-500 dark:text-slate-400" />
+                  <a href="tel:+917899232512" className="text-slate-900 dark:text-slate-200 font-medium hover:underline">+91 7899232512</a>
                 </p>
               </div>
             </Section>

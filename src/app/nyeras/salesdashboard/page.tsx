@@ -86,9 +86,25 @@ export default function SalesDashboard() {
     }
   }, [auth]);
 
-  // Handle auth state changes
+  // Handle auth state changes (supports CRM session and Firebase)
   useEffect(() => {
-    if (!auth) return;
+    if (typeof window !== 'undefined') {
+      const crmRaw = localStorage.getItem('crm_user')
+      if (crmRaw) {
+        try {
+          const parsed = JSON.parse(crmRaw)
+          if (parsed?.email) {
+            setIsLoading(false)
+            return
+          }
+        } catch {}
+      }
+    }
+
+    if (!auth) {
+      router.push('/nyeras/login')
+      return
+    }
     
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {

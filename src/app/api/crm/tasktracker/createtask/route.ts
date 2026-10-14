@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     `;
     const values = [title, assignee, dueDate, type];
 
-    const [result] = await connection.execute(query, values);
+    await connection.execute(query, values);
     await connection.end();
 
     return new Response(

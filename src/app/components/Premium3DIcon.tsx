@@ -19,7 +19,7 @@ const sizeClasses = {
 
 const Premium3DIcon = ({ 
   icon, 
-  gradient = "from-blue-500 via-purple-500 to-pink-500",
+  gradient = "from-slate-700 via-slate-800 to-slate-900",
   size = "md",
   className = ""
 }: Premium3DIconProps) => {

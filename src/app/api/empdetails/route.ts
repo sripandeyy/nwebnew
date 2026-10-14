@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+import mysql, { type RowDataPacket } from 'mysql2/promise';
 import dbConfig from '../dbConfig';
 import { NextRequest } from 'next/server';
 
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     }
 
     const connection = await mysql.createConnection(dbConfig);
-    const [rows]: any[] = await connection.execute('SELECT id, name FROM employees WHERE email = ?', [email]);
+    const [rows] = await connection.execute<RowDataPacket[]>('SELECT id, name FROM employees WHERE email = ?', [email]);
     await connection.end();
 
     if (rows.length === 0) {

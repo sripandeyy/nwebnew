@@ -7,14 +7,11 @@ import Topbar from "../../components/Topbar";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import FloatingParticles from "../../components/FloatingParticles";
-import { GraduationCap, Award, Star } from "lucide-react";
-
-// Remove metadata export since we're using client component
+import { GraduationCap, Award, Star, ArrowRight } from "lucide-react";
 
 function getCreativeDesignCourses() {
-  // Pull from existing domain data: graphic-design, ui-ux, car-design
   const creativeSlugs = new Set(["graphic-design", "ui-ux", "car-design"]);
-  const courses: Array<{ slug: string; title: string; summary: string; image?: string; curriculum: { title: string }[] }>
+  const courses: Array<{ slug: string; title: string; summary: string; image?: string; curriculum: { title: string; topics?: string[] }[] }>
     = [];
   for (const d of domains) {
     for (const c of d.courses) {
@@ -27,74 +24,69 @@ function getCreativeDesignCourses() {
 export default function CreativeDesignPage() {
   const courses = getCreativeDesignCourses();
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Premium Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-white to-blue-50" />
-      <FloatingParticles count={12} color="purple" />
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      {/* Background */}
+      <FloatingParticles count={10} color="grey" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
       <Topbar />
       <Header />
 
       {/* Hero Header */}
-      <div className="relative pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative pt-28 pb-16">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           {/* Title Section */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.5 }}
             className="text-center mb-4"
           >
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600/10 to-pink-600/10 border border-purple-600/20 rounded-full text-purple-600 font-semibold text-sm mb-6"
-            >
-              <GraduationCap className="w-4 h-4" />
-              Creative & Design
-            </motion.span>
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm mb-6">
+              <GraduationCap className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+              Creative &amp; Design
+            </span>
             
-            <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6">
-              <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
-                Creative / Design
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+              Creative &amp;{' '}
+              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-300 dark:to-slate-400 bg-clip-text text-transparent">
+                Design Programs
               </span>
             </h1>
             
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Explore our creative and design courses to unleash your artistic potential
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              Master cutting-edge creative design tools, user research, and UI/UX systems with hands-on industrial projects.
             </p>
           </motion.div>
 
           {/* Stats Bar */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
             className="mt-8 max-w-2xl mx-auto"
           >
-            <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-gray-100">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl p-6 shadow-sm glossy-black-card">
               <div className="flex items-center justify-center gap-8 text-center">
                 <div>
-                  <div className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
                     {courses.length}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Available Courses</div>
+                  <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Available Courses</div>
                 </div>
-                <div className="w-px h-12 bg-gray-200" />
+                <div className="w-px h-10 bg-slate-200 dark:bg-slate-800" />
                 <div>
-                  <div className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
                     100%
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Job Assistance Program</div>
+                  <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Placement Support</div>
                 </div>
-                <div className="w-px h-12 bg-gray-200" />
+                <div className="w-px h-10 bg-slate-200 dark:bg-slate-800" />
                 <div>
-                  <div className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                    ⭐ 4.8
+                  <div className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center justify-center gap-1">
+                    <span className="text-amber-500">★</span> 4.9
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Average Rating</div>
+                  <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Learner Rating</div>
                 </div>
               </div>
             </div>
@@ -104,48 +96,73 @@ export default function CreativeDesignPage() {
 
       {/* Courses Grid */}
       <main className="relative flex-grow pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {courses.map((course) => (
               <Link 
                 key={course.slug} 
                 href={`/domains/${course.slug}`} 
-                className="group block rounded-3xl border border-gray-200 bg-white hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                className="group block rounded-3xl bg-white dark:bg-slate-900 glossy-black-card hover-lift overflow-hidden"
               >
                 {course.image ? (
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="relative h-44 overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <img 
                       src={course.image} 
                       alt={course.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 ) : (
-                  <div className="h-40 bg-gray-100 flex items-center justify-center">
-                    <Award className="w-12 h-12 text-gray-300" />
+                  <div className="h-44 bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <Award className="w-12 h-12 text-slate-400" />
                   </div>
                 )}
-                <div className="p-8">
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#6600cc]">
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
                     {course.title}
                   </h3>
                   {course.summary && (
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
                       {course.summary}
                     </p>
                   )}
-                  {course.curriculum?.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {course.curriculum.slice(0, 3).map((m) => (
-                        <span 
-                          key={m.title} 
-                          className="text-xs px-2 py-1 rounded bg-gray-50 text-gray-700 ring-1 ring-gray-200"
-                        >
-                          {m.title}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {/* Core Tags */}
+                  {(() => {
+                    const points: string[] = [];
+                    if (course.curriculum) {
+                      for (const m of course.curriculum) {
+                        if (m.topics && m.topics.length > 0) {
+                          points.push(...m.topics);
+                        } else if (m.title) {
+                          points.push(m.title);
+                        }
+                      }
+                    }
+                    const previewPoints = points.slice(0, 3);
+
+                    return (
+                      <div className="mt-4 flex flex-wrap gap-1.5">
+                        {previewPoints.map((pt, i) => (
+                          <span 
+                            key={i} 
+                            className="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/80 text-xs font-medium"
+                          >
+                            <span className="truncate max-w-[140px]">{pt}</span>
+                          </span>
+                        ))}
+                        {points.length > 3 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 text-xs font-medium">
+                            +{points.length - 3} skills
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
+
+                  <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-slate-900 dark:text-slate-200 group-hover:text-slate-700 dark:group-hover:text-white transition-colors">
+                    <span>View All Technologies & Skills</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white" />
+                  </div>
                 </div>
               </Link>
             ))}

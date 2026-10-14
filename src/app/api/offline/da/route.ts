@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { name, email, phone, program } = body;
+  const { name, email, phone } = body;
 
   if (
     !name || typeof name !== 'string' || name.trim() === '' ||

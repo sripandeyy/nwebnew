@@ -106,7 +106,7 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#6600CC] focus:ring-2 focus:ring-[#6600CC]/20 transition-colors duration-200"
+                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-slate-800 focus:ring-2 focus:ring-slate-800/20 transition-colors duration-200"
                     placeholder="hi@nyeras.com"
                   />
                   {email && !validateEmail(email) && (
@@ -126,7 +126,7 @@ export default function LoginPage() {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-[#6600CC] focus:ring-2 focus:ring-[#6600CC]/20 transition-colors duration-200"
+                      className="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-slate-800 focus:ring-2 focus:ring-slate-800/20 transition-colors duration-200"
                       placeholder="*******"
                     />
                     <button
@@ -145,7 +145,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="relative w-full rounded-lg bg-[#6600CC] px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4d0099] focus:outline-none focus:ring-2 focus:ring-[#6600CC]/20 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200"
+                className="relative w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-800/20 disabled:opacity-70 disabled:cursor-not-allowed hover-lift transition-all duration-200"
               >
                 {isLoading ? (
                   <svg className="animate-spin h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24">
@@ -165,7 +165,7 @@ export default function LoginPage() {
         </div>
 
         {/* Right Section - Background Image/Pattern */}
-        <div className="hidden sm:flex flex-1 relative bg-gradient-to-br from-[#6600CC] to-[#4d0099]">
+        <div className="hidden sm:flex flex-1 relative bg-gradient-to-br from-slate-900 via-slate-850 to-slate-800">
           <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
           <div className="relative w-full h-full flex items-center justify-center p-12 lg:p-20">
             <div className="max-w-2xl text-white space-y-8">
