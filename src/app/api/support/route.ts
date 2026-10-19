@@ -29,24 +29,30 @@ export async function POST(req: NextRequest) {
     const timestamp = now.toISOString();
     const date = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
     
-    const query = `INSERT INTO support_tickets (title, email, description, timestamp, date, status) VALUES (?, ?, ?, ?, ?, ?)`;
-    const values = [title, email, description, timestamp, date, 'Pending'];
-    
-    await connection.execute(query, values);
-    await connection.end();
+    try {
+      const query = `INSERT INTO support_tickets (title, email, description, timestamp, date, status) VALUES (?, ?, ?, ?, ?, ?)`;
+      const values = [title, email, description, timestamp, date, 'Pending'];
+      
+      await connection.execute(query, values);
+    } finally {
+      await connection.end().catch(() => {});
+    }
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.hostinger.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "no-reply@nyeras.com",
-        pass: "Techteam@123$",
-      },
-    });
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.hostinger.com",
+        port: parseInt(process.env.SMTP_PORT || "465", 10),
+        secure: true,
+        auth: {
+          user: process.env.SMTP_USER || "no-reply@nyeras.com",
+          pass: process.env.SMTP_PASS || "Techteam@123$",
+        },
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+      });
 
-    await transporter.sendMail({
-        from: 'no-reply@nyeras.com',
+      await transporter.sendMail({
+        from: process.env.SMTP_USER || 'no-reply@nyeras.com',
         to: email,
         subject: `New Support Ticket - ${title}`,
         html: `
@@ -68,7 +74,9 @@ export async function POST(req: NextRequest) {
           </div>
         `,
       });
-      
+    } catch (emailError) {
+      console.warn('Support ticket email delivery failed (ticket saved to DB):', emailError);
+    }
 
     return new Response(JSON.stringify({ message: 'Support ticket submitted successfully.' }), {
       status: 200,

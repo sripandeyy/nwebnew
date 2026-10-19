@@ -46,3 +46,14 @@ next-env.d.ts
 
 # test runner output
 /test-results/
+
+# logs
+*.log
+
+# temporary python/pillow artifacts
+.tmp_pillow/
+scripts/.pylibs/
+
+# editor
+.vscode/
+

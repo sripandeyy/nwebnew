@@ -209,12 +209,12 @@ const TermsContent = () => {
         <div className="flex-1">
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <p className="text-slate-600 dark:text-slate-300 mb-8">
-              Welcome to Nyeras! By accessing or using our website, platform, or services ("Services"), you ("User", "Student", or "You") agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our Services.
+              Welcome to Nyeras! By accessing or using our website, platform, or services (&quot;Services&quot;), you (&quot;User&quot;, &quot;Student&quot;, or &quot;You&quot;) agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using our Services.
             </p>
 
             <Section id="acceptance" title="1. Acceptance of Terms" icon={CheckCircle}>
               <p className="mb-4">
-                By registering, accessing, or using Nyeras' Services, you agree to be legally bound by these Terms and Conditions, our Privacy Policy, and any additional policies notified to you. If you do not agree, please discontinue using our Services.
+                By registering, accessing, or using Nyeras&apos; Services, you agree to be legally bound by these Terms and Conditions, our Privacy Policy, and any additional policies notified to you. If you do not agree, please discontinue using our Services.
               </p>
               <HighlightBox type="info">
                 <strong>Important:</strong> These Terms constitute a legally binding agreement between you and Nyeras Edutech Innovations Private Limited.
@@ -300,7 +300,7 @@ const TermsContent = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>You breach these Terms,</li>
                 <li>You misuse the platform, or</li>
-                <li>You engage in any activity harmful to Nyeras' reputation or systems.</li>
+                <li>You engage in any activity harmful to Nyeras&apos; reputation or systems.</li>
               </ul>
             </Section>
 

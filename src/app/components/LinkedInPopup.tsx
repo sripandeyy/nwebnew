@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, ArrowRight } from 'lucide-react';
+import { useFloatingPromptSlot } from '../utils/floatingPrompts';
 
 const LINKEDIN_URL = 'https://www.linkedin.com/company/nyeras-edutech-innovations/';
 
@@ -16,22 +17,20 @@ function LinkedInBrandIcon({ className = "w-5 h-5" }: { className?: string }) {
 export default function LinkedInPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const hasSlot = useFloatingPromptSlot('linkedin', 'right', isVisible && !isDismissed);
 
-  // Trigger popup when user scrolls down towards the bottom
+  // Trigger popup when user scrolls past the stats section
   useEffect(() => {
     if (isDismissed) return;
 
     const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = document.documentElement.clientHeight;
-
-      const scrolledNearBottom =
-        scrollTop + clientHeight >= scrollHeight - 1100 ||
-        (scrollHeight > clientHeight && scrollTop / (scrollHeight - clientHeight) >= 0.6);
-
-      if (scrolledNearBottom) {
-        setIsVisible(true);
+      const statsGrid = document.getElementById('hero-stats-grid');
+      if (statsGrid) {
+        const rect = statsGrid.getBoundingClientRect();
+        setIsVisible(rect.bottom < 40);
+      } else {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        setIsVisible(scrollTop > 750);
       }
     };
 
@@ -46,14 +45,14 @@ export default function LinkedInPopup() {
     setIsDismissed(true);
   };
 
-  if (!isVisible || isDismissed) {
+  if (!hasSlot) {
     return null;
   }
 
   return (
     <aside
       aria-label="Connect with Nyeras on LinkedIn"
-      className="fixed bottom-5 right-4 sm:right-6 z-40 max-w-[340px] sm:max-w-[370px] w-full animate-in fade-in slide-in-from-bottom-5 duration-500"
+      className="fixed bottom-24 left-3 right-3 sm:bottom-24 sm:left-auto sm:right-6 sm:w-full sm:max-w-[370px] z-40 animate-in fade-in slide-in-from-bottom-5 duration-500"
     >
       <div className="relative rounded-2xl bg-white/95 dark:bg-slate-900/95 text-slate-950 dark:text-white p-4 sm:p-5 shadow-2xl skeuo-card transition-all border border-slate-200/80 dark:border-slate-800">
         <button

@@ -108,10 +108,10 @@ export default function TestimonialsGrid() {
                   </span>
                 </div>
 
-                <div className="relative mt-2">
-                  <Quote className="w-6 h-6 text-slate-400 dark:text-slate-700 absolute -top-1 -left-1 -z-10" />
-                  <p className="text-xs sm:text-sm text-slate-900 dark:text-slate-200 leading-relaxed italic font-bold">
-                    "{item.quote}"
+                <div className="mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-800/80">
+                  <Quote className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2.5 opacity-80" />
+                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed italic font-semibold">
+                    &ldquo;{item.quote}&rdquo;
                   </p>
                 </div>
               </div>

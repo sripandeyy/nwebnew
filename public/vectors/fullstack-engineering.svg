@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-fs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050814" />
+      <stop offset="50%" stop-color="#0b132b" />
+      <stop offset="100%" stop-color="#050814" />
+    </linearGradient>
+
+    <radialGradient id="glow-fs-blue" cx="40%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.38" />
+      <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#050814" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="glow-fs-cyan" cx="75%" cy="55%" r="40%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3" />
+      <stop offset="60%" stop-color="#3b82f6" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#050814" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Card & Element Gradients -->
+    <linearGradient id="ide-surface" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0b1120" stop-opacity="0.9" />
+    </linearGradient>
+
+    <linearGradient id="ide-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.1" />
+    </linearGradient>
+
+    <linearGradient id="blue-cyan-bar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <linearGradient id="db-cyl-top" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <linearGradient id="db-cyl-body" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" />
+      <stop offset="100%" stop-color="#082f49" />
+    </linearGradient>
+
+    <linearGradient id="pipe-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="soft-glow-fs" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="intense-glow-fs" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="shadow-fs">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1600" height="900" fill="url(#bg-grad-fs)" />
+  <rect width="1600" height="900" fill="url(#glow-fs-blue)" />
+  <rect width="1600" height="900" fill="url(#glow-fs-cyan)" />
+
+  <!-- Perspective Floor Grid -->
+  <g opacity="0.18" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="550" x2="1600" y2="550" />
+    <line x1="0" y1="620" x2="1600" y2="620" />
+    <line x1="0" y1="700" x2="1600" y2="700" />
+    <line x1="0" y1="790" x2="1600" y2="790" />
+    <line x1="0" y1="890" x2="1600" y2="890" />
+
+    <line x1="800" y1="500" x2="0" y2="900" />
+    <line x1="800" y1="500" x2="200" y2="900" />
+    <line x1="800" y1="500" x2="400" y2="900" />
+    <line x1="800" y1="500" x2="600" y2="900" />
+    <line x1="800" y1="500" x2="800" y2="900" />
+    <line x1="800" y1="500" x2="1000" y2="900" />
+    <line x1="800" y1="500" x2="1200" y2="900" />
+    <line x1="800" y1="500" x2="1400" y2="900" />
+    <line x1="800" y1="500" x2="1600" y2="900" />
+  </g>
+
+  <!-- Background Connecting Circuit Traces -->
+  <g stroke="#38bdf8" stroke-width="2" fill="none" opacity="0.35">
+    <path d="M 120 200 H 320 L 400 280 H 600" />
+    <circle cx="120" cy="200" r="4" fill="#38bdf8" />
+    <circle cx="600" cy="280" r="4" fill="#38bdf8" />
+
+    <path d="M 1480 220 H 1300 L 1220 300 H 1050" />
+    <circle cx="1480" cy="220" r="4" fill="#06b6d4" />
+    <circle cx="1050" cy="300" r="4" fill="#06b6d4" />
+
+    <path d="M 720 720 V 780 H 940 L 980 820" />
+    <circle cx="720" cy="720" r="4" fill="#818cf8" />
+    <circle cx="980" cy="820" r="4" fill="#818cf8" />
+  </g>
+
+  <!-- Left Center: Modern IDE Window -->
+  <g transform="translate(140, 160)" filter="url(#shadow-fs)">
+    <!-- Window Frame -->
+    <rect width="640" height="460" rx="18" fill="url(#ide-surface)" stroke="url(#ide-border)" stroke-width="2" />
+    
+    <!-- Titlebar -->
+    <rect width="640" height="48" rx="18" fill="#1e293b" fill-opacity="0.8" />
+    <rect y="38" width="640" height="10" fill="#1e293b" fill-opacity="0.8" />
+    <line x1="0" y1="48" x2="640" y2="48" stroke="#334155" stroke-width="1" />
+
+    <!-- Window Dots -->
+    <circle cx="30" cy="24" r="6.5" fill="#ef4444" />
+    <circle cx="52" cy="24" r="6.5" fill="#f59e0b" />
+    <circle cx="74" cy="24" r="6.5" fill="#10b981" />
+
+    <!-- Active Tab -->
+    <path d="M 110 48 V 16 C 110 12 114 8 118 8 H 270 C 274 8 278 12 278 16 V 48 Z" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="135" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#38bdf8">page.tsx • Next.js 15</text>
+    <circle cx="260" cy="28" r="4" fill="#38bdf8" />
+
+    <!-- Inactive Tab -->
+    <text x="310" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#64748b">schema.prisma</text>
+    <text x="440" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#64748b">api/route.ts</text>
+
+    <!-- Code Editor Lines -->
+    <g font-family="'JetBrains Mono', 'Fira Code', Menlo, monospace" font-size="13" font-weight="500">
+      <!-- Line 1 -->
+      <text x="30" y="90" fill="#475569">01</text>
+      <text x="75" y="90" fill="#c084fc">import</text>
+      <text x="135" y="90" fill="#e2e8f0">{ createServerClient }</text>
+      <text x="310" y="90" fill="#c084fc">from</text>
+      <text x="355" y="90" fill="#34d399">"@nyeras/cloud";</text>
+
+      <!-- Line 2 -->
+      <text x="30" y="125" fill="#475569">02</text>
+      <text x="75" y="125" fill="#c084fc">import</text>
+      <text x="135" y="125" fill="#e2e8f0">{ db }</text>
+      <text x="190" y="125" fill="#c084fc">from</text>
+      <text x="235" y="125" fill="#34d399">"@/lib/prisma";</text>
+
+      <!-- Line 3 -->
+      <text x="30" y="160" fill="#475569">03</text>
+
+      <!-- Line 4 -->
+      <text x="30" y="195" fill="#475569">04</text>
+      <text x="75" y="195" fill="#38bdf8">export default async function</text>
+      <text x="315" y="195" fill="#facc15">AppEngine</text>
+      <text x="395" y="195" fill="#e2e8f0">() {</text>
+
+      <!-- Line 5 -->
+      <text x="30" y="230" fill="#475569">05</text>
+      <text x="105" y="230" fill="#c084fc">const</text>
+      <text x="155" y="230" fill="#e2e8f0">session =</text>
+      <text x="235" y="230" fill="#c084fc">await</text>
+      <text x="285" y="230" fill="#60a5fa">auth.verify()</text>
+      <text x="385" y="230" fill="#e2e8f0">;</text>
+
+      <!-- Line 6 -->
+      <text x="30" y="265" fill="#475569">06</text>
+      <text x="105" y="265" fill="#c084fc">const</text>
+      <text x="155" y="265" fill="#e2e8f0">orders =</text>
+      <text x="225" y="265" fill="#c084fc">await</text>
+      <text x="275" y="265" fill="#60a5fa">db.orders.stream()</text>
+      <text x="420" y="265" fill="#e2e8f0">;</text>
+
+      <!-- Line 7 -->
+      <text x="30" y="300" fill="#475569">07</text>
+
+      <!-- Line 8 -->
+      <text x="30" y="335" fill="#475569">08</text>
+      <text x="105" y="335" fill="#c084fc">return</text>
+      <text x="160" y="335" fill="#38bdf8">&lt;</text>
+      <text x="170" y="335" fill="#f43f5e">PipelineCluster</text>
+      <text x="305" y="335" fill="#fb923c">data</text>
+      <text x="340" y="335" fill="#e2e8f0">={orders}</text>
+      <text x="420" y="335" fill="#38bdf8">&gt;</text>
+
+      <!-- Line 9 -->
+      <text x="30" y="370" fill="#475569">09</text>
+      <text x="135" y="370" fill="#38bdf8">&lt;</text>
+      <text x="145" y="370" fill="#60a5fa">FullStackLiveDeploy</text>
+      <text x="310" y="370" fill="#fb923c">tier</text>
+      <text x="345" y="370" fill="#34d399">="production"</text>
+      <text x="470" y="370" fill="#38bdf8">/&gt;</text>
+
+      <!-- Line 10 -->
+      <text x="30" y="405" fill="#475569">10</text>
+      <text x="105" y="405" fill="#38bdf8">&lt;/</text>
+      <text x="125" y="405" fill="#f43f5e">PipelineCluster</text>
+      <text x="260" y="405" fill="#38bdf8">&gt;</text>
+      <text x="275" y="405" fill="#e2e8f0">;</text>
+
+      <!-- Line 11 -->
+      <text x="30" y="435" fill="#475569">11</text>
+      <text x="75" y="435" fill="#e2e8f0">}</text>
+    </g>
+
+    <!-- Live Compilation Tag Inside Window -->
+    <rect x="440" y="405" width="170" height="34" rx="8" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.4" />
+    <circle cx="458" cy="422" r="4" fill="#10b981" />
+    <text x="472" y="426" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">Compiled • Ready</text>
+  </g>
+
+  <!-- High-Tech Data Bus Conduits connecting IDE to Stack -->
+  <g filter="url(#soft-glow-fs)">
+    <path d="M 780 340 H 880 L 930 280 H 1000" stroke="url(#pipe-cyan)" stroke-width="4" fill="none" />
+    <path d="M 780 430 H 880 L 930 500 H 1020" stroke="url(#pipe-cyan)" stroke-width="4" fill="none" />
+    <circle cx="880" cy="340" r="5" fill="#38bdf8" />
+    <circle cx="880" cy="430" r="5" fill="#06b6d4" />
+  </g>
+
+  <!-- Right Side: Architecture & Tech Stack Node Clusters -->
+  
+  <!-- Node 1: React / Next.js Atomic Engine Core -->
+  <g transform="translate(1040, 160)" filter="url(#shadow-fs)">
+    <rect width="380" height="150" rx="20" fill="url(#ide-surface)" stroke="#38bdf8" stroke-width="1.8" />
+    
+    <!-- React Atom Icon Orbitals -->
+    <g transform="translate(65, 75)" stroke="#38bdf8" stroke-width="2.5" fill="none">
+      <ellipse rx="38" ry="15" />
+      <ellipse rx="38" ry="15" transform="rotate(60)" />
+      <ellipse rx="38" ry="15" transform="rotate(120)" />
+      <circle cx="0" cy="0" r="7" fill="#38bdf8" filter="url(#soft-glow-fs)" />
+    </g>
+
+    <text x="130" y="55" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">Next.js 15 &amp; React</text>
+    <text x="130" y="80" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Server Actions • App Router • SSR</text>
+    
+    <rect x="130" y="98" width="90" height="24" rx="6" fill="#0284c7" fill-opacity="0.25" stroke="#38bdf8" stroke-opacity="0.4" />
+    <text x="142" y="114" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">TypeScript</text>
+
+    <rect x="230" y="98" width="90" height="24" rx="6" fill="#4f46e5" fill-opacity="0.25" stroke="#818cf8" stroke-opacity="0.4" />
+    <text x="248" y="114" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#a5b4fc">Tailwind</text>
+  </g>
+
+  <!-- Node 2: PostgreSQL Cloud Database Cylinder -->
+  <g transform="translate(1040, 360)" filter="url(#shadow-fs)">
+    <rect width="380" height="160" rx="20" fill="url(#ide-surface)" stroke="#06b6d4" stroke-width="1.8" />
+    
+    <!-- 3D Database Cylinder Illustration -->
+    <g transform="translate(35, 30)">
+      <!-- Top Disk -->
+      <ellipse cx="40" cy="25" rx="32" ry="12" fill="url(#db-cyl-top)" />
+      
+      <!-- Middle Disk -->
+      <path d="M 8 25 V 55 C 8 62 22 67 40 67 C 58 67 72 62 72 55 V 25 Z" fill="url(#db-cyl-body)" stroke="#0284c7" stroke-width="1" />
+      <ellipse cx="40" cy="55" rx="32" ry="10" fill="none" stroke="#38bdf8" stroke-width="2" />
+
+      <!-- Bottom Disk -->
+      <path d="M 8 55 V 85 C 8 92 22 97 40 97 C 58 97 72 92 72 85 V 55 Z" fill="url(#db-cyl-body)" stroke="#0284c7" stroke-width="1" />
+      <ellipse cx="40" cy="85" rx="32" ry="10" fill="none" stroke="#38bdf8" stroke-width="2" />
+    </g>
+
+    <text x="130" y="60" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">PostgreSQL &amp; Prisma</text>
+    <text x="130" y="85" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">ACID Trans • Real-time Pooling</text>
+    
+    <rect x="130" y="105" width="115" height="24" rx="6" fill="#0891b2" fill-opacity="0.25" stroke="#06b6d4" stroke-opacity="0.4" />
+    <text x="142" y="121" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#22d3ee">Dockerized</text>
+
+    <rect x="255" y="105" width="95" height="24" rx="6" fill="#059669" fill-opacity="0.25" stroke="#10b981" stroke-opacity="0.4" />
+    <text x="268" y="121" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">Auto-Sync</text>
+  </g>
+
+  <!-- Node 3: Cloud Edge Deployment Pipeline -->
+  <g transform="translate(1040, 560)" filter="url(#shadow-fs)">
+    <rect width="380" height="150" rx="20" fill="url(#ide-surface)" stroke="#818cf8" stroke-width="1.8" />
+    
+    <!-- Cloud Icon Graphic -->
+    <g transform="translate(38, 45)" fill="none" stroke="#818cf8" stroke-width="3">
+      <path d="M 20 50 A 15 15 0 0 1 45 40 A 22 22 0 0 1 75 48 A 14 14 0 0 1 72 65 H 20 A 12 12 0 0 1 20 50 Z" fill="#4338ca" fill-opacity="0.3" />
+      <path d="M 46 65 V 82 M 38 74 L 46 82 L 54 74" stroke="#38bdf8" stroke-width="2.5" />
+    </g>
+
+    <text x="130" y="60" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">AWS Cloud Deployment</text>
+    <text x="130" y="85" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">CI/CD Pipelines • Serverless Edge</text>
+    
+    <rect x="130" y="105" width="90" height="24" rx="6" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-opacity="0.4" />
+    <text x="145" y="121" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">AWS S3</text>
+
+    <rect x="230" y="105" width="105" height="24" rx="6" fill="#6366f1" fill-opacity="0.25" stroke="#818cf8" stroke-opacity="0.4" />
+    <text x="242" y="121" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#a5b4fc">Vercel Edge</text>
+  </g>
+
+  <!-- Floating Tech Badges with Drop Shadows -->
+  <g transform="translate(680, 110)" filter="url(#shadow-fs)">
+    <rect width="130" height="38" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#3b82f6" />
+    <text x="36" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#ffffff">REST &amp; RPC</text>
+  </g>
+
+  <g transform="translate(870, 680)" filter="url(#shadow-fs)">
+    <rect width="120" height="38" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#10b981" />
+    <text x="36" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#34d399">HTTP 200</text>
+  </g>
+
+  <g transform="translate(60, 650)" filter="url(#shadow-fs)">
+    <rect width="160" height="42" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="20" y="26" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#38bdf8">&lt;FullStack /&gt;</text>
+  </g>
+
+  <!-- Glowing Corner Flare -->
+  <circle cx="1500" cy="100" r="180" fill="#3b82f6" opacity="0.08" filter="url(#intense-glow-fs)" />
+  <circle cx="100" cy="800" r="180" fill="#06b6d4" opacity="0.08" filter="url(#intense-glow-fs)" />
+</svg>

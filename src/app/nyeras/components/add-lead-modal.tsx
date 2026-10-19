@@ -23,7 +23,6 @@ interface AddLeadModalProps {
 }
 
 export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '' }: AddLeadModalProps) {
-  if (!isOpen) return null
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -31,6 +30,8 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead, userEmail = '
     phone: "",
     course: "",
   })
+
+  if (!isOpen) return null
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target

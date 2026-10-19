@@ -27,6 +27,7 @@ import {
   Send,
 } from 'lucide-react';
 import Link from 'next/link';
+import CallbackForm from '../components/CallBackform';
 
 interface CourseRoadmapFlowchartProps {
   course: RoadmapCourse;
@@ -46,6 +47,7 @@ export default function CourseRoadmapFlowchart({
   const [selectedNodeIndex, setSelectedNodeIndex] = useState<number | null>(0);
   const [completedSteps, setCompletedSteps] = useState<Record<number, boolean>>({});
   const [showCatalogDetails, setShowCatalogDetails] = useState(false);
+  const [isCallbackOpen, setIsCallbackOpen] = useState(false);
 
   // Pro plan is strictly exclusive to HRM, Data Analytics, and Data Science
   const proEligible = isProPlanEligible(course);
@@ -380,10 +382,15 @@ export default function CourseRoadmapFlowchart({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => onOpenAdvisorModal && onOpenAdvisorModal(course.title)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsCallbackOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                  title="Inquire Now / Request a Callback"
                 >
-                  <Send className="w-3 h-3" /> Inquire with Advisor
+                  <Send className="w-3 h-3" />
+                  <span>Inquire Now</span>
                 </button>
                 <Link
                   href={course.url}
@@ -474,7 +481,15 @@ export default function CourseRoadmapFlowchart({
                       Hands-On Stage Curriculum & Lab Modules
                     </p>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      Mentor-led live sessions, interactive coding exercises, and structured problem sets. Click &quot;Inquire with Advisor&quot; for the complete cohort syllabus PDF.
+                      Mentor-led live sessions, interactive coding exercises, and structured problem sets. Click{' '}
+                      <button
+                        type="button"
+                        onClick={() => setIsCallbackOpen(true)}
+                        className="underline font-bold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white cursor-pointer"
+                      >
+                        &quot;Inquire Now&quot;
+                      </button>{' '}
+                      to request a callback &amp; get the complete cohort syllabus PDF.
                     </p>
                   </div>
                 )}
@@ -537,6 +552,22 @@ export default function CourseRoadmapFlowchart({
           </div>
         )}
       </div>
+
+      {/* Request Callback Modal for Inquire Now */}
+      {isCallbackOpen && (
+        <CallbackForm
+          onClose={() => setIsCallbackOpen(false)}
+          initialProgram={course.title}
+          notes={
+            selectedNodeIndex !== null && allNodes[selectedNodeIndex]
+              ? `Inquiry from Roadmap Node: Step ${allNodes[selectedNodeIndex].stepNumber} - ${allNodes[selectedNodeIndex].title} (${allNodes[selectedNodeIndex].weekSpan}), Track: ${effectivePlan.toUpperCase()}`
+              : `Roadmap Inquiry: ${course.title}, Track: ${effectivePlan.toUpperCase()}`
+          }
+          source="Roadmap Flowchart Inquire Now"
+          title="Talk to an Academic Advisor"
+          subtitle={`Get curriculum details, personalized roadmap, and cohort fee options for ${course.title}.`}
+        />
+      )}
     </div>
   );
 }

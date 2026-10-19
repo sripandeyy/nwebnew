@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import Script from 'next/script'
+import { X } from 'lucide-react'
 
 declare global {
   interface Window {
@@ -22,7 +23,7 @@ declare global {
   }
 }
 
-function BotAssistantIcon({ className = "w-7 h-7" }: { className?: string }) {
+function BotAssistantIcon({ className = "w-9 h-9 sm:w-10 sm:h-10" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -147,41 +148,6 @@ export default function ChatBot() {
     }
   }, [])
 
-  // Smooth scroll positioning so the button doesn't clash with navbars or footer
-  useEffect(() => {
-    let ticking = false
-
-    const updateChatPosition = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = scrollHeight > 0 ? Math.min(Math.max(scrollTop / scrollHeight, 0), 1) : 0
-
-      const widgetHeight = 54
-      const maxTravel = Math.max(window.innerHeight - widgetHeight - 95, 0)
-      const translateY = -(progress * maxTravel)
-
-      document.documentElement.style.setProperty('--chat-translate-y', `${translateY}px`)
-      ticking = false
-    }
-
-    const handleScrollOrResize = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateChatPosition)
-        ticking = true
-      }
-    }
-
-    window.addEventListener('scroll', handleScrollOrResize, { passive: true })
-    window.addEventListener('resize', handleScrollOrResize, { passive: true })
-
-    handleScrollOrResize()
-
-    return () => {
-      window.removeEventListener('scroll', handleScrollOrResize)
-      window.removeEventListener('resize', handleScrollOrResize)
-    }
-  }, [])
-
   const handleOpenChat = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -271,24 +237,38 @@ export default function ChatBot() {
       {/* Custom Floating Robot Launcher Button */}
       <aside
         ref={launcherRef}
-        aria-label="Chat Support"
+        aria-label="AI Chat Support"
         style={{
           zIndex: 2147483646,
-          transform: 'translateY(var(--chat-translate-y, 0px))',
-          transition: 'transform 0.12s ease-out',
-          willChange: 'transform',
         }}
-        className="fixed bottom-6 right-5 sm:right-6"
+        className="fixed bottom-6 right-5 sm:right-7"
       >
-        <button
-          type="button"
-          onClick={isChatOpen ? handleCloseChat : handleOpenChat}
-          aria-label="Toggle Chat Assistant"
-          className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 text-white border border-slate-700 shadow-2xl hover:bg-slate-800 hover:border-slate-500 hover:scale-105 transition-all duration-200 active:scale-95 cursor-pointer"
-        >
-          <BotAssistantIcon className="w-7 h-7 text-slate-100 group-hover:text-white group-hover:scale-110 transition-all" />
-          <span className="absolute top-1 right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-900 animate-pulse" />
-        </button>
+        <div className="relative group">
+          {/* Hover Tooltip Pill */}
+          <div className="absolute right-full mr-3.5 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/95 dark:bg-slate-950/95 text-white text-xs font-bold whitespace-nowrap shadow-xl border border-slate-700/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>AI Career Assistant</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={isChatOpen ? handleCloseChat : handleOpenChat}
+            aria-label="Toggle AI Chat Assistant"
+            className="group relative flex items-center justify-center w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full bg-gradient-to-tr from-slate-950 via-slate-900 to-slate-800 text-white border-2 border-slate-700/90 shadow-2xl hover:border-blue-400/80 hover:shadow-blue-500/25 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-500/30"
+          >
+            {isChatOpen ? (
+              <X className="w-8 h-8 sm:w-9 sm:h-9 text-slate-100 group-hover:text-white transition-all" />
+            ) : (
+              <BotAssistantIcon className="w-9 h-9 sm:w-10 sm:h-10 text-slate-100 group-hover:text-white group-hover:scale-110 transition-all" />
+            )}
+
+            {/* Online Pulse Indicator */}
+            <span className="absolute top-1.5 right-1.5 flex h-4 w-4">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-slate-900" />
+            </span>
+          </button>
+        </div>
       </aside>
     </>
   )

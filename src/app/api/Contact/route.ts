@@ -31,42 +31,51 @@ export async function POST(req: NextRequest) {
     const timestamp = now.toISOString();
     const date = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
     
-    const query = `INSERT INTO leads (name, email, phone, timestamp, date, action, myaction, notes, message,course) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [name, email, phone, timestamp, date, 'Filled Contact Form', 'Not Reviewed', '', message,'NA'];
-    
-    await connection.execute(query, values);
-    await connection.end();
+    try {
+      const query = `INSERT INTO leads (name, email, phone, timestamp, date, action, myaction, notes, message,course) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      const values = [name, email, phone, timestamp, date, 'Filled Contact Form', 'Not Reviewed', '', message,'NA'];
+      
+      await connection.execute(query, values);
+    } finally {
+      await connection.end().catch(() => {});
+    }
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.hostinger.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "no-reply@nyeras.com",
-        pass: "Techteam@123$",
-      },
-    });
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.hostinger.com",
+        port: parseInt(process.env.SMTP_PORT || "465", 10),
+        secure: true,
+        auth: {
+          user: process.env.SMTP_USER || "no-reply@nyeras.com",
+          pass: process.env.SMTP_PASS || "Techteam@123$",
+        },
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+      });
 
-    await transporter.sendMail({
-      from: 'no-reply@nyeras.com',
-      to: 'thenyera@gmail.com',
-      subject: `Nyeras - Consultation Request ${date}`,
-      html: `
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone} 
-        <a href="tel:${phone}" 
-           style="display: inline-block; margin-left: 10px; padding: 5px 10px; background-color: #FFA500; color: white; text-decoration: none; border-radius: 5px;">
-          Call
-        </a>
-      </p>
-      <p><strong>Message:</strong> ${message}</p>
-      <p><strong>Timestamp:</strong> ${timestamp}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      `,
-    });
+      await transporter.sendMail({
+        from: process.env.SMTP_USER || 'no-reply@nyeras.com',
+        to: process.env.NOTIFICATION_EMAIL || 'thenyera@gmail.com',
+        subject: `Nyeras - Consultation Request ${date}`,
+        html: `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone} 
+          <a href="tel:${phone}" 
+             style="display: inline-block; margin-left: 10px; padding: 5px 10px; background-color: #FFA500; color: white; text-decoration: none; border-radius: 5px;">
+            Call
+          </a>
+        </p>
+        <p><strong>Message:</strong> ${message}</p>
+        <p><strong>Timestamp:</strong> ${timestamp}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        `,
+      });
+    } catch (emailError) {
+      console.warn('Contact email notification delivery failed (lead saved to DB):', emailError);
+    }
 
-    return new Response(JSON.stringify({ message: 'Data saved and email sent successfully.' }), {
+    return new Response(JSON.stringify({ message: 'Data saved successfully.' }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

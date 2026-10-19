@@ -212,7 +212,7 @@ export default function EngineeringSandbox() {
             See the Exact Code You Will Build & Ship
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal">
-            No dummy "Hello World" exercises. Every Nyeras cohort student builds production-grade, tested code audited line-by-line by industry mentors.
+            No dummy &quot;Hello World&quot; exercises. Every Nyeras cohort student builds production-grade, tested code audited line-by-line by industry mentors.
           </p>
         </div>
 
@@ -343,7 +343,7 @@ export default function EngineeringSandbox() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-300 mt-0.5 italic">
-                  "{current.review.comment}"
+                  &quot;{current.review.comment}&quot;
                 </p>
               </div>
             </div>

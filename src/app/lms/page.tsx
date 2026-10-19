@@ -10,6 +10,7 @@ import Topbar from '../components/Topbar'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import AuthModal from '../components/AuthModal'
+import AdminHeroLogin from '../components/AdminHeroLogin'
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -59,11 +60,13 @@ import {
   Save,
   ShieldCheck,
   KeyRound,
-  Handshake
+  Handshake,
+  Linkedin
 } from 'lucide-react'
 import ImageUploadButton from './components/ImageUploadButton'
 import GalleryManager from './components/GalleryManager'
 import MouManager from './components/MouManager'
+import LinkedInManager from './components/LinkedInManager'
 
 const PRESET_THUMBNAILS = [
   { name: 'Full Stack Web Dev', path: '/courses/web-development-fullstack.png' },
@@ -78,11 +81,11 @@ const PRESET_THUMBNAILS = [
 ]
 
 export default function LMSPage() {
-  const { user, isAdmin, isLoading, logout, openAuthModal } = useAuth()
+  const { user, isAdmin, isLoading, logout } = useAuth()
   const router = useRouter()
 
   // Navigation State
-  const [activeTab, setActiveTab] = useState<'programs' | 'blogs' | 'gallery' | 'mous' | 'students'>('programs')
+  const [activeTab, setActiveTab] = useState<'programs' | 'blogs' | 'gallery' | 'mous' | 'linkedin' | 'students'>('programs')
   const [blogs, setBlogs] = useState<BlogPost[]>([])
   const [courses, setCourses] = useState<Course[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -235,8 +238,8 @@ export default function LMSPage() {
       intro: blog.content?.intro || '',
       sectionsText: blog.content?.sections
         ? blog.content.sections
-            .map((s) => `${s.heading}\n${s.paragraphs.join('\n\n')}`)
-            .join('\n\n---\n\n')
+          .map((s) => `${s.heading}\n${s.paragraphs.join('\n\n')}`)
+          .join('\n\n---\n\n')
         : '',
       takeawaysText: blog.content?.takeaways ? blog.content.takeaways.join('\n') : '',
       featured: !!blog.featured,
@@ -493,60 +496,23 @@ export default function LMSPage() {
 
   if (isLoading) {
     return (
-      <div className={`min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-800 dark:text-slate-100 ${jakarta.className} items-center justify-center`}>
-        <div className="w-10 h-10 border-4 border-blue-200 dark:border-blue-900 border-t-blue-600 rounded-full animate-spin" />
+      <div className={`min-h-screen flex flex-col bg-slate-50/50 dark:bg-[#070913]/50 text-slate-800 dark:text-slate-100 ${jakarta.className} transition-colors duration-300 relative`}>
+        <Topbar />
+        <Header />
+        <div className="flex-1 flex items-center justify-center pt-32 pb-24">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-10 h-10 border-4 border-blue-200 dark:border-blue-900 border-t-blue-600 rounded-full animate-spin" />
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Verifying administrator session...</p>
+          </div>
+        </div>
+        <Footer />
       </div>
     )
   }
 
-  // --- 1. NOT LOGGED IN STATE ---
-  if (!user) {
-    return (
-      <div className={`min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-800 dark:text-slate-100 ${jakarta.className} selection:bg-blue-600 selection:text-white transition-colors duration-300 relative`}>
-        <Topbar />
-        <Header />
-        <AuthModal />
-        <main className="flex-1 flex items-center justify-center px-4 pt-36 sm:pt-40 pb-20 relative z-10 overflow-hidden">
-          {/* Ambient Animated Mesh Background Gradients */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] pointer-events-none -z-10 overflow-hidden">
-            <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-blue-500/15 dark:bg-blue-600/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute top-40 right-1/4 w-[450px] h-[450px] bg-indigo-500/15 dark:bg-indigo-600/10 rounded-full blur-[130px] animate-pulse" style={{ animationDelay: "2s" }} />
-          </div>
-
-          <div className="max-w-lg w-full text-center space-y-6 p-8 sm:p-12 rounded-3xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/90 dark:border-slate-800 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[3px] bg-gradient-to-r from-transparent via-blue-600 dark:via-blue-400 to-transparent" />
-            
-            <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center mx-auto border border-blue-200 dark:border-blue-800 shadow-inner">
-              <GraduationCap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-            </div>
-
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-wider">
-              Student &amp; Admin Access
-            </div>
-
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 dark:text-white">
-              Nyeras Learning &amp;{" "}
-              <span className="bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-500 dark:from-blue-400 dark:via-indigo-300 dark:to-cyan-300 bg-clip-text text-transparent">
-                Admin Portal
-              </span>
-            </h1>
-
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
-              Sign in to access your student programs, track classroom progress, and manage live courses, pricing, and articles.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => openAuthModal('signin')}
-              className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-base shadow-xl shadow-blue-500/25 hover:scale-[1.02] active:scale-100 transition-all cursor-pointer"
-            >
-              Sign In to Continue
-            </button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
+  // --- 1. NOT AUTHENTICATED AS MASTER ADMIN ---
+  if (!isAdmin) {
+    return <AdminHeroLogin />
   }
 
   // --- 2. MASTER ADMIN LMS STUDIO (ADMIN@2026) ---
@@ -568,11 +534,10 @@ export default function LMSPage() {
         {statusNotice && (
           <div className="fixed bottom-6 right-6 z-50 animate-bounce">
             <div
-              className={`px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border backdrop-blur-xl ${
-                statusNotice.type === 'success'
+              className={`px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border backdrop-blur-xl ${statusNotice.type === 'success'
                   ? 'bg-white/95 dark:bg-slate-900/95 border-emerald-500/40 text-emerald-900 dark:text-emerald-200'
                   : 'bg-white/95 dark:bg-rose-950/95 border-rose-500/50 text-rose-900 dark:text-rose-200'
-              }`}
+                }`}
             >
               {statusNotice.type === 'success' ? (
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
@@ -631,11 +596,10 @@ export default function LMSPage() {
                       setActiveTab('programs')
                       setSelectedFilterCategory('All')
                     }}
-                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
-                      activeTab === 'programs'
+                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${activeTab === 'programs'
                         ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-300 dark:border-blue-700 shadow-md ring-2 ring-blue-500/20'
                         : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <Layers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -651,11 +615,10 @@ export default function LMSPage() {
                       setActiveTab('blogs')
                       setSelectedFilterCategory('All')
                     }}
-                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
-                      activeTab === 'blogs'
+                    className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${activeTab === 'blogs'
                         ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-300 dark:border-blue-700 shadow-md ring-2 ring-blue-500/20'
                         : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -685,11 +648,10 @@ export default function LMSPage() {
                   setActiveTab('programs')
                   setSelectedFilterCategory('All')
                 }}
-                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                  activeTab === 'programs'
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'programs'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
-                }`}
+                  }`}
               >
                 <Layers className="w-4 h-4" />
                 <span>Courses, Pricing &amp; Thumbnails ({courses.length})</span>
@@ -701,11 +663,10 @@ export default function LMSPage() {
                   setActiveTab('blogs')
                   setSelectedFilterCategory('All')
                 }}
-                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                  activeTab === 'blogs'
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'blogs'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
-                }`}
+                  }`}
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Blog &amp; Articles Studio ({blogs.length})</span>
@@ -714,11 +675,10 @@ export default function LMSPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab('gallery')}
-                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                  activeTab === 'gallery'
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'gallery'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
-                }`}
+                  }`}
               >
                 <ImageIcon className="w-4 h-4" />
                 <span>About Page Gallery</span>
@@ -727,11 +687,10 @@ export default function LMSPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab('mous')}
-                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                  activeTab === 'mous'
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'mous'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
-                }`}
+                  }`}
               >
                 <Handshake className="w-4 h-4" />
                 <span>University MoUs</span>
@@ -739,12 +698,23 @@ export default function LMSPage() {
 
               <button
                 type="button"
-                onClick={() => setActiveTab('students')}
-                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${
-                  activeTab === 'students'
+                onClick={() => setActiveTab('linkedin')}
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'linkedin'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
-                }`}
+                  }`}
+              >
+                <Linkedin className="w-4 h-4" />
+                <span>LinkedIn Feed</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab('students')}
+                className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2.5 transition-all cursor-pointer shrink-0 ${activeTab === 'students'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-xs'
+                  }`}
               >
                 <Users className="w-4 h-4" />
                 <span>Student Batches &amp; LMS Ops</span>
@@ -754,9 +724,10 @@ export default function LMSPage() {
 
           {activeTab === 'gallery' && <GalleryManager notify={notify} />}
           {activeTab === 'mous' && <MouManager notify={notify} />}
+          {activeTab === 'linkedin' && <LinkedInManager notify={notify} />}
 
           {/* Action Bar (Search, Category Filters & Create CTA) */}
-          <div className={`flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 ${activeTab === 'gallery' || activeTab === 'mous' ? 'hidden' : ''}`}>
+          <div className={`flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 ${activeTab === 'gallery' || activeTab === 'mous' || activeTab === 'linkedin' ? 'hidden' : ''}`}>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
               <div className="relative max-w-md w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -777,11 +748,10 @@ export default function LMSPage() {
                       key={cat}
                       type="button"
                       onClick={() => setSelectedFilterCategory(cat)}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shrink-0 cursor-pointer ${
-                        selectedFilterCategory === cat
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shrink-0 cursor-pointer ${selectedFilterCategory === cat
                           ? 'bg-blue-600 text-white shadow-sm border border-blue-600 font-black'
                           : 'bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
-                      }`}
+                        }`}
                     >
                       {cat}
                     </button>
@@ -793,11 +763,10 @@ export default function LMSPage() {
                       key={cat}
                       type="button"
                       onClick={() => setSelectedFilterCategory(cat)}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shrink-0 cursor-pointer ${
-                        selectedFilterCategory === cat
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shrink-0 cursor-pointer ${selectedFilterCategory === cat
                           ? 'bg-blue-600 text-white shadow-sm border border-blue-600 font-black'
                           : 'bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
-                      }`}
+                        }`}
                     >
                       {cat}
                     </button>
@@ -876,7 +845,7 @@ export default function LMSPage() {
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-                          
+
                           <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-[11px] font-black text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm">
                             {c.category || 'Engineering'}
                           </span>
@@ -1027,7 +996,7 @@ export default function LMSPage() {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                        
+
                         <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 dark:bg-slate-950/80 backdrop-blur-md text-[11px] font-black text-slate-900 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm">
                           {blog.category}
                         </span>
@@ -1035,11 +1004,10 @@ export default function LMSPage() {
                         <button
                           type="button"
                           onClick={() => handleToggleFeatured(blog)}
-                          className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
-                            blog.featured
+                          className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${blog.featured
                               ? 'bg-amber-500 text-white shadow-md'
                               : 'bg-black/60 text-white hover:bg-black/80 backdrop-blur-sm'
-                          }`}
+                            }`}
                           title="Click to toggle featured state"
                         >
                           {blog.featured ? '★ Featured' : '☆ Pin'}
@@ -1281,11 +1249,10 @@ export default function LMSPage() {
                           key={t.path}
                           type="button"
                           onClick={() => setQuickImage(t.path)}
-                          className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${
-                            quickImage === t.path
+                          className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${quickImage === t.path
                               ? 'bg-blue-600 text-white border-blue-600 font-black'
                               : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
-                          }`}
+                            }`}
                         >
                           {t.name}
                         </button>
@@ -1771,7 +1738,7 @@ export default function LMSPage() {
         {/* Student Welcome Hero */}
         <div className="p-8 sm:p-10 rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-blue-500/5 relative overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 sm:w-80 h-[3px] bg-gradient-to-r from-transparent via-blue-600 dark:via-blue-400 to-transparent" />
-          
+
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-wider">
@@ -1779,7 +1746,7 @@ export default function LMSPage() {
                 <span>Student LMS Dashboard</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
-                Welcome back, {user.name}!
+                Welcome back, {user?.name || 'Student'}!
               </h1>
               <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">
                 Continue your learning path, track assignments, and launch live classrooms.
@@ -1823,7 +1790,7 @@ export default function LMSPage() {
               </div>
               <h3 className="text-lg font-black text-slate-950 dark:text-white">Full Stack Web Development</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">Module 3 of 4: Backend REST APIs &amp; Database Design</p>
-              
+
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
                   <span className="text-slate-500 dark:text-slate-400">Progress</span>
@@ -1854,7 +1821,7 @@ export default function LMSPage() {
               </div>
               <h3 className="text-lg font-black text-slate-950 dark:text-white">Generative AI Foundations</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">ISO &amp; MSME Verified Certificate Ready</p>
-              
+
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
                   <span className="text-slate-500 dark:text-slate-400">Progress</span>

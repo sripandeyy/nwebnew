@@ -1,7 +1,12 @@
 import './helpers/isolate-env';
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { getLinkedInConfig, isLinkedInConfigured, DEFAULT_LINKEDIN_API_VERSION } from '../src/server/linkedin/config';
+import {
+  getLinkedInConfig,
+  isLinkedInConfigured,
+  resolveRedirectUri,
+  DEFAULT_LINKEDIN_API_VERSION,
+} from '../src/app/api/linkedin/_lib/config';
 
 describe('LinkedIn Configuration & Validation', () => {
   const originalEnv = { ...process.env };
@@ -70,9 +75,12 @@ describe('LinkedIn Configuration & Validation', () => {
     assert.strictEqual(getLinkedInConfig().syncIntervalMs, 300000);
   });
 
-  test('builds CORS allow-list from FRONTEND_URL and CORS_ALLOWED_ORIGINS', () => {
-    process.env.FRONTEND_URL = 'https://nyeras.com/';
-    process.env.CORS_ALLOWED_ORIGINS = 'https://www.nyeras.com, https://nyeras.com';
-    assert.deepStrictEqual(getLinkedInConfig().allowedOrigins, ['https://nyeras.com', 'https://www.nyeras.com']);
+  test('derives the OAuth callback from the request origin unless LINKEDIN_REDIRECT_URI is set', () => {
+    delete process.env.LINKEDIN_REDIRECT_URI;
+    assert.strictEqual(resolveRedirectUri('https://www.nyeras.com'), 'https://www.nyeras.com/api/linkedin/callback');
+    assert.strictEqual(resolveRedirectUri('http://localhost:3001/'), 'http://localhost:3001/api/linkedin/callback');
+
+    process.env.LINKEDIN_REDIRECT_URI = 'https://nyeras.com/api/linkedin/callback';
+    assert.strictEqual(resolveRedirectUri('https://preview.vercel.app'), 'https://nyeras.com/api/linkedin/callback');
   });
 });

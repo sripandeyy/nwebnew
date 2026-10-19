@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { io, Socket } from 'socket.io-client';
 import {
   ExternalLink,
   Share2,
@@ -56,13 +55,7 @@ export interface LinkedInStatus {
 
 const COMPANY_PAGE_URL = 'https://www.linkedin.com/company/nyeras-edutech-innovations/';
 const POLL_INTERVAL_MS = 60000;
-
-// The Socket.IO server lives on the Express backend, not the Next.js origin
-function resolveSocketUrl(): string | null {
-  if (process.env.NEXT_PUBLIC_SOCKET_URL) return process.env.NEXT_PUBLIC_SOCKET_URL;
-  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') return 'http://localhost:5001';
-  return null;
-}
+const FRESH_BADGE_MS = 10000;
 
 function LinkedInGlyph({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -76,7 +69,8 @@ export default function LinkedInFeed() {
   const [posts, setPosts] = useState<NormalizedLinkedInPost[]>([]);
   const [status, setStatus] = useState<LinkedInStatus | null>(null);
   const [loaded, setLoaded] = useState(false);
-  const [socketConnected, setSocketConnected] = useState<boolean>(false);
+  // URNs already shown; null until the first successful load so initial posts are not flagged as new
+  const knownUrns = useRef<Set<string> | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [freshUrns, setFreshUrns] = useState<Set<string>>(new Set());
   const [expandedPostIds, setExpandedPostIds] = useState<Record<string, boolean>>({});
@@ -95,64 +89,41 @@ export default function LinkedInFeed() {
       if (res.ok) {
         const data = await res.json();
         if (data.status) setStatus(data.status);
-        if (Array.isArray(data.posts)) setPosts(data.posts);
+        if (Array.isArray(data.posts)) {
+          const incoming = data.posts as NormalizedLinkedInPost[];
+          const previous = knownUrns.current;
+          const added = previous ? incoming.filter((p) => !previous.has(p.urn)).map((p) => p.urn) : [];
+          knownUrns.current = new Set(incoming.map((p) => p.urn));
+          setPosts(incoming);
+
+          if (added.length > 0) {
+            setFreshUrns((prev) => new Set([...prev, ...added]));
+            setTimeout(() => {
+              setFreshUrns((prev) => {
+                const next = new Set(prev);
+                added.forEach((u) => next.delete(u));
+                return next;
+              });
+            }, FRESH_BADGE_MS);
+            showToast(`${added.length} new LinkedIn post${added.length === 1 ? '' : 's'} from Nyeras`);
+          }
+        }
       }
     } catch (err) {
       console.warn('Failed to fetch LinkedIn feed data:', err);
     } finally {
       setLoaded(true);
     }
-  }, []);
+  }, [showToast]);
 
   useEffect(() => {
     fetchFeedData();
     const interval = setInterval(fetchFeedData, POLL_INTERVAL_MS);
-
-    const socketUrl = resolveSocketUrl();
-    let socket: Socket | null = null;
-    if (socketUrl) {
-      socket = io(socketUrl, {
-        transports: ['websocket', 'polling'],
-        reconnectionAttempts: 5,
-        reconnectionDelay: 2000,
-        timeout: 10000,
-      });
-
-      socket.on('connect', () => setSocketConnected(true));
-      socket.on('disconnect', () => setSocketConnected(false));
-      socket.on('connect_error', () => setSocketConnected(false));
-
-      socket.on('linkedin:status', (newStatus: LinkedInStatus) => setStatus(newStatus));
-
-      socket.on('linkedin:posts_updated', (data: { posts: NormalizedLinkedInPost[] }) => {
-        if (Array.isArray(data.posts)) setPosts(data.posts);
-      });
-
-      socket.on('linkedin:new_posts', (data: { count: number; posts: NormalizedLinkedInPost[] }) => {
-        if (!Array.isArray(data.posts) || data.posts.length === 0) return;
-        setPosts((prev) => {
-          const existing = new Set(prev.map((p) => p.urn));
-          return [...data.posts.filter((p) => !existing.has(p.urn)), ...prev];
-        });
-        const urns = data.posts.map((p) => p.urn);
-        setFreshUrns((prev) => new Set([...prev, ...urns]));
-        setTimeout(() => {
-          setFreshUrns((prev) => {
-            const next = new Set(prev);
-            urns.forEach((u) => next.delete(u));
-            return next;
-          });
-        }, 10000);
-        showToast(`${data.count} new LinkedIn post${data.count === 1 ? '' : 's'} from Nyeras`);
-      });
-    }
-
     return () => {
       clearInterval(interval);
-      socket?.disconnect();
       if (toastTimer.current) clearTimeout(toastTimer.current);
     };
-  }, [fetchFeedData, showToast]);
+  }, [fetchFeedData]);
 
   const toggleExpand = (id: string) => {
     setExpandedPostIds((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -353,7 +324,7 @@ export default function LinkedInFeed() {
 
   const statusBadge = (() => {
     if (!loaded) return { label: 'Loading', tone: 'slate' as const };
-    if (isLive) return { label: socketConnected ? 'Live' : 'Live (polling)', tone: 'emerald' as const };
+    if (isLive) return { label: 'Live', tone: 'emerald' as const };
     if (status && !status.configured) return { label: 'Not configured', tone: 'amber' as const };
     if (status && !status.authenticated) return { label: 'Pending authorization', tone: 'amber' as const };
     return { label: 'Pending', tone: 'amber' as const };
@@ -379,7 +350,7 @@ export default function LinkedInFeed() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             role="status"
-            className="fixed top-20 right-6 z-50 max-w-md bg-slate-900/95 text-white backdrop-blur-2xl px-5 py-3.5 rounded-2xl border border-blue-500/30 shadow-2xl flex items-center gap-3 text-sm font-medium"
+            className="fixed top-20 left-4 right-4 sm:left-auto sm:right-6 z-50 sm:max-w-md bg-slate-900/95 text-white backdrop-blur-2xl px-5 py-3.5 rounded-2xl border border-blue-500/30 shadow-2xl flex items-center gap-3 text-sm font-medium"
           >
             <Sparkles className="w-4 h-4 text-blue-400 shrink-0" />
             <span className="flex-1">{toastMessage}</span>

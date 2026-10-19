@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight, Award, Linkedin, ExternalLink, CheckCircle2, Users } from 'lucide-react'
 
 const PlacedShowcase = () => {
@@ -150,17 +150,22 @@ const PlacedShowcase = () => {
   const [isPaused, setIsPaused] = useState(false)
   const active = profiles[index]
 
-  const animateTo = (nextIndex: number, direction: 1 | -1) => {
+  const animateTo = useCallback((nextIndex: number, direction: 1 | -1) => {
     setDir(direction)
     setIsFading(true)
     window.setTimeout(() => {
       setIndex(nextIndex)
       setIsFading(false)
     }, 480)
-  }
+  }, [])
 
-  const prev = () => animateTo((index - 1 + profiles.length) % profiles.length, -1)
-  const next = () => animateTo((index + 1) % profiles.length, 1)
+  const prev = useCallback(() => {
+    animateTo((index - 1 + profiles.length) % profiles.length, -1)
+  }, [animateTo, index, profiles.length])
+
+  const next = useCallback(() => {
+    animateTo((index + 1) % profiles.length, 1)
+  }, [animateTo, index, profiles.length])
 
   // Keyboard Navigation
   useEffect(() => {
@@ -170,7 +175,7 @@ const PlacedShowcase = () => {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [index])
+  }, [prev, next])
 
   // Dynamic Auto-Advance
   useEffect(() => {
@@ -181,7 +186,7 @@ const PlacedShowcase = () => {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [index, isPaused])
+  }, [isPaused, next])
 
   return (
     <section 
@@ -221,19 +226,16 @@ const PlacedShowcase = () => {
                       alt={active.name} 
                       className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105" 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-                    
-                    {/* Verified Badge */}
-                    <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-emerald-500 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-lg backdrop-blur-sm">
-                      <Award className="w-3 h-3" />
-                      <span>Verified</span>
-                    </div>
                   </div>
                 </div>
 
-                {/* Company Tag Below Image */}
-                <div className="mt-3.5 text-center">
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-slate-950 text-white dark:bg-slate-800 dark:text-slate-100 text-xs font-black tracking-wide shadow-sm">
+                {/* Company Tag & Verified Badge Below Image */}
+                <div className="mt-3.5 flex flex-wrap items-center justify-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-black shadow-xs">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Verified</span>
+                  </span>
+                  <span className="inline-block px-3.5 py-1 rounded-full bg-slate-950 text-white dark:bg-slate-800 dark:text-slate-100 text-xs font-black tracking-wide shadow-sm">
                     {active.status}
                   </span>
                 </div>
@@ -254,9 +256,12 @@ const PlacedShowcase = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
-                    {active.name}
-                  </h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
+                      {active.name}
+                    </h3>
+                    <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 shrink-0" />
+                  </div>
                   <p className="text-slate-900 dark:text-slate-300 text-sm sm:text-base font-black mb-3">
                     {active.title} • {active.company}
                   </p>

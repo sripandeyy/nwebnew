@@ -10,7 +10,6 @@ import HeroC from './components/HeroC';
 import TestimonialsGrid from './components/Testimonials';
 import CertificationSection from './components/Certifications';
 import MOUsSection from './components/MOUs';
-import LinkedInFeed from './components/LinkedInFeed';
 import Faq from './components/faq';
 import Location from './components/Location';
 import Contact from './components/Contact';
@@ -40,7 +39,6 @@ export default function LandingPage() {
         <TestimonialsGrid />
         <CertificationSection />
         <MOUsSection />
-        <LinkedInFeed />
         <Faq />
         <Contact />
         <Location />

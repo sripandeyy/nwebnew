@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
-import { fetchFromBackend, UNAVAILABLE_STATUS } from '../backend';
+import { getFeedSnapshot } from '../_lib/sync';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const result = await fetchFromBackend('/status');
-  return NextResponse.json(result.ok ? result.data : UNAVAILABLE_STATUS);
+  try {
+    const { status } = await getFeedSnapshot();
+    return NextResponse.json(status);
+  } catch (err) {
+    console.error('[LinkedIn] Failed to read status:', (err as Error).message);
+    return NextResponse.json({ error: 'LinkedIn status is temporarily unavailable.' }, { status: 503 });
+  }
 }

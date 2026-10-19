@@ -732,7 +732,7 @@ export default function DataAnalyticsCourse() {
               className="h-1 bg-orange-200 max-w-[100px] mx-auto mb-4"
             ></motion.div>
             <h2 className="inline-block text-4xl font-bold text-gray-800 relative">
-              <span className="text-orange-600">Tools</span> You'll Master
+              <span className="text-orange-600">Tools</span> You&apos;ll Master
               <span className="absolute -bottom-2 left-0 w-full h-1 bg-orange-200"></span>
             </h2>
             <motion.p
@@ -857,7 +857,7 @@ export default function DataAnalyticsCourse() {
                     <Star className="h-5 w-5 text-yellow-300 mr-1" />
                   </div>
                   <p className="mt-2 italic text-sm">
-                    "The offline classroom experience at Nyeras was exceptional. The hands-on training and personal attention from instructors made all the difference in my learning journey."
+                    &quot;The offline classroom experience at Nyeras was exceptional. The hands-on training and personal attention from instructors made all the difference in my learning journey.&quot;
                   </p>
                   <p className="mt-2 font-semibold">- Recent Graduate</p>
                 </motion.div>

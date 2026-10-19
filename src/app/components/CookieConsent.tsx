@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShieldCheck, X } from 'lucide-react';
+import { useFloatingPromptSlot } from '../utils/floatingPrompts';
 
 export default function CookieConsent() {
   const [show, setShow] = useState(false);
+  const hasSlot = useFloatingPromptSlot('cookie-consent', 'left', show);
 
   useEffect(() => {
     try {
@@ -33,10 +35,10 @@ export default function CookieConsent() {
     setShow(false);
   };
 
-  if (!show) return null;
+  if (!hasSlot) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom-5 duration-300">
+    <div className="fixed bottom-24 left-3 right-3 sm:bottom-4 sm:left-6 sm:right-auto sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom-5 duration-300">
       <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-4 sm:p-5 rounded-3xl skeuo-card text-slate-900 dark:text-slate-100 flex flex-col gap-3">
         <div className="flex items-start gap-3">
           <div className="p-2.5 rounded-2xl skeuo-badge text-slate-800 dark:text-slate-200 shrink-0">

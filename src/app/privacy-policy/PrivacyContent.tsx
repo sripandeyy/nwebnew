@@ -238,7 +238,7 @@ const PrivacyContent: React.FC = () => {
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <Section id="introduction" title="Introduction" icon={Info}>
               <p className="mb-4">
-                Nyeras EduTech Innovations Pvt Ltd ("Nyeras," "we," "our," "us") values the trust you place in us when you use our services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you interact with our website, applications, platforms, and services (collectively, "Services").
+                Nyeras EduTech Innovations Pvt Ltd (&quot;Nyeras,&quot; &quot;we,&quot; &quot;our,&quot; &quot;us&quot;) values the trust you place in us when you use our services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you interact with our website, applications, platforms, and services (collectively, &quot;Services&quot;).
               </p>
               <p>
                 By accessing or using our Services, you agree to the terms outlined in this Privacy Policy. If you do not agree, please discontinue using our Services.
@@ -327,7 +327,7 @@ const PrivacyContent: React.FC = () => {
 
             <Section id="policy-changes" title="10. Changes to Privacy Policy" icon={AlertTriangle}>
               <p>
-                We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised "Last Updated" date. Continued use of our Services after changes indicates acceptance.
+                We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised &quot;Last Updated&quot; date. Continued use of our Services after changes indicates acceptance.
               </p>
             </Section>
 

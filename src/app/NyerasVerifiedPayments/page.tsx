@@ -209,7 +209,7 @@ function PaymentDashboardInner() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Unauthorized Access</h2>
             <p className="text-lg text-gray-600 mb-6">
-              You don't have permission to view this dashboard. Please provide a valid authentication token.
+              You don&apos;t have permission to view this dashboard. Please provide a valid authentication token.
             </p>
             <p className="text-sm text-gray-500">If you believe this is an error, please contact the administrator.</p>
           </div>
@@ -436,13 +436,12 @@ function PaymentDashboardInner() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              payment.status === "captured"
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${payment.status === "captured"
                                 ? "bg-green-100 text-green-800"
                                 : payment.status === "failed"
                                   ? "bg-red-100 text-red-800"
                                   : "bg-yellow-100 text-yellow-800"
-                            }`}
+                              }`}
                           >
                             {payment.status}
                           </span>
@@ -486,8 +485,8 @@ function PaymentDashboardInner() {
             <p className="text-3xl font-bold text-orange-600 mt-2">
               {filteredPayments.length > 0
                 ? (
-                    filteredPayments.reduce((sum, payment) => sum + payment.amount, 0) / filteredPayments.length
-                  ).toFixed(2)
+                  filteredPayments.reduce((sum, payment) => sum + payment.amount, 0) / filteredPayments.length
+                ).toFixed(2)
                 : "0.00"}{" "}
               INR
             </p>

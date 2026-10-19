@@ -412,7 +412,7 @@ const WorkWithUs = ({ isOpen, onClose, initialRole }: WorkWithUsProps) => {
                       </div>
                       <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Application Submitted!</h3>
                       <p className="text-slate-600 dark:text-slate-400 text-sm">
-                        Thank you for your interest. We'll get back to you soon! 🎉
+                        Thank you for your interest. We&apos;ll get back to you soon! 🎉
                       </p>
                     </div>
                   )}

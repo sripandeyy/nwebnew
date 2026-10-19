@@ -11,6 +11,7 @@ import {
   isProPlanEligible,
 } from './roadmapsData';
 import CourseRoadmapFlowchart from './CourseRoadmapFlowchart';
+import CallbackForm from '../components/CallBackform';
 import {
   Search,
   Filter,
@@ -48,14 +49,6 @@ export default function CourseRoadmapsSection({
   const [activeCourseCode, setActiveCourseCode] = useState<string>('C01');
   const [isAdvisorModalOpen, setIsAdvisorModalOpen] = useState<boolean>(false);
   const [advisorCourseSubject, setAdvisorCourseSubject] = useState<string>('');
-  const [advisorFormState, setAdvisorFormState] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-  const [advisorSubmitted, setAdvisorSubmitted] = useState<boolean>(false);
-  const [isSubmittingAdvisor, setIsSubmittingAdvisor] = useState<boolean>(false);
 
   // Flatten all courses
   const allCourses = useMemo(() => {
@@ -108,40 +101,12 @@ export default function CourseRoadmapsSection({
   const openAdvisorModal = (courseTitle: string) => {
     setAdvisorCourseSubject(courseTitle);
     setIsAdvisorModalOpen(true);
-    setAdvisorSubmitted(false);
-  };
-
-  const handleAdvisorSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmittingAdvisor(true);
-    try {
-      await fetch('/api/submitForm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          program: `Roadmap Syllabus Enquiry: ${advisorCourseSubject || activeCourse.title}`,
-          name: advisorFormState.name,
-          email: advisorFormState.email,
-          phone: advisorFormState.phone,
-          note: `Selected Plan: ${selectedPlan}. Message: ${advisorFormState.message}`,
-        }),
-      });
-      setAdvisorSubmitted(true);
-      setTimeout(() => {
-        setIsAdvisorModalOpen(false);
-        setAdvisorFormState({ name: '', email: '', phone: '', message: '' });
-      }, 2500);
-    } catch {
-      setAdvisorSubmitted(true);
-    } finally {
-      setIsSubmittingAdvisor(false);
-    }
   };
 
   return (
     <section className="relative w-full py-12 sm:py-16 lg:py-20 bg-slate-50/50 dark:bg-[#070913]/40">
       {/* Background radial accent glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-tr from-slate-400/5 via-indigo-500/5 to-slate-400/5 dark:from-slate-700/5 dark:via-indigo-500/5 dark:to-slate-700/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] max-w-full h-[500px] bg-gradient-to-tr from-slate-400/5 via-indigo-500/5 to-slate-400/5 dark:from-slate-700/5 dark:via-indigo-500/5 dark:to-slate-700/5 blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         {/* Section Header */}
@@ -373,7 +338,6 @@ export default function CourseRoadmapsSection({
             course={activeCourse}
             activePlan={selectedPlan}
             onPlanChange={(newPlan) => setSelectedPlan(newPlan)}
-            onOpenAdvisorModal={(title) => openAdvisorModal(title)}
           />
         </div>
 
@@ -395,7 +359,7 @@ export default function CourseRoadmapsSection({
               <Search className="w-8 h-8 text-slate-400 mx-auto mb-2" />
               <h4 className="text-base font-bold text-slate-900 dark:text-white">No courses match your search</h4>
               <p className="text-xs text-slate-500 mt-1">
-                Try searching for other keywords like "Data", "Cloud", "SAP", "React", or "Embedded".
+                Try searching for other keywords like &quot;Data&quot;, &quot;Cloud&quot;, &quot;SAP&quot;, &quot;React&quot;, or &quot;Embedded&quot;.
               </p>
             </div>
           ) : (
@@ -515,139 +479,16 @@ export default function CourseRoadmapsSection({
       </div>
 
       {/* Advisor Consultation & Syllabus Request Modal */}
-      <AnimatePresence>
-        {isAdvisorModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 relative overflow-hidden"
-            >
-              <button
-                type="button"
-                onClick={() => setIsAdvisorModalOpen(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="mb-4">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
-                  Academic Advisor Connect
-                </span>
-                <h3 className="text-xl font-black text-slate-900 dark:text-white mt-0.5">
-                  Request Official Syllabus & Roadmap Consultation
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Enquiring for: <strong>{advisorCourseSubject || activeCourse.title}</strong>
-                </p>
-              </div>
-
-              {advisorSubmitted ? (
-                <div className="py-8 text-center space-y-2">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                    Request Received!
-                  </h4>
-                  <p className="text-xs text-slate-500 max-w-xs mx-auto">
-                    A Nyeras academic counselor will contact you within 24 hours with the verified module syllabus and fee structure.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleAdvisorSubmit} className="space-y-3.5 text-xs">
-                  <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={advisorFormState.name}
-                      onChange={(e) =>
-                        setAdvisorFormState({ ...advisorFormState, name: e.target.value })
-                      }
-                      placeholder="e.g. Aditi Sharma"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={advisorFormState.email}
-                        onChange={(e) =>
-                          setAdvisorFormState({ ...advisorFormState, email: e.target.value })
-                        }
-                        placeholder="aditi@example.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={advisorFormState.phone}
-                        onChange={(e) =>
-                          setAdvisorFormState({ ...advisorFormState, phone: e.target.value })
-                        }
-                        placeholder="+91 98765 43210"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Preferred Plan
-                    </label>
-                    <select
-                      value={selectedPlan}
-                      onChange={(e) => setSelectedPlan(e.target.value as PlanType)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs focus:outline-none"
-                    >
-                      <option value="basic">Basic (2 Months • 36+ Live Hours)</option>
-                      <option value="advanced">Advanced (4 Months • 52+ Live Hours • Capstone)</option>
-                      <option value="pro">Pro (6 Months • 100+ Live Hours • Placement Prep)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Specific Questions or Domain Prerequisites (Optional)
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={advisorFormState.message}
-                      onChange={(e) =>
-                        setAdvisorFormState({ ...advisorFormState, message: e.target.value })
-                      }
-                      placeholder="Ask about live batch timings, mentor credentials, or syllabus topics..."
-                      className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs focus:outline-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmittingAdvisor}
-                    className="w-full py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-extrabold text-xs hover:opacity-95 transition-opacity shadow-md cursor-pointer disabled:opacity-50"
-                  >
-                    {isSubmittingAdvisor ? 'Submitting...' : 'Submit Syllabus Request'}
-                  </button>
-                </form>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {isAdvisorModalOpen && (
+        <CallbackForm
+          onClose={() => setIsAdvisorModalOpen(false)}
+          initialProgram={advisorCourseSubject || activeCourse.title}
+          notes={`Preferred Plan: ${selectedPlan}`}
+          source="Roadmaps Page Syllabus Request"
+          title="Talk to an Academic Advisor"
+          subtitle={`Enquiring for: ${advisorCourseSubject || activeCourse.title}. Get the complete cohort syllabus PDF & schedule.`}
+        />
+      )}
     </section>
   );
 }

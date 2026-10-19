@@ -52,6 +52,25 @@ CREATE TABLE bd_applications (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
+-- TABLE 3: Callback Requests
+-- ============================================
+-- Stores instant callback requests from course and program detail pages
+
+CREATE TABLE IF NOT EXISTS callback_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    course VARCHAR(150) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    -- Indexes for faster lookup
+    INDEX idx_callback_phone (phone_number),
+    INDEX idx_callback_email (email),
+    INDEX idx_callback_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================
 -- VERIFICATION QUERIES
 -- ============================================
 -- Run these queries to verify the tables were created successfully

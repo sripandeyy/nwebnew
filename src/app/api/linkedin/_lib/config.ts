@@ -1,28 +1,20 @@
-import dotenv from 'dotenv';
-import path from 'path';
-
-// Ensure environment variables are loaded
-dotenv.config();
-
 // Latest LinkedIn Marketing API version at time of writing (Sept 2026, supported until Sept 2027).
 // LinkedIn sunsets each monthly version ~12 months after release; bump this when it nears sunset.
 export const DEFAULT_LINKEDIN_API_VERSION = '202609';
 
+export const CALLBACK_PATH = '/api/linkedin/callback';
+
 export interface ResolvedLinkedInConfig {
   clientId: string;
   clientSecret: string;
-  redirectUri: string;
+  // Explicit LINKEDIN_REDIRECT_URI; when unset the callback URL is derived from the request origin
+  redirectUri?: string;
   scopes: string[];
   apiVersion: string;
   orgId: string;
   orgUrn: string;
   syncIntervalMs: number;
-  syncCron?: string;
-  port: number;
-  frontendUrl: string;
-  allowedOrigins: string[];
   adminKey?: string;
-  cacheDir: string;
   manualAccessToken?: string;
 }
 
@@ -30,8 +22,7 @@ export function getLinkedInConfig(): ResolvedLinkedInConfig {
   const clientId = (process.env.LINKEDIN_CLIENT_ID || '').trim();
   const clientSecret = (process.env.LINKEDIN_CLIENT_SECRET || '').trim();
   const rawOrgId = (process.env.LINKEDIN_ORG_ID || '').trim();
-  
-  // Format org URN properly
+
   let orgId = rawOrgId;
   let orgUrn = '';
   if (rawOrgId) {
@@ -43,40 +34,22 @@ export function getLinkedInConfig(): ResolvedLinkedInConfig {
     }
   }
 
-  const port = parseInt(process.env.PORT || '5001', 10);
-  const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').trim().replace(/\/$/, '');
-
-  // Origins allowed for CORS / Socket.IO. FRONTEND_URL plus any extra comma-separated origins.
-  const allowedOrigins = Array.from(
-    new Set(
-      [frontendUrl, ...(process.env.CORS_ALLOWED_ORIGINS || '').split(',')]
-        .map((o) => o.trim().replace(/\/$/, ''))
-        .filter(Boolean)
-    )
-  );
-  
-  // Default redirect URI: prioritize explicit env var, fallback to /api/linkedin/callback
-  const redirectUri = (process.env.LINKEDIN_REDIRECT_URI || `http://localhost:${port}/api/linkedin/callback`).trim();
+  const redirectUri = (process.env.LINKEDIN_REDIRECT_URI || '').trim() || undefined;
 
   // LinkedIn-Version header must be YYYYMM; fall back to the default on malformed input
   const rawVersion = (process.env.LINKEDIN_API_VERSION || '').trim();
   const apiVersion = /^\d{6}$/.test(rawVersion) ? rawVersion : DEFAULT_LINKEDIN_API_VERSION;
 
-  // Scopes: default to r_organization_social
   const scopesStr = (process.env.LINKEDIN_SCOPES || 'r_organization_social').trim();
   const scopes = scopesStr.split(/[,\s]+/).filter(Boolean);
 
-  // Sync interval: default to 5 minutes (300,000 ms), minimum 30 seconds
+  // How stale the cached feed may get before a visitor request refreshes it: default 5 minutes, minimum 30 seconds
   const rawInterval = parseInt(process.env.LINKEDIN_SYNC_INTERVAL_MS || '300000', 10);
   const syncIntervalMs = isNaN(rawInterval) || rawInterval < 30000 ? 300000 : rawInterval;
 
-  const syncCron = process.env.LINKEDIN_SYNC_CRON ? process.env.LINKEDIN_SYNC_CRON.trim() : undefined;
-
   const adminKey = (process.env.LINKEDIN_ADMIN_KEY || '').trim() || undefined;
 
-  const cacheDir = path.resolve(process.env.LINKEDIN_CACHE_DIR || path.join(process.cwd(), '.cache'));
-
-  // Optional manual access token from env for convenience/migration
+  // Optional manual access token from LinkedIn's token generator, used when no OAuth token is stored
   const manualAccessToken = (process.env.LINKEDIN_ACCESS_TOKEN || '').trim() || undefined;
 
   return {
@@ -88,14 +61,17 @@ export function getLinkedInConfig(): ResolvedLinkedInConfig {
     orgId,
     orgUrn,
     syncIntervalMs,
-    syncCron,
-    port,
-    frontendUrl,
-    allowedOrigins,
     adminKey,
-    cacheDir,
     manualAccessToken,
   };
+}
+
+/**
+ * The redirect URI must be byte-identical in the authorization request and the token exchange,
+ * and must be registered in the LinkedIn app's Auth tab.
+ */
+export function resolveRedirectUri(requestOrigin: string): string {
+  return getLinkedInConfig().redirectUri || `${requestOrigin.replace(/\/$/, '')}${CALLBACK_PATH}`;
 }
 
 /**

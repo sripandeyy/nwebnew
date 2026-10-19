@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { findCourseBySlug } from "../data";
@@ -39,7 +39,7 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
   const [notice, setNotice] = useState<string | null>(null);
   const [contentReady, setContentReady] = useState(false);
 
-  const loadCourse = async () => {
+  const loadCourse = useCallback(async () => {
     try {
       const result = await findCourseBySlug(slug);
       if (result.course) {
@@ -73,7 +73,7 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [slug]);
 
   useEffect(() => {
     loadCourse();
@@ -88,7 +88,7 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
       window.removeEventListener(COURSES_EVENT, handleCourseUpdate);
       window.removeEventListener(SITE_CONTENT_READY_EVENT, handleReady);
     };
-  }, [slug]);
+  }, [loadCourse]);
 
   const handleSavePriceAndThumb = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,13 +156,15 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
               className="px-3.5 py-1.5 rounded-xl skeuo-btn-primary text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md cursor-pointer transition-all hover:scale-105 active:scale-95"
             >
               <Edit className="w-3.5 h-3.5 text-slate-300" />
-              <span>{isSchoolCourse ? "Edit Thumbnail" : "Edit Price & Thumbnail"}</span>
+              <span className="sm:hidden">Edit</span>
+              <span className="hidden sm:inline">{isSchoolCourse ? "Edit Thumbnail" : "Edit Price & Thumbnail"}</span>
             </button>
             <Link
               href="/lms"
               className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs font-bold flex items-center gap-1 shadow-xs transition-all"
             >
-              <span>Full LMS Studio</span>
+              <span className="sm:hidden">LMS</span>
+              <span className="hidden sm:inline">Full LMS Studio</span>
               <ExternalLink className="w-3 h-3 text-slate-400" />
             </Link>
           </div>

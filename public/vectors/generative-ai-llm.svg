@@ -1,0 +1,268 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-ai" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090417" />
+      <stop offset="50%" stop-color="#150a2e" />
+      <stop offset="100%" stop-color="#070212" />
+    </linearGradient>
+
+    <radialGradient id="glow-ai-purple" cx="35%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#9333ea" stop-opacity="0.38" />
+      <stop offset="50%" stop-color="#ec4899" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#070212" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="glow-ai-cyan" cx="80%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.25" />
+      <stop offset="60%" stop-color="#a855f7" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#070212" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Card & Element Gradients -->
+    <linearGradient id="ai-card-surface" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180e2e" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0d071c" stop-opacity="0.9" />
+    </linearGradient>
+
+    <linearGradient id="ai-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#f43f5e" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2" />
+    </linearGradient>
+
+    <linearGradient id="synapse-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <linearGradient id="tensor-heat-1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+
+    <linearGradient id="tensor-heat-2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="soft-glow-ai" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="intense-glow-ai" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="shadow-ai">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1600" height="900" fill="url(#bg-grad-ai)" />
+  <rect width="1600" height="900" fill="url(#glow-ai-purple)" />
+  <rect width="1600" height="900" fill="url(#glow-ai-cyan)" />
+
+  <!-- Geometric Neural Grid Background -->
+  <g opacity="0.15" stroke="#a855f7" stroke-width="1">
+    <circle cx="800" cy="450" r="200" fill="none" stroke-dasharray="6,6" />
+    <circle cx="800" cy="450" r="380" fill="none" stroke-dasharray="8,8" />
+    <circle cx="800" cy="450" r="560" fill="none" />
+    <line x1="800" y1="0" x2="800" y2="900" />
+    <line x1="0" y1="450" x2="1600" y2="450" />
+    <line x1="160" y1="90" x2="1440" y2="810" stroke-dasharray="4,4" />
+    <line x1="160" y1="810" x2="1440" y2="90" stroke-dasharray="4,4" />
+  </g>
+
+  <!-- Left: Multi-Layer Neural Network Architecture -->
+  <g transform="translate(130, 160)" filter="url(#shadow-ai)">
+    <rect width="640" height="470" rx="20" fill="url(#ai-card-surface)" stroke="url(#ai-border)" stroke-width="2" />
+    
+    <!-- Title Header -->
+    <rect width="640" height="50" rx="20" fill="#1e1035" fill-opacity="0.9" />
+    <rect y="40" width="640" height="10" fill="#1e1035" fill-opacity="0.9" />
+    <line x1="0" y1="50" x2="640" y2="50" stroke="#3b1d60" stroke-width="1" />
+    
+    <circle cx="30" cy="25" r="6" fill="#ec4899" />
+    <circle cx="50" cy="25" r="6" fill="#a855f7" />
+    <circle cx="70" cy="25" r="6" fill="#06b6d4" />
+    <text x="95" y="31" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#e9d5ff">Deep Neural Network Synapse Architecture</text>
+    
+    <rect x="475" y="12" width="145" height="26" rx="6" fill="#9333ea" fill-opacity="0.3" stroke="#c084fc" stroke-opacity="0.5" />
+    <text x="490" y="29" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#f5d0fe">PyTorch • 12 Layers</text>
+
+    <!-- Synaptic Connection Rays -->
+    <g stroke="url(#synapse-grad)" stroke-width="1.5" opacity="0.45">
+      <!-- Input to Hidden 1 -->
+      <line x1="90" y1="130" x2="230" y2="100" /><line x1="90" y1="130" x2="230" y2="180" /><line x1="90" y1="130" x2="230" y2="260" /><line x1="90" y1="130" x2="230" y2="340" />
+      <line x1="90" y1="210" x2="230" y2="100" /><line x1="90" y1="210" x2="230" y2="180" /><line x1="90" y1="210" x2="230" y2="260" /><line x1="90" y1="210" x2="230" y2="340" />
+      <line x1="90" y1="290" x2="230" y2="100" /><line x1="90" y1="290" x2="230" y2="180" /><line x1="90" y1="290" x2="230" y2="260" /><line x1="90" y1="290" x2="230" y2="340" />
+      <line x1="90" y1="370" x2="230" y2="100" /><line x1="90" y1="370" x2="230" y2="180" /><line x1="90" y1="370" x2="230" y2="260" /><line x1="90" y1="370" x2="230" y2="340" />
+
+      <!-- Hidden 1 to Hidden 2 -->
+      <line x1="230" y1="100" x2="380" y2="120" /><line x1="230" y1="100" x2="380" y2="210" /><line x1="230" y1="100" x2="380" y2="300" /><line x1="230" y1="100" x2="380" y2="390" />
+      <line x1="230" y1="180" x2="380" y2="120" /><line x1="230" y1="180" x2="380" y2="210" /><line x1="230" y1="180" x2="380" y2="300" /><line x1="230" y1="180" x2="380" y2="390" />
+      <line x1="230" y1="260" x2="380" y2="120" /><line x1="230" y1="260" x2="380" y2="210" /><line x1="230" y1="260" x2="380" y2="300" /><line x1="230" y1="260" x2="380" y2="390" />
+      <line x1="230" y1="340" x2="380" y2="120" /><line x1="230" y1="340" x2="380" y2="210" /><line x1="230" y1="340" x2="380" y2="300" /><line x1="230" y1="340" x2="380" y2="390" />
+
+      <!-- Hidden 2 to Output -->
+      <line x1="380" y1="120" x2="540" y2="170" /><line x1="380" y1="120" x2="540" y2="270" /><line x1="380" y1="120" x2="540" y2="370" />
+      <line x1="380" y1="210" x2="540" y2="170" /><line x1="380" y1="210" x2="540" y2="270" /><line x1="380" y1="210" x2="540" y2="370" />
+      <line x1="380" y1="300" x2="540" y2="170" /><line x1="380" y1="300" x2="540" y2="270" /><line x1="380" y1="300" x2="540" y2="370" />
+      <line x1="380" y1="390" x2="540" y2="170" /><line x1="380" y1="390" x2="540" y2="270" /><line x1="380" y1="390" x2="540" y2="370" />
+    </g>
+
+    <!-- Layer Nodes -->
+    <!-- Input Layer -->
+    <g>
+      <circle cx="90" cy="130" r="14" fill="#3b82f6" filter="url(#soft-glow-ai)" />
+      <circle cx="90" cy="210" r="14" fill="#3b82f6" filter="url(#soft-glow-ai)" />
+      <circle cx="90" cy="290" r="14" fill="#3b82f6" filter="url(#soft-glow-ai)" />
+      <circle cx="90" cy="370" r="14" fill="#3b82f6" filter="url(#soft-glow-ai)" />
+      <text x="65" y="420" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#93c5fd">Input [X]</text>
+    </g>
+
+    <!-- Hidden Layer 1 -->
+    <g>
+      <circle cx="230" cy="100" r="15" fill="#a855f7" filter="url(#soft-glow-ai)" />
+      <circle cx="230" cy="180" r="15" fill="#a855f7" filter="url(#soft-glow-ai)" />
+      <circle cx="230" cy="260" r="15" fill="#a855f7" filter="url(#soft-glow-ai)" />
+      <circle cx="230" cy="340" r="15" fill="#a855f7" filter="url(#soft-glow-ai)" />
+      <text x="200" y="420" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#d8b4fe">Weights [W₁]</text>
+    </g>
+
+    <!-- Hidden Layer 2 (Dense) -->
+    <g>
+      <circle cx="380" cy="120" r="15" fill="#ec4899" filter="url(#soft-glow-ai)" />
+      <circle cx="380" cy="210" r="15" fill="#ec4899" filter="url(#soft-glow-ai)" />
+      <circle cx="380" cy="300" r="15" fill="#ec4899" filter="url(#soft-glow-ai)" />
+      <circle cx="380" cy="390" r="15" fill="#ec4899" filter="url(#soft-glow-ai)" />
+      <text x="350" y="420" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#fbcfe8">Weights [W₂]</text>
+    </g>
+
+    <!-- Output Layer -->
+    <g>
+      <circle cx="540" cy="170" r="17" fill="#06b6d4" filter="url(#soft-glow-ai)" />
+      <circle cx="540" cy="270" r="17" fill="#06b6d4" filter="url(#soft-glow-ai)" />
+      <circle cx="540" cy="370" r="17" fill="#06b6d4" filter="url(#soft-glow-ai)" />
+      <text x="515" y="420" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#67e8f9">Output ŷ</text>
+    </g>
+
+    <!-- Bottom Status Bar -->
+    <line x1="0" y1="435" x2="640" y2="435" stroke="#3b1d60" stroke-width="1" />
+    <text x="30" y="455" font-family="monospace" font-size="11" font-weight="600" fill="#c084fc">Loss: 0.0024 • Validation Acc: 99.1% • Epoch 100/100</text>
+  </g>
+
+  <!-- Central Energy Beam Conduits -->
+  <g filter="url(#soft-glow-ai)">
+    <path d="M 770 340 H 870 L 920 280 H 1010" stroke="url(#synapse-grad)" stroke-width="4" fill="none" />
+    <path d="M 770 450 H 870 L 920 520 H 1010" stroke="url(#synapse-grad)" stroke-width="4" fill="none" />
+    <circle cx="870" cy="340" r="6" fill="#ec4899" />
+    <circle cx="870" cy="450" r="6" fill="#a855f7" />
+  </g>
+
+  <!-- Right: Generative AI & LLM Transformer Stack -->
+  
+  <!-- Block 1: Transformer Multi-Head Self-Attention Matrix -->
+  <g transform="translate(1030, 160)" filter="url(#shadow-ai)">
+    <rect width="420" height="230" rx="20" fill="url(#ai-card-surface)" stroke="#c084fc" stroke-width="1.8" />
+    
+    <text x="25" y="40" font-family="system-ui, sans-serif" font-size="17" font-weight="800" fill="#fdf4ff">LLM Transformer Attention Matrix</text>
+    <text x="25" y="62" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#c084fc">Softmax(Q · Kᵀ / √d_k) · V</text>
+
+    <!-- Matrix Heatmap Visualizer (6x4 grid) -->
+    <g transform="translate(25, 80)">
+      <!-- Row 1 -->
+      <rect x="0" y="0" width="38" height="24" rx="4" fill="#9333ea" />
+      <rect x="44" y="0" width="38" height="24" rx="4" fill="#a855f7" />
+      <rect x="88" y="0" width="38" height="24" rx="4" fill="#ec4899" />
+      <rect x="132" y="0" width="38" height="24" rx="4" fill="#f43f5e" />
+      <rect x="176" y="0" width="38" height="24" rx="4" fill="#3b82f6" />
+      <rect x="220" y="0" width="38" height="24" rx="4" fill="#06b6d4" />
+
+      <!-- Row 2 -->
+      <rect x="0" y="30" width="38" height="24" rx="4" fill="#ec4899" />
+      <rect x="44" y="30" width="38" height="24" rx="4" fill="#f43f5e" />
+      <rect x="88" y="30" width="38" height="24" rx="4" fill="#9333ea" />
+      <rect x="132" y="30" width="38" height="24" rx="4" fill="#a855f7" />
+      <rect x="176" y="30" width="38" height="24" rx="4" fill="#06b6d4" />
+      <rect x="220" y="30" width="38" height="24" rx="4" fill="#3b82f6" />
+
+      <!-- Row 3 -->
+      <rect x="0" y="60" width="38" height="24" rx="4" fill="#a855f7" />
+      <rect x="44" y="60" width="38" height="24" rx="4" fill="#9333ea" />
+      <rect x="88" y="60" width="38" height="24" rx="4" fill="#06b6d4" />
+      <rect x="132" y="60" width="38" height="24" rx="4" fill="#3b82f6" />
+      <rect x="176" y="60" width="38" height="24" rx="4" fill="#ec4899" />
+      <rect x="220" y="60" width="38" height="24" rx="4" fill="#f43f5e" />
+
+      <!-- Right Attention Vector Labels -->
+      <g transform="translate(275, 5)">
+        <text x="0" y="16" font-family="monospace" font-size="11" font-weight="700" fill="#f472b6">[Query Vector: Q]</text>
+        <text x="0" y="44" font-family="monospace" font-size="11" font-weight="700" fill="#c084fc">[Key Tensor: K]</text>
+        <text x="0" y="72" font-family="monospace" font-size="11" font-weight="700" fill="#38bdf8">[Value Tensor: V]</text>
+      </g>
+    </g>
+
+    <!-- Embedding Dimensionality Pill -->
+    <rect x="25" y="185" width="160" height="26" rx="6" fill="#3b1d60" stroke="#a855f7" stroke-width="1" />
+    <text x="35" y="202" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#e9d5ff">3072-Dim Embeddings</text>
+
+    <rect x="200" y="185" width="180" height="26" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1" />
+    <text x="210" y="202" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#67e8f9">FlashAttention-2 Active</text>
+  </g>
+
+  <!-- Block 2: LangChain RAG & BigQuery Pipeline -->
+  <g transform="translate(1030, 420)" filter="url(#shadow-ai)">
+    <rect width="420" height="210" rx="20" fill="url(#ai-card-surface)" stroke="#ec4899" stroke-width="1.8" />
+    
+    <text x="25" y="40" font-family="system-ui, sans-serif" font-size="17" font-weight="800" fill="#fdf4ff">RAG Vector DB &amp; BigQuery</text>
+    <text x="25" y="62" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#f472b6">Qdrant Vector Index • Semantic Search</text>
+
+    <!-- Vector Similarity Graph Arc -->
+    <g transform="translate(25, 80)">
+      <rect width="180" height="70" rx="10" fill="#1b1236" stroke="#9333ea" stroke-width="1.2" />
+      <text x="15" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#a855f7">Cosine Sim Search</text>
+      <text x="15" y="52" font-family="monospace" font-size="18" font-weight="800" fill="#34d399">0.962 Score</text>
+
+      <rect x="195" y="0" width="175" height="70" rx="10" fill="#1b1236" stroke="#06b6d4" stroke-width="1.2" />
+      <text x="210" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#06b6d4">Token Latency</text>
+      <text x="210" y="52" font-family="monospace" font-size="18" font-weight="800" fill="#38bdf8">14ms / Tok</text>
+    </g>
+
+    <!-- Tags Row -->
+    <rect x="25" y="165" width="90" height="24" rx="6" fill="#a855f7" fill-opacity="0.25" stroke="#c084fc" stroke-opacity="0.5" />
+    <text x="37" y="181" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#f5d0fe">LangChain</text>
+
+    <rect x="125" y="165" width="105" height="24" rx="6" fill="#ec4899" fill-opacity="0.25" stroke="#f472b6" stroke-opacity="0.5" />
+    <text x="137" y="181" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#fbcfe8">HuggingFace</text>
+
+    <rect x="240" y="165" width="95" height="24" rx="6" fill="#06b6d4" fill-opacity="0.25" stroke="#22d3ee" stroke-opacity="0.5" />
+    <text x="252" y="181" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#67e8f9">BigQuery</text>
+  </g>
+
+  <!-- Floating Mathematical & Generative AI Badges -->
+  <g transform="translate(680, 110)" filter="url(#shadow-ai)">
+    <rect width="140" height="38" rx="10" fill="#1f113a" stroke="#ec4899" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#ec4899" />
+    <text x="36" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#ffffff">GPT-4o &amp; LLM</text>
+  </g>
+
+  <g transform="translate(860, 670)" filter="url(#shadow-ai)">
+    <rect width="140" height="38" rx="10" fill="#1f113a" stroke="#06b6d4" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#06b6d4" />
+    <text x="36" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="800" fill="#67e8f9">Autonomous AI</text>
+  </g>
+
+  <g transform="translate(60, 660)" filter="url(#shadow-ai)">
+    <rect width="180" height="42" rx="12" fill="#1f113a" stroke="#a855f7" stroke-width="1.5" />
+    <text x="20" y="26" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#e9d5ff">λ Neural Network</text>
+  </g>
+
+  <!-- Glowing Corner Lights -->
+  <circle cx="1500" cy="100" r="180" fill="#9333ea" opacity="0.1" filter="url(#intense-glow-ai)" />
+  <circle cx="100" cy="800" r="180" fill="#ec4899" opacity="0.1" filter="url(#intense-glow-ai)" />
+</svg>

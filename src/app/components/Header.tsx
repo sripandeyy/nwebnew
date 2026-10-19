@@ -2,16 +2,13 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useRef, useState, useEffect } from "react"
-import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, ChevronDown, Menu, X, GraduationCap, Briefcase, ExternalLink, User, LogOut, Shield, Sparkles } from "lucide-react"
+import { ArrowRight, ChevronDown, Menu, X, GraduationCap, Briefcase, ExternalLink, LogOut, Shield, Sparkles } from "lucide-react"
 import WorkWithUs from "./WorkWithUs"
 import { useAuth } from "../context/AuthContext"
 
 const Header = () => {
-  const pathname = usePathname()
-  const isLandingPage = pathname === "/"
-  const { user, isAdmin, openAuthModal, logout } = useAuth()
+  const { user, isAdmin, logout } = useAuth()
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isDomainsOpen, setIsDomainsOpen] = useState(false)
@@ -80,29 +77,20 @@ const Header = () => {
     closeTimer.current = window.setTimeout(() => setIsDomainsOpen(false), 220)
   }
 
-  // Normal full-width header only on landing page when at the top
-  const isNormalHeaderAtTop = isLandingPage && !isScrolledPastTop
+  // Floating rounded pill bar active across all pages including top of landing page
+  const isIslandExpanded = isScrollingUp || isHovered || isDomainsOpen || isSidebarOpen || !isScrolledPastTop
 
-  // Dynamic Island mode is active on other pages OR when scrolled down on landing page
-  const isIslandExpanded = isScrollingUp || isHovered || isDomainsOpen || isSidebarOpen || (!isScrolledPastTop && !isLandingPage)
-
-  const renderNavContent = (isFullHeader: boolean) => (
-    <div
-      className={
-        isFullHeader
-          ? "w-full max-w-[1780px] mx-auto h-20 sm:h-22 px-4 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between gap-4 sm:gap-6"
-          : "w-full h-18 sm:h-20 px-5 sm:px-7 lg:px-8 xl:px-10 flex items-center justify-between gap-4 lg:gap-6 xl:gap-8"
-      }
-    >
+  const renderNavContent = () => (
+    <div className="w-full h-18 sm:h-20 px-5 sm:px-7 lg:px-8 xl:px-10 flex items-center justify-between gap-4 lg:gap-6 xl:gap-8">
       {/* Logo */}
       <Link
         href="/"
         className="flex items-center shrink-0 group focus-visible:ring-2 focus-visible:ring-slate-600 rounded-lg p-1"
       >
         <Image
-          height={44}
-          width={150}
-          className="h-8 sm:h-9 lg:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          height={52}
+          width={160}
+          className="h-9 sm:h-10 lg:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
           src="/logo.png"
           alt="Nyeras Logo"
           priority
@@ -110,7 +98,7 @@ const Header = () => {
       </Link>
 
       {/* Desktop Navigation Links */}
-      <nav className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8 text-[14px] xl:text-[15px] 2xl:text-[16px] font-extrabold tracking-normal text-slate-900 dark:text-white shrink-0">
+      <nav className="hidden xl:flex items-center gap-4 xl:gap-6 2xl:gap-8 text-[14px] xl:text-[15px] 2xl:text-[16px] font-extrabold tracking-normal text-slate-900 dark:text-white shrink-0">
         <Link
           href="/"
           className="whitespace-nowrap relative py-2 px-1 hover:text-slate-600 dark:hover:text-slate-300 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2.5px] after:w-0 after:bg-slate-900 dark:after:bg-white hover:after:w-full after:transition-all after:duration-200"
@@ -259,11 +247,13 @@ const Header = () => {
           href="https://lms.nyeras.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-secondary text-xs sm:text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:scale-105 active:scale-95 transition-all shadow-xs whitespace-nowrap shrink-0"
+          aria-label="LMS Portal"
+          title="LMS Portal"
+          className="hidden md:inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-secondary text-xs sm:text-sm font-extrabold text-slate-900 dark:text-slate-100 hover:scale-105 active:scale-95 transition-all shadow-xs whitespace-nowrap shrink-0"
         >
           <GraduationCap className="w-4 h-4 text-slate-800 dark:text-slate-200" />
-          <span>LMS Portal</span>
-          <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400" />
+          <span className="xl:hidden min-[1440px]:inline">LMS Portal</span>
+          <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400 xl:hidden min-[1440px]:inline" />
         </a>
 
         {/* Visit NxtMove Button */}
@@ -271,24 +261,27 @@ const Header = () => {
           href="https://nxtmove.nyeras.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-accent text-xs sm:text-sm font-extrabold text-white hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
+          aria-label="NxtMove"
+          title="NxtMove"
+          className="hidden sm:inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full skeuo-btn-accent text-xs sm:text-sm font-extrabold text-white hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
         >
           <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center p-0.5 shrink-0 shadow-xs">
             <Image src="/nxtmove-icon.png" alt="NxtMove" width={16} height={16} className="w-full h-full object-contain" />
           </div>
-          <span>NxtMove</span>
-          <ExternalLink className="w-3.5 h-3.5 text-white/80" />
+          <span className="xl:hidden min-[1440px]:inline">NxtMove</span>
+          <ExternalLink className="w-3.5 h-3.5 text-white/80 xl:hidden min-[1440px]:inline" />
         </a>
 
-        {/* Auth Action: Sign In or Logged-in User Controls */}
-        {user && isAdmin ? (
+        {/* Auth Action: Only visible if already logged in as Master Admin */}
+        {user && isAdmin && (
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/lms"
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-slate-100 text-xs sm:text-sm font-extrabold hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
+              aria-label="Admin Studio"
+              className="inline-flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-slate-100 text-xs sm:text-sm font-extrabold hover:scale-105 active:scale-95 transition-all shadow-md whitespace-nowrap shrink-0"
             >
               <Shield className="w-4 h-4 text-slate-200" />
-              <span>Admin Studio</span>
+              <span className="hidden sm:inline">Admin Studio</span>
             </Link>
             <button
               type="button"
@@ -297,37 +290,9 @@ const Header = () => {
               title="Sign Out"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden xl:inline max-w-[100px] truncate">{user.name || user.username}</span>
+              <span className="hidden 2xl:inline max-w-[100px] truncate">{user.name || user.username}</span>
             </button>
           </div>
-        ) : user ? (
-          <div className="flex items-center gap-2 shrink-0">
-            <Link
-              href="/lms"
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-slate-100 text-xs sm:text-sm font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all whitespace-nowrap shrink-0"
-            >
-              <GraduationCap className="w-4 h-4 text-slate-200" />
-              <span>My LMS</span>
-            </Link>
-            <button
-              type="button"
-              onClick={logout}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0"
-              title="Sign Out"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden xl:inline max-w-[100px] truncate">{user.name || user.username}</span>
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => openAuthModal('signin')}
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full skeuo-btn-primary text-xs sm:text-sm font-extrabold text-white hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-md whitespace-nowrap shrink-0"
-          >
-            <User className="w-4 h-4 text-slate-200" />
-            <span>Sign In</span>
-          </button>
         )}
 
         {/* Mobile Menu Button */}
@@ -335,7 +300,7 @@ const Header = () => {
           type="button"
           onClick={() => setIsSidebarOpen(true)}
           aria-label="Open navigation menu"
-          className="lg:hidden p-2 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          className="xl:hidden p-2 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
         >
           <Menu className="h-6 w-6" />
         </button>
@@ -345,89 +310,70 @@ const Header = () => {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        {isNormalHeaderAtTop ? (
-          /* Normal Full-Width Header at top of Landing Page */
-          <header key="landing-top-header" className="fixed left-0 right-0 top-0 z-50 w-full pointer-events-none">
+      {/* Floating Header in Rounded Pill Shape */}
+      <header key="dynamic-island-header" className="fixed left-0 right-0 top-3 sm:top-4 z-50 flex justify-center px-3 sm:px-6 lg:px-8 pointer-events-none">
+        <AnimatePresence mode="wait">
+          {!isIslandExpanded ? (
+            /* Collapsed Dynamic Island Notch */
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              key="collapsed-island"
+              initial={{ opacity: 0, scale: 0.85, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: -10 }}
+              transition={{
+                type: "spring",
+                stiffness: 380,
+                damping: 28,
+                mass: 0.8,
+              }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              className="pointer-events-auto w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border-b border-slate-200/90 dark:border-slate-800 shadow-xs"
+              onClick={() => setIsHovered(true)}
+              className="pointer-events-auto h-14 sm:h-16 min-w-[240px] sm:min-w-[280px] px-7 sm:px-9 rounded-full glass-island flex items-center justify-center gap-3.5 sm:gap-4 cursor-pointer hover:scale-105 active:scale-100 transition-all duration-200"
             >
-              {renderNavContent(true)}
+              <Image
+                height={60}
+                width={180}
+                className="h-10 sm:h-11 md:h-12 w-auto object-contain pointer-events-none drop-shadow-xs"
+                src="/logo.png"
+                alt="Nyeras Logo"
+                priority
+              />
+              <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-900 dark:bg-emerald-400 animate-pulse shadow-xs" />
             </motion.div>
-          </header>
-        ) : (
-          /* Dynamic Island Mode (Scrolled Down on Landing Page OR Any Other Page) */
-          <header key="dynamic-island-header" className="fixed left-0 right-0 top-3 sm:top-4 z-50 flex justify-center px-3 sm:px-6 lg:px-8 pointer-events-none">
-            <AnimatePresence mode="wait">
-              {!isIslandExpanded ? (
-                /* Collapsed Dynamic Island Notch */
-                <motion.div
-                  key="collapsed-island"
-                  initial={{ opacity: 0, scale: 0.85, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.85, y: -10 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 28,
-                    mass: 0.8,
-                  }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => setIsHovered(true)}
-                  className="pointer-events-auto h-12 min-w-[160px] sm:min-w-[185px] px-6 rounded-full glossy-black-card bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border border-slate-300 dark:border-slate-800 shadow-2xl flex items-center justify-center gap-3 cursor-pointer hover:scale-105 active:scale-100 transition-all duration-200"
-                >
-                  <Image
-                    height={32}
-                    width={110}
-                    className="h-6 sm:h-7 w-auto object-contain pointer-events-none"
-                    src="/logo.png"
-                    alt="Nyeras Logo"
-                    priority
-                  />
-                  <span className="w-2 h-2 rounded-full bg-slate-900 dark:bg-emerald-400 animate-pulse" />
-                </motion.div>
-              ) : (
-                /* Expanded Curved Dynamic Island Header - Dynamically sizing and generous max-width */
-                <motion.div
-                  key="expanded-island"
-                  initial={{ opacity: 0, scale: 0.96, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96, y: -10 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 28,
-                    mass: 0.8,
-                  }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className="pointer-events-auto w-full max-w-[1680px] rounded-full glossy-black-card bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border border-slate-300 dark:border-slate-800 shadow-2xl overflow-visible"
-                >
-                  {renderNavContent(false)}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </header>
-        )}
-      </AnimatePresence>
+          ) : (
+            /* Expanded Curved Floating Header in Rounded Pill Shape */
+            <motion.div
+              key="expanded-island"
+              initial={{ opacity: 0, scale: 0.96, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: -10 }}
+              transition={{
+                type: "spring",
+                stiffness: 380,
+                damping: 28,
+                mass: 0.8,
+              }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="pointer-events-auto w-full max-w-[1680px] rounded-full glass-island overflow-visible"
+            >
+              {renderNavContent()}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
       {/* Mobile Sidebar Overlay & Drawer */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 xl:hidden transition-opacity"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       <div
-        className={`fixed top-0 left-0 bottom-0 w-[280px] sm:w-[320px] bg-white dark:bg-slate-900 z-50 md:hidden shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
+        className={`fixed top-0 left-0 bottom-0 w-[280px] max-w-[85vw] sm:w-[320px] bg-white dark:bg-slate-900 z-50 xl:hidden shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-modal="true"
@@ -495,8 +441,8 @@ const Header = () => {
         </nav>
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2.5">
-          {/* User Sign In / Profile / LMS in Mobile */}
-          {user ? (
+          {/* Admin Studio shortcut in Mobile if logged in as Admin */}
+          {user && isAdmin && (
             <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 mb-1">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shrink-0">
@@ -504,7 +450,7 @@ const Header = () => {
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs font-extrabold text-slate-900 dark:text-white truncate">{user.name}</p>
-                  <p className="text-[10px] text-slate-500 truncate">{isAdmin ? 'Master Admin' : 'Student'}</p>
+                  <p className="text-[10px] text-slate-500 truncate">Master Admin</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5">
@@ -513,7 +459,7 @@ const Header = () => {
                   onClick={() => setIsSidebarOpen(false)}
                   className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-extrabold transition-colors"
                 >
-                  LMS
+                  Admin Studio
                 </Link>
                 <button
                   type="button"
@@ -528,29 +474,29 @@ const Header = () => {
                 </button>
               </div>
             </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setIsSidebarOpen(false)
-                openAuthModal('signin')
-              }}
-              className="w-full py-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-white font-extrabold text-sm flex items-center justify-center gap-2 mb-1 cursor-pointer"
-            >
-              <User className="w-4 h-4" />
-              <span>Sign In / Sign Up</span>
-            </button>
           )}
 
           <div className="grid grid-cols-2 gap-2.5 mb-1">
-            <Link
-              href="/lms"
-              onClick={() => setIsSidebarOpen(false)}
-              className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-slate-100 text-xs font-extrabold"
-            >
-              <GraduationCap className="w-4 h-4 text-slate-800 dark:text-slate-200" />
-              <span>{isAdmin ? 'Admin Studio' : 'LMS Portal'}</span>
-            </Link>
+            {isAdmin ? (
+              <Link
+                href="/lms"
+                onClick={() => setIsSidebarOpen(false)}
+                className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-slate-100 text-xs font-extrabold"
+              >
+                <Shield className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+                <span>Admin Studio</span>
+              </Link>
+            ) : (
+              <a
+                href="https://lms.nyeras.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl skeuo-btn-secondary text-slate-900 dark:text-slate-100 text-xs font-extrabold"
+              >
+                <GraduationCap className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+                <span>LMS Portal</span>
+              </a>
+            )}
             <a
               href="https://nxtmove.nyeras.com/"
               target="_blank"

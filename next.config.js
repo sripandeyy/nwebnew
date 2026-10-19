@@ -17,6 +17,10 @@ const nextConfig = {
   },
   reactStrictMode: true,
   output: 'standalone',
+  experimental: {
+    // unstable_after: the LinkedIn feed refreshes from LinkedIn after the response is sent
+    after: true,
+  },
   async headers() {
     return [
       {

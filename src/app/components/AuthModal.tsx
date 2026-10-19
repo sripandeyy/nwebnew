@@ -17,11 +17,10 @@ import {
 import Image from 'next/image'
 
 export default function AuthModal() {
-  const { isAuthModalOpen, authModalTab, closeAuthModal, openAuthModal, login, signup } = useAuth()
+  const { isAuthModalOpen, closeAuthModal, login } = useAuth()
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
@@ -36,33 +35,17 @@ export default function AuthModal() {
     setIsSubmitting(true)
 
     try {
-      if (authModalTab === 'signin') {
-        const res = await login(identifier, password)
-        if (res.success) {
-          setSuccessMsg(res.message)
-          setTimeout(() => {
-            setIsSubmitting(false)
-            setIdentifier('')
-            setPassword('')
-          }, 800)
-        } else {
-          setErrorMsg(res.message)
+      const res = await login(identifier, password)
+      if (res.success) {
+        setSuccessMsg(res.message)
+        setTimeout(() => {
           setIsSubmitting(false)
-        }
+          setIdentifier('')
+          setPassword('')
+        }, 800)
       } else {
-        const res = signup(name, identifier, password)
-        if (res.success) {
-          setSuccessMsg(res.message)
-          setTimeout(() => {
-            setIsSubmitting(false)
-            setName('')
-            setIdentifier('')
-            setPassword('')
-          }, 800)
-        } else {
-          setErrorMsg(res.message)
-          setIsSubmitting(false)
-        }
+        setErrorMsg(res.message)
+        setIsSubmitting(false)
       }
     } catch (err: any) {
       setErrorMsg(err?.message || 'An error occurred during authentication.')
@@ -112,44 +95,10 @@ export default function AuthModal() {
                   Nyeras Portal
                 </h3>
                 <p className="text-xs text-slate-300 mt-0.5">
-                  {authModalTab === 'signin' ? 'Sign in to access LMS & portal' : 'Create your free learner account'}
+                  Sign in with administrative credentials
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* Tab Selector */}
-          <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 p-1.5">
-            <button
-              type="button"
-              onClick={() => {
-                openAuthModal('signin')
-                setErrorMsg('')
-                setSuccessMsg('')
-              }}
-              className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
-                authModalTab === 'signin'
-                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                openAuthModal('signup')
-                setErrorMsg('')
-                setSuccessMsg('')
-              }}
-              className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
-                authModalTab === 'signup'
-                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
-              }`}
-            >
-              Create Account
-            </button>
           </div>
 
           {/* Form Body */}
@@ -168,37 +117,18 @@ export default function AuthModal() {
               </div>
             )}
 
-            {authModalTab === 'signup' && (
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your full name"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 transition-all"
-                  />
-                </div>
-              </div>
-            )}
-
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                {authModalTab === 'signin' ? 'Email or Username' : 'Email Address'}
+                Email or Username
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
-                  type={authModalTab === 'signin' ? 'text' : 'email'}
+                  type="text"
                   required
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder={authModalTab === 'signin' ? 'Enter your email or username' : 'you@example.com'}
+                  placeholder="Enter admin username or email"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 transition-all"
                 />
               </div>
@@ -237,37 +167,11 @@ export default function AuthModal() {
                 <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>{authModalTab === 'signin' ? 'Sign In to Account' : 'Create My Account'}</span>
+                  <span>Sign In as Admin</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
-
-            <div className="pt-2 text-center text-xs text-slate-500 dark:text-slate-400">
-              {authModalTab === 'signin' ? (
-                <p>
-                  Don&apos;t have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => openAuthModal('signup')}
-                    className="font-bold text-slate-900 dark:text-white underline hover:no-underline cursor-pointer"
-                  >
-                    Sign Up
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => openAuthModal('signin')}
-                    className="font-bold text-slate-900 dark:text-white underline hover:no-underline cursor-pointer"
-                  >
-                    Sign In
-                  </button>
-                </p>
-              )}
-            </div>
           </form>
         </motion.div>
       </div>

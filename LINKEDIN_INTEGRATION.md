@@ -1,115 +1,105 @@
 # NYERAS LinkedIn Company-Post Feed
 
-Shows posts from the NYERAS LinkedIn company page on the website (homepage and About page),
-using LinkedIn's official Posts API. Until a page admin authorizes the app and an authenticated
-API request succeeds, the feed stays in a **pending** state and shows no posts.
+Shows posts from the NYERAS LinkedIn company page on the homepage, using LinkedIn's official
+Posts API. Until a page admin connects LinkedIn and an authenticated API request succeeds, the
+feed stays in a **pending** state and shows no posts.
 
 ---
 
 ## 1. Architecture
 
+Everything runs inside the Next.js site (works on Vercel; no separate server). The access token
+and the cached posts live in MySQL, table `linkedin_state` (created automatically).
+
 ```
-Browser (Next.js site, :3000)
-  LinkedInFeed component
-    ├─ GET /api/linkedin/posts  ──► Next.js route (server-side proxy, no secrets) ─┐
-    └─ Socket.IO (live updates) ───────────────────────────────────────────────────┤
-                                                                                   ▼
-Express backend (src/server, :5001)  ── owns OAuth, token, sync, cache
-  GET  /api/linkedin/auth       admin-only: starts OAuth (CSRF state, 10 min, single use)
-  GET  /api/linkedin/callback   exchanges code, verifies org access, stores token
-  GET  /api/linkedin/posts      cached posts + status (public, secret-free)
-  GET  /api/linkedin/status     diagnostic status (public, secret-free)
-  POST /api/linkedin/sync       admin-only, 30 s cooldown
-  Scheduled sync (interval or cron) ─► LinkedIn REST API
-                                         GET /rest/posts?author={org URN}&q=author
-                                         GET /rest/images/{urn}, /rest/videos/{urn}
+Browser
+  LinkedInFeed component ── polls GET /api/linkedin/posts every 60 s
+  /lms admin → "LinkedIn Feed" tab ── Connect LinkedIn / Sync now
+
+Next.js routes (src/app/api/linkedin)
+  GET  /posts      cached posts + status (public, secret-free); if the cache is older than
+                   LINKEDIN_SYNC_INTERVAL_MS it refreshes from LinkedIn *after* responding
+  GET  /status     diagnostic status (public, secret-free)
+  GET  /auth       admin only: starts OAuth (signed state + httpOnly cookie, 10 min)
+  GET  /callback   exchanges code, verifies org access, stores token, first sync
+  POST /sync       admin only, 30 s cooldown
+        └─► LinkedIn REST API: GET /rest/posts?author={org URN}&q=author
+                               GET /rest/images/{urn}, /rest/videos/{urn}
 ```
 
-Request headers sent to LinkedIn (per the official Posts API docs):
-`Authorization: Bearer …`, `Linkedin-Version: 202609`, `X-Restli-Protocol-Version: 2.0.0`,
-and `X-RestLi-Method: FINDER` for the author finder.
+Refreshes are claimed through an atomic MySQL update, so across all serverless instances
+LinkedIn is called at most once per interval, however many visitors load the page.
 
-Status fields: `configured` (credentials present), `authenticated` (a token exists),
+Request headers sent to LinkedIn: `Authorization: Bearer …`, `Linkedin-Version: 202609`,
+`X-Restli-Protocol-Version: 2.0.0`, and `X-RestLi-Method: FINDER` for the author finder.
+
+Status fields: `configured` (credentials present), `authenticated` (a usable token exists),
 `live` (an authenticated LinkedIn API request has **succeeded** with the current token).
-The UI only shows "Live" when `live` is true.
+The feed only shows "Live" when `live` is true.
 
 ---
 
 ## 2. LinkedIn prerequisites (must be done by NYERAS)
 
-1. **Developer app**: create one at <https://www.linkedin.com/developers/> and associate it with the
+1. **Developer app**: created at <https://www.linkedin.com/developers/> and associated with the
    NYERAS EduTech Innovations company page (a page admin must verify the association).
-2. **Community Management API**: request it under the app's *Products* tab. It is a vetted product:
-   LinkedIn reviews the legal organization, business email, website and privacy policy.
-   Development tier is granted first (limited call volume); Standard tier requires a screencast review.
+2. **Community Management API**: requested under the app's *Products* tab and approved by LinkedIn.
    ("Share on LinkedIn" is **not** sufficient – it cannot read organization posts.)
 3. **Scope**: `r_organization_social`. Optional: `w_organization_social` – LinkedIn's Images API
    requires a write-level scope even for GET, so without it image posts show a
    "View image on LinkedIn" link instead of a preview.
 4. **Authorizing member**: must hold an *Administrator* or *Content Admin* role on the NYERAS page.
    The callback rejects tokens that cannot read the organization's posts.
-5. **Redirect URL**: add the backend callback under *Auth → Authorized redirect URLs*, e.g.
-   `http://localhost:5001/api/linkedin/callback` (dev) and `https://<backend-domain>/api/linkedin/callback` (prod).
-6. **Organization ID**: the numeric ID from the page admin URL
-   (`linkedin.com/company/<ID>/admin/`).
+5. **Redirect URLs**: add every origin the site runs on under *Auth → Authorized redirect URLs*:
+   - `http://localhost:3001/api/linkedin/callback` (local dev; use the port `npm run dev` prints)
+   - `https://www.nyeras.com/api/linkedin/callback` (production)
+
+   The exact URL for the current site is shown in the admin portal's LinkedIn tab.
+6. **Organization ID**: the numeric ID from the page admin URL (`linkedin.com/company/<ID>/admin/`).
 
 ---
 
 ## 3. Configuration
 
-```bash
-cp .env.example .env
-```
+Set these locally in `.env` (git-ignored) and on Vercel under *Project Settings → Environment
+Variables*. All are documented in `.env.example`.
 
-Fill in `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET`, `LINKEDIN_ORG_ID`, `LINKEDIN_REDIRECT_URI`,
-and in production `LINKEDIN_ADMIN_KEY` (`openssl rand -hex 32`). All variables are documented
-in `.env.example`. Secrets are read only by the Express backend; the Next.js app only needs
-`LINKEDIN_BACKEND_URL` (server-side) and `NEXT_PUBLIC_SOCKET_URL` (public, no secret).
+| Variable | Required |
+|---|---|
+| `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET` | yes |
+| `LINKEDIN_ORG_ID` | yes |
+| `LINKEDIN_REDIRECT_URI` | no – defaults to `<origin>/api/linkedin/callback` |
+| `LINKEDIN_SYNC_INTERVAL_MS`, `LINKEDIN_API_VERSION`, `LINKEDIN_SCOPES` | no |
+| `LINKEDIN_ADMIN_KEY` | no – only for scripted `/auth` and `/sync` calls |
+| `LINKEDIN_ACCESS_TOKEN` | no – alternative to the Connect flow |
+
+The MySQL connection comes from the existing `src/app/api/dbConfig.ts`.
 
 ---
 
-## 4. Running locally
+## 4. Connecting
+
+1. Sign in to the admin portal at `/lms` and open the **LinkedIn Feed** tab.
+2. Click **Connect LinkedIn**. In the popup, a NYERAS page admin signs in and clicks **Allow**.
+3. The popup reports success only if the token could read the NYERAS posts; the first sync runs
+   immediately and posts appear on the homepage.
+
+Scripted alternative (with `LINKEDIN_ADMIN_KEY` set):
 
 ```bash
-npm run server   # Express + Socket.IO backend on :5001
-npm run dev      # Next.js site
-```
-
-Authorize once (as a NYERAS page admin), in a browser on the same machine:
-
-```
-http://localhost:5001/api/linkedin/auth
-```
-
-With `LINKEDIN_ADMIN_KEY` set, append `?key=<admin key>`. After consent, the callback page reports
-success only if the token could read the NYERAS posts; the first sync then runs immediately and
-the homepage feed updates via Socket.IO.
-
-Check state at any time:
-
-```bash
-curl http://localhost:5001/api/linkedin/status
-```
-
-Force a sync (admin):
-
-```bash
-curl -X POST -H "X-LinkedIn-Admin-Key: $LINKEDIN_ADMIN_KEY" http://localhost:5001/api/linkedin/sync
+curl http://localhost:3001/api/linkedin/status
+curl -X POST -H "X-LinkedIn-Admin-Key: $LINKEDIN_ADMIN_KEY" http://localhost:3001/api/linkedin/sync
 ```
 
 ---
 
 ## 5. Operational notes
 
-- **Token lifetime**: LinkedIn access tokens last ~60 days. Programmatic refresh is only available
-  to approved partners, so an admin must re-run `/api/linkedin/auth` before expiry. When the token
+- **Token lifetime**: LinkedIn access tokens last ~60 days. If LinkedIn issued a refresh token, it is
+  used automatically; otherwise an admin clicks **Reconnect LinkedIn** before expiry. When the token
   expires the feed keeps showing the last synced posts and the status returns to pending.
 - **API version**: LinkedIn sunsets each monthly version ~12 months after release. A sunset version
   produces a clear "no longer supported" sync error; update `LINKEDIN_API_VERSION`.
-- **Hosting**: the backend must be a long-running Node process with a writable `LINKEDIN_CACHE_DIR`
-  (not a serverless function – Vercel functions cannot keep the token, cache or schedule).
-  Set `FRONTEND_URL`/`CORS_ALLOWED_ORIGINS` to the site's origins and `LINKEDIN_BACKEND_URL` /
-  `NEXT_PUBLIC_SOCKET_URL` on the Next.js deployment to the backend's public URL.
 - **Feed content**: only `PUBLISHED`, `PUBLIC`, main-feed posts are shown (sponsored "dark" posts
   are excluded). Posts deleted on LinkedIn are removed on the next sync. Duplicates are prevented
   by post URN.
@@ -118,13 +108,12 @@ curl -X POST -H "X-LinkedIn-Admin-Key: $LINKEDIN_ADMIN_KEY" http://localhost:500
 
 ## 6. Security
 
-- Client secret and access token stay on the backend (memory + `.cache/linkedin_token.json`, mode 600,
-  git-ignored). `/status` and `/posts` never include them (covered by tests).
-- OAuth `state`: 32 random bytes, 10-minute expiry, consumed once.
-- `/auth` and `/sync` require `LINKEDIN_ADMIN_KEY` (or localhost when unset).
-- Callback pages HTML-escape all LinkedIn/user-supplied text; `postMessage` targets `FRONTEND_URL` only.
-- CORS and Socket.IO accept only the configured frontend origins; browsers cannot trigger syncs.
-- 401 clears the stored token; 403/426/429 are reported in status without crashing the server.
+- Client secret and access token stay server-side (env vars and MySQL). `/status` and `/posts`
+  never include them; only a SHA-256 fingerprint of the verified token is kept with the feed.
+- OAuth `state`: HMAC-signed, 10-minute expiry, and bound to the initiating browser by an httpOnly cookie.
+- `/auth` and `/sync` require the `/lms` admin session or `LINKEDIN_ADMIN_KEY`.
+- The callback page HTML-escapes all LinkedIn-supplied text; `postMessage` targets the site's own origin.
+- A 401 from LinkedIn drops the stored token; 403/426/429 are reported in status.
 
 ---
 
@@ -134,8 +123,7 @@ curl -X POST -H "X-LinkedIn-Admin-Key: $LINKEDIN_ADMIN_KEY" http://localhost:500
 npm test
 ```
 
-43 tests covering config defaults, OAuth URL/state handling, Posts API request format and headers,
-post filtering and normalization, media resolution, duplicate prevention and deletion handling,
-token verification, admin protection, callback XSS escaping, CORS, and secret non-disclosure.
-Tests use a temporary cache directory and mocked LinkedIn responses – they never touch real
-credentials or the real `.cache/`.
+Covers config defaults and callback URL resolution, OAuth URL and state signing/expiry, token
+exchange/refresh requests, Posts API request format and headers, post filtering and normalization,
+media resolution, duplicate prevention and deletion handling. LinkedIn responses are mocked;
+tests never touch real credentials or the database.

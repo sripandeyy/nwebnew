@@ -3,23 +3,34 @@
 import React, { useState, useEffect } from 'react'
 import { PhoneCall, X, ArrowRight, UserCheck } from 'lucide-react'
 import CallbackForm from './CallBackform'
+import { useFloatingPromptSlot } from '../utils/floatingPrompts'
 
 export default function CallbackFlashcard() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isScrolledPastStats, setIsScrolledPastStats] = useState(false)
   const [isDismissed, setIsDismissed] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const showCard = useFloatingPromptSlot('callback', 'left', isScrolledPastStats && !isDismissed)
 
   useEffect(() => {
-    // Trigger after 2.5 seconds on every page load
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 2500)
+    const handleScroll = () => {
+      const statsGrid = document.getElementById('hero-stats-grid')
+      if (statsGrid) {
+        const rect = statsGrid.getBoundingClientRect()
+        // Appears only after user has fully scrolled past the stats section
+        setIsScrolledPastStats(rect.bottom < 40)
+      } else {
+        const scrollY = window.scrollY || document.documentElement.scrollTop
+        setIsScrolledPastStats(scrollY > 750)
+      }
+    }
 
-    return () => clearTimeout(timer)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const handleDismiss = () => {
-    setIsVisible(false)
     setIsDismissed(true)
   }
 
@@ -30,10 +41,10 @@ export default function CallbackFlashcard() {
   return (
     <>
       {/* Flashcard Popup */}
-      {isVisible && !isDismissed && (
+      {showCard && (
         <aside
           aria-label="Request a Callback Notification"
-          className="fixed bottom-5 left-4 sm:left-6 z-40 max-w-[340px] sm:max-w-[370px] w-full animate-in fade-in slide-in-from-bottom-5 duration-500"
+          className="fixed bottom-24 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-auto sm:w-full sm:max-w-[370px] z-40 animate-in fade-in slide-in-from-bottom-5 duration-500"
         >
           <div className="relative rounded-2xl bg-white/95 text-slate-950 p-4 sm:p-5 shadow-2xl skeuo-card group hover:border-slate-500 transition-all">
             

@@ -1,7 +1,14 @@
 import axios, { AxiosError } from 'axios';
 import { getLinkedInConfig } from './config';
-import { tokenStore } from './tokenStore';
 import { NormalizedLinkedInPost, LinkedInRawPostElement, LinkedInMediaItem } from './types';
+
+export interface LinkedInTokenResponse {
+  accessToken: string;
+  expiresIn: number;
+  scope?: string;
+  refreshToken?: string;
+  refreshTokenExpiresIn?: number;
+}
 
 // In-memory cache for resolved media URLs to avoid repeated REST calls
 const mediaCache = new Map<string, { url?: string; thumbnailUrl?: string; expiresAt: number }>();
@@ -43,12 +50,12 @@ export class LinkedInApiClient {
   /**
    * Generates official LinkedIn OAuth 2.0 authorization URL
    */
-  public static getAuthorizationUrl(state: string): string {
+  public static getAuthorizationUrl(state: string, redirectUri: string): string {
     const config = getLinkedInConfig();
     const params = new URLSearchParams({
       response_type: 'code',
       client_id: config.clientId,
-      redirect_uri: config.redirectUri,
+      redirect_uri: redirectUri,
       state,
       scope: config.scopes.join(' '),
     });
@@ -58,13 +65,28 @@ export class LinkedInApiClient {
   /**
    * Exchanges authorization code for access token with LinkedIn OAuth endpoint
    */
-  public static async exchangeAuthCodeForToken(code: string): Promise<{
-    accessToken: string;
-    expiresIn: number;
-    scope?: string;
-    refreshToken?: string;
-    refreshTokenExpiresIn?: number;
-  }> {
+  public static async exchangeAuthCodeForToken(code: string, redirectUri: string): Promise<LinkedInTokenResponse> {
+    return this.requestToken('token exchange', {
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: redirectUri,
+    });
+  }
+
+  /**
+   * Programmatic refresh; LinkedIn only issues refresh tokens to apps approved for them.
+   */
+  public static async refreshAccessToken(refreshToken: string): Promise<LinkedInTokenResponse> {
+    return this.requestToken('token refresh', {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    });
+  }
+
+  private static async requestToken(
+    label: string,
+    grant: Record<string, string>
+  ): Promise<LinkedInTokenResponse> {
     const config = getLinkedInConfig();
 
     if (!config.clientId || !config.clientSecret) {
@@ -72,9 +94,7 @@ export class LinkedInApiClient {
     }
 
     const params = new URLSearchParams({
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri: config.redirectUri,
+      ...grant,
       client_id: config.clientId,
       client_secret: config.clientSecret,
     });
@@ -106,7 +126,7 @@ export class LinkedInApiClient {
         axiosErr.response?.data?.error_description ||
         axiosErr.response?.data?.error ||
         axiosErr.message;
-      throw new Error(`LinkedIn token exchange failed: ${errorMsg}`);
+      throw new LinkedInApiError(`LinkedIn ${label} failed: ${errorMsg}`, axiosErr.response?.status);
     }
   }
 
@@ -123,26 +143,24 @@ export class LinkedInApiClient {
    * Fetches posts authored by the NYERAS organization URN using the official LinkedIn Posts API
    * (GET /rest/posts?author={encoded org URN}&q=author).
    */
-  public static async fetchOrganizationPosts(options?: {
+  public static async fetchOrganizationPosts(options: {
+    token: string;
     count?: number;
-    token?: string;
     orgUrn?: string;
-    // When verifying a not-yet-saved token, a 401 must not wipe the stored token
-    clearTokenOnUnauthorized?: boolean;
   }): Promise<NormalizedLinkedInPost[]> {
     const config = getLinkedInConfig();
-    const token = options?.token || tokenStore.getAccessToken();
+    const token = options.token;
 
     if (!token) {
       throw new Error('No valid LinkedIn access token available. Authorization required.');
     }
 
-    const orgUrn = options?.orgUrn || config.orgUrn;
+    const orgUrn = options.orgUrn || config.orgUrn;
     if (!orgUrn) {
       throw new Error('LinkedIn organization ID/URN is not configured.');
     }
 
-    const count = Math.min(Math.max(options?.count || 20, 1), 100);
+    const count = Math.min(Math.max(options.count || 20, 1), 100);
 
     // URNs must be URL-encoded with Rest.li protocol 2.0.0
     const url =
@@ -175,9 +193,6 @@ export class LinkedInApiClient {
       const axiosErr = error as AxiosError<{ message?: string; status?: number }>;
       const status = axiosErr.response?.status;
       if (status === 401) {
-        if (options?.clearTokenOnUnauthorized !== false) {
-          tokenStore.clearToken();
-        }
         throw new LinkedInApiError(
           'LinkedIn authentication token has expired or is invalid. Please re-authenticate.',
           401
@@ -207,7 +222,7 @@ export class LinkedInApiClient {
    * Proves that a token can actually read the organization's posts.
    */
   public static async verifyAccess(token: string): Promise<void> {
-    await this.fetchOrganizationPosts({ token, count: 1, clearTokenOnUnauthorized: false });
+    await this.fetchOrganizationPosts({ token, count: 1 });
   }
 
   /**

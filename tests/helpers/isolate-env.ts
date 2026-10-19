@@ -1,11 +1,4 @@
-// Must be the first import in every LinkedIn test file: the token/posts stores are created
-// at import time, and tests must never read or wipe the real .cache/ token.
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-
-process.env.LINKEDIN_CACHE_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'nyeras-linkedin-test-'));
-
+// Must be the first import in every LinkedIn test file so real .env credentials never leak into tests.
 for (const key of [
   'LINKEDIN_CLIENT_ID',
   'LINKEDIN_CLIENT_SECRET',
@@ -13,8 +6,9 @@ for (const key of [
   'LINKEDIN_ACCESS_TOKEN',
   'LINKEDIN_ADMIN_KEY',
   'LINKEDIN_API_VERSION',
-  'LINKEDIN_SYNC_CRON',
+  'LINKEDIN_REDIRECT_URI',
+  'LINKEDIN_SCOPES',
+  'LINKEDIN_SYNC_INTERVAL_MS',
 ]) {
   process.env[key] = '';
 }
-process.env.FRONTEND_URL = 'http://localhost:3000';

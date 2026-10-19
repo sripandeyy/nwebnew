@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 
 
-const ROTATING_WORDS = ['KEY', 'PATH', 'ROUTE', 'BRIDGE', 'GATEWAY', 'APPROACH', 'FOUNDATION'];
+const ROTATING_WORDS = ['Bridge', 'Gateway', 'Pathway', 'Foundation', 'Launchpad', 'Key'];
 
 function Cube3DTextTransition() {
   const [index, setIndex] = useState(0);
@@ -35,41 +35,78 @@ function Cube3DTextTransition() {
   const currentWord = ROTATING_WORDS[index];
 
   return (
-    <span className="inline-block relative overflow-visible py-1 sm:py-2" style={{ perspective: '1200px' }}>
-      <motion.span
-        layout
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="inline-flex items-center justify-center lg:justify-start"
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {currentWord.split('').map((char, charIndex) => (
-            <motion.span
-              layout
-              key={`hero-word-${index}-char-${charIndex}-${char}`}
-              initial={{ rotateX: 90, y: -32, opacity: 0 }}
-              animate={{ rotateX: 0, y: 0, opacity: 1 }}
-              exit={{ rotateX: -90, y: 32, opacity: 0 }}
-              transition={{
-                duration: 0.45,
-                delay: charIndex * 0.08,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{
-                display: 'inline-block',
-                transformOrigin: '50% 50% -24px',
-                transformStyle: 'preserve-3d',
-              }}
-              className="bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 dark:from-blue-400 dark:via-indigo-300 dark:to-cyan-400 bg-clip-text text-transparent font-black tracking-wider"
-            >
-              {char}
-            </motion.span>
-          ))}
-        </AnimatePresence>
-      </motion.span>
+    <span
+      className="relative flex items-center justify-start h-full w-full text-left overflow-hidden"
+      style={{ perspective: '800px' }}
+    >
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={`hero-word-${currentWord}`}
+          initial={{ rotateX: -80, y: 22, opacity: 0 }}
+          animate={{ rotateX: 0, y: 0, opacity: 1 }}
+          exit={{ rotateX: 80, y: -22, opacity: 0 }}
+          transition={{
+            duration: 0.55,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          style={{
+            display: 'inline-block',
+            transformOrigin: '0% 50% -18px',
+            transformStyle: 'preserve-3d',
+          }}
+          className="bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 dark:from-blue-400 dark:via-indigo-300 dark:to-cyan-400 bg-clip-text text-transparent font-black tracking-tight text-left"
+        >
+          {currentWord}
+        </motion.span>
+      </AnimatePresence>
     </span>
   );
 }
+
+const TRACKS = {
+  fullstack: {
+    title: "Full Stack Web Engineering",
+    badge: "Placement Assistance Track",
+    salary: "₹6.5 - ₹18 LPA",
+    duration: "16 Weeks • Hybrid/Live",
+    skills: ["Next.js 15", "TypeScript", "Node.js", "PostgreSQL", "Docker", "AWS"],
+    hiring: ["Microsoft", "PayPal", "Impetus", "Accenture"],
+    recentOffers: [
+      { name: "Ganesh Sai", role: "Software Engineer", company: "Impetus", pkg: "₹12.0 LPA", img: "/ganesh nyeras.jpeg" },
+      { name: "PhaniBhushan Rao", role: "SAP BW Consultant", company: "LTI Mindtree", pkg: "₹10.5 LPA", img: "/phanibhu.jpeg" },
+      { name: "Rohit Verma", role: "Frontend Architect", company: "PayPal", pkg: "₹14.5 LPA", img: "/s1.png" },
+    ]
+  },
+  datascience: {
+    title: "Data Science & Generative AI",
+    badge: "100% Job Guarantee Track",
+    salary: "₹8.0 - ₹24 LPA",
+    duration: "20 Weeks • Live Project Labs",
+    skills: ["Python", "PyTorch", "LangChain", "BigQuery", "SQL", "Tableau"],
+    hiring: ["Accenture", "DAZN", "Deloitte", "LTI Mindtree"],
+    recentOffers: [
+      { name: "S Sneha", role: "Development Analyst", company: "Accenture", pkg: "₹9.5 LPA", img: "/sneha s.jpeg" },
+      { name: "Malothu Balram", role: "Analytics Engineer", company: "DAZN", pkg: "₹14.0 LPA", img: "/12.jpg" },
+      { name: "Rithika Srikanth", role: "Data Analyst & BI", company: "Deloitte", pkg: "₹13.5 LPA", img: "/rithika.jpg" },
+    ]
+  },
+  devops: {
+    title: "Cloud & DevOps Architecture",
+    badge: "Placement Assistance Track",
+    salary: "₹7.5 - ₹22 LPA",
+    duration: "16 Weeks • Enterprise Labs",
+    skills: ["AWS Cloud", "Kubernetes", "Terraform", "CI/CD", "Linux", "Docker"],
+    hiring: ["Cisco", "DXC Tech", "Cognizant", "Microsoft"],
+    recentOffers: [
+      { name: "Harsha Kesanapalli", role: "DevOps Engineer", company: "DXC Tech", pkg: "₹11.2 LPA", img: "/harsha new nyeras.jpeg" },
+      { name: "Harsha Vardhan Reddy", role: "Consulting Engineer", company: "Cisco", pkg: "₹16.5 LPA", img: "/harsha.jpeg" },
+      { name: "Karthiban M", role: "Cloud Solutions Architect", company: "Cognizant", pkg: "₹15.2 LPA", img: "/karthiban.jpg" },
+      { name: "Marglin J", role: "Security Analyst", company: "Microsoft", pkg: "₹18.0 LPA", img: "/marglin.jpg" },
+    ]
+  }
+};
+
+const TRACK_KEYS: ('fullstack' | 'datascience' | 'devops')[] = ['fullstack', 'datascience', 'devops'];
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState<'fullstack' | 'datascience' | 'devops'>('fullstack');
@@ -78,50 +115,8 @@ export default function Hero() {
   const [isOfferFading, setIsOfferFading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  const tracks = {
-    fullstack: {
-      title: "Full Stack Web Engineering",
-      badge: "Placement Assistance Track",
-      salary: "₹6.5 - ₹18 LPA",
-      duration: "16 Weeks • Hybrid/Live",
-      skills: ["Next.js 15", "TypeScript", "Node.js", "PostgreSQL", "Docker", "AWS"],
-      hiring: ["Microsoft", "PayPal", "Impetus", "Accenture"],
-      recentOffers: [
-        { name: "Ganesh Sai", role: "Software Engineer", company: "Impetus", pkg: "₹12.0 LPA", img: "/ganesh nyeras.jpeg" },
-        { name: "PhaniBhushan Rao", role: "SAP BW Consultant", company: "LTI Mindtree", pkg: "₹10.5 LPA", img: "/phanibhu.jpeg" },
-        { name: "Rohit Verma", role: "Frontend Architect", company: "PayPal", pkg: "₹14.5 LPA", img: "/s1.png" },
-      ]
-    },
-    datascience: {
-      title: "Data Science & Generative AI",
-      badge: "100% Job Guarantee Track",
-      salary: "₹8.0 - ₹24 LPA",
-      duration: "20 Weeks • Live Project Labs",
-      skills: ["Python", "PyTorch", "LangChain", "BigQuery", "SQL", "Tableau"],
-      hiring: ["Accenture", "DAZN", "Deloitte", "LTI Mindtree"],
-      recentOffers: [
-        { name: "S Sneha", role: "Development Analyst", company: "Accenture", pkg: "₹9.5 LPA", img: "/sneha s.jpeg" },
-        { name: "Malothu Balram", role: "Analytics Engineer", company: "DAZN", pkg: "₹14.0 LPA", img: "/12.jpg" },
-        { name: "Rithika Srikanth", role: "Data Analyst & BI", company: "Deloitte", pkg: "₹13.5 LPA", img: "/rithika.jpg" },
-      ]
-    },
-    devops: {
-      title: "Cloud & DevOps Architecture",
-      badge: "Placement Assistance Track",
-      salary: "₹7.5 - ₹22 LPA",
-      duration: "16 Weeks • Enterprise Labs",
-      skills: ["AWS Cloud", "Kubernetes", "Terraform", "CI/CD", "Linux", "Docker"],
-      hiring: ["Cisco", "DXC Tech", "Cognizant", "Microsoft"],
-      recentOffers: [
-        { name: "Harsha Kesanapalli", role: "DevOps Engineer", company: "DXC Tech", pkg: "₹11.2 LPA", img: "/harsha new nyeras.jpeg" },
-        { name: "Harsha Vardhan Reddy", role: "Consulting Engineer", company: "Cisco", pkg: "₹16.5 LPA", img: "/harsha.jpeg" },
-        { name: "Karthiban M", role: "Cloud Solutions Architect", company: "Cognizant", pkg: "₹15.2 LPA", img: "/karthiban.jpg" },
-        { name: "Marglin J", role: "Security Analyst", company: "Microsoft", pkg: "₹18.0 LPA", img: "/marglin.jpg" },
-      ]
-    }
-  };
-
-  const trackKeys: ('fullstack' | 'datascience' | 'devops')[] = ['fullstack', 'datascience', 'devops'];
+  const tracks = TRACKS;
+  const trackKeys = TRACK_KEYS;
 
   const changeTab = (tab: 'fullstack' | 'datascience' | 'devops') => {
     if (tab === activeTab) return;
@@ -141,9 +136,9 @@ export default function Hero() {
       setIsFading(true);
       setTimeout(() => {
         setActiveTab((prev) => {
-          const currentIndex = trackKeys.indexOf(prev);
-          const nextIndex = (currentIndex + 1) % trackKeys.length;
-          return trackKeys[nextIndex];
+          const currentIndex = TRACK_KEYS.indexOf(prev);
+          const nextIndex = (currentIndex + 1) % TRACK_KEYS.length;
+          return TRACK_KEYS[nextIndex];
         });
         setOfferIndex(0);
         setIsFading(false);
@@ -151,13 +146,13 @@ export default function Hero() {
     }, 4500);
 
     return () => clearInterval(timer);
-  }, [isPaused, activeTab]);
+  }, [isPaused]);
 
   // Dynamic automatic cycling of placed students within the current track
   useEffect(() => {
     if (isPaused) return;
 
-    const currentOffers = tracks[activeTab].recentOffers;
+    const currentOffers = TRACKS[activeTab].recentOffers;
     if (currentOffers.length <= 1) return;
 
     const offerTimer = setInterval(() => {
@@ -188,29 +183,31 @@ export default function Hero() {
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">
           
           {/* Left Hero Column */}
-          <div className="lg:col-span-6 xl:col-span-6 text-center lg:text-left">
+          <div className="lg:col-span-6 xl:col-span-6 text-left">
             {/* Headline Box with 3D Flip Text */}
-            <div className="min-h-[175px] sm:min-h-[210px] lg:min-h-[250px] mb-6 flex flex-col justify-start">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
-                <span className="block text-slate-900 dark:text-white">
+            <div className="mb-6 flex flex-col justify-start text-left">
+              <h1 className="text-[32px] sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.16] sm:leading-[1.12] text-left">
+                <span className="block text-slate-900 dark:text-white text-left">
                   Education is the
                 </span>
 
                 {/* 3D Cube Face Flip Component */}
-                <Cube3DTextTransition />
+                <span className="block h-[1.3em] my-0.5 sm:my-1 overflow-hidden text-left">
+                  <Cube3DTextTransition />
+                </span>
 
-                <span className="block text-slate-900 dark:text-white">
+                <span className="block text-slate-900 dark:text-white text-left">
                   to your future.
                 </span>
               </h1>
             </div>
 
-            <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-normal">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-0 mb-8 font-normal text-left">
               Master industry tech stacks with live senior practitioners, build production-grade capstone projects, earn verified government-backed credentials, and crack tier-1 MNC placements with 1:1 mentorship.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-5">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-4 mb-5">
               <Link
                 href="/domains"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl skeuo-btn-primary text-white font-extrabold text-base tracking-wide"
@@ -229,7 +226,7 @@ export default function Hero() {
             </div>
 
             {/* Direct Portal Quick Links (Large 3D Skeuomorphic Buttons) */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 mb-10">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-3.5 mb-10">
               <a
                 href="https://lms.nyeras.com/"
                 target="_blank"
@@ -258,7 +255,7 @@ export default function Hero() {
             </div>
 
             {/* Social Proof Bar with Real Student Avatars */}
-            <div className="pt-6 border-t border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <div className="pt-6 border-t border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4">
               <div className="flex items-center -space-x-3">
                 {["/s1.png", "/s2.png", "/s3.png"].map((src, i) => (
                   <img
@@ -429,7 +426,7 @@ export default function Hero() {
         </div>
 
         {/* 4 Bottom High-Impact Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-16 sm:mt-20">
+        <div id="hero-stats-grid" className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-16 sm:mt-20">
           
           <div className="p-5 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4 backdrop-blur-md">
             <div className="w-12 h-12 rounded-2xl bg-slate-800 text-white flex items-center justify-center shrink-0 shadow-md">

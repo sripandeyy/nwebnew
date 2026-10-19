@@ -257,7 +257,7 @@ export default function HrCoursePage() {
                 Our 90-day Human Resource Management Training & Internship program offers a comprehensive, hands-on
                 learning experience that combines theoretical knowledge with practical skills. The program is structured
                 in two phases: 45 days of instructor-led classroom training followed by 45 days of practical internship
-                in a real HR department. Whether you're looking to start a career in HR or enhance your existing skills,
+                in a real HR department. Whether you&apos;re looking to start a career in HR or enhance your existing skills,
                 this program provides you with both the knowledge and practical experience needed to excel in the HR
                 field.
               </p>

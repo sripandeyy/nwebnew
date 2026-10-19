@@ -4,11 +4,11 @@ import assert from 'node:assert/strict';
 import axios from 'axios';
 import {
   LinkedInApiClient,
+  LinkedInApiError,
   littleTextToPlain,
   isPublicFeedPost,
-} from '../src/server/linkedin/client';
-import { tokenStore } from '../src/server/linkedin/tokenStore';
-import { DEFAULT_LINKEDIN_API_VERSION } from '../src/server/linkedin/config';
+} from '../src/app/api/linkedin/_lib/client';
+import { DEFAULT_LINKEDIN_API_VERSION } from '../src/app/api/linkedin/_lib/config';
 
 function axiosError(status: number) {
   return Object.assign(new Error(`Request failed with status code ${status}`), {
@@ -21,7 +21,6 @@ describe('LinkedIn API Client', () => {
   beforeEach(() => {
     process.env.LINKEDIN_ORG_ID = '2414183';
     process.env.LINKEDIN_API_VERSION = '';
-    tokenStore.clearToken();
   });
 
   afterEach(() => {
@@ -30,16 +29,17 @@ describe('LinkedIn API Client', () => {
 
   test('constructs official OAuth 2.0 authorization URL with all required query params', () => {
     process.env.LINKEDIN_CLIENT_ID = 'test_app_id';
-    process.env.LINKEDIN_REDIRECT_URI = 'http://localhost:5001/api/linkedin/callback';
     process.env.LINKEDIN_SCOPES = 'r_organization_social';
 
     const state = 'secure_random_state_val';
-    const parsed = new URL(LinkedInApiClient.getAuthorizationUrl(state));
+    const parsed = new URL(
+      LinkedInApiClient.getAuthorizationUrl(state, 'https://www.nyeras.com/api/linkedin/callback')
+    );
     assert.strictEqual(parsed.origin, 'https://www.linkedin.com');
     assert.strictEqual(parsed.pathname, '/oauth/v2/authorization');
     assert.strictEqual(parsed.searchParams.get('response_type'), 'code');
     assert.strictEqual(parsed.searchParams.get('client_id'), 'test_app_id');
-    assert.strictEqual(parsed.searchParams.get('redirect_uri'), 'http://localhost:5001/api/linkedin/callback');
+    assert.strictEqual(parsed.searchParams.get('redirect_uri'), 'https://www.nyeras.com/api/linkedin/callback');
     assert.strictEqual(parsed.searchParams.get('state'), state);
     assert.strictEqual(parsed.searchParams.get('scope'), 'r_organization_social');
   });
@@ -159,24 +159,42 @@ describe('LinkedIn API Client', () => {
     assert.strictEqual(byUrn['urn:li:share:12'].media[0].url, undefined);
   });
 
-  test('401 clears the stored token during sync', async () => {
-    tokenStore.saveToken({ accessToken: 'stored', expiresIn: 3600 });
+  test('401 surfaces as a LinkedInApiError with status 401 so the caller can drop the token', async () => {
     mock.method(axios, 'get', async () => {
       throw axiosError(401);
     });
 
-    await assert.rejects(() => LinkedInApiClient.fetchOrganizationPosts(), { message: /expired or is invalid/ });
-    assert.strictEqual(tokenStore.hasValidToken(), false);
+    await assert.rejects(
+      () => LinkedInApiClient.fetchOrganizationPosts({ token: 'expired' }),
+      (err: unknown) => err instanceof LinkedInApiError && err.status === 401 && /expired or is invalid/.test(err.message)
+    );
   });
 
-  test('verifyAccess failure does not wipe an existing working token', async () => {
-    tokenStore.saveToken({ accessToken: 'stored', expiresIn: 3600 });
-    mock.method(axios, 'get', async () => {
-      throw axiosError(401);
-    });
+  test('token exchange and refresh send the right grant to the OAuth endpoint', async () => {
+    process.env.LINKEDIN_CLIENT_ID = 'test_app_id';
+    process.env.LINKEDIN_CLIENT_SECRET = 'test_secret';
+    const post = mock.method(axios, 'post', async () => ({
+      data: { access_token: 'new', expires_in: 5184000, refresh_token: 'r1', refresh_token_expires_in: 31536000 },
+    }));
 
-    await assert.rejects(() => LinkedInApiClient.verifyAccess('new-bad-token'));
-    assert.strictEqual(tokenStore.getAccessToken(), 'stored');
+    const exchanged = await LinkedInApiClient.exchangeAuthCodeForToken('code123', 'https://www.nyeras.com/api/linkedin/callback');
+    assert.deepStrictEqual(exchanged, {
+      accessToken: 'new',
+      expiresIn: 5184000,
+      scope: undefined,
+      refreshToken: 'r1',
+      refreshTokenExpiresIn: 31536000,
+    });
+    const exchangeBody = new URLSearchParams(post.mock.calls[0].arguments[1] as string);
+    assert.strictEqual(exchangeBody.get('grant_type'), 'authorization_code');
+    assert.strictEqual(exchangeBody.get('code'), 'code123');
+    assert.strictEqual(exchangeBody.get('redirect_uri'), 'https://www.nyeras.com/api/linkedin/callback');
+    assert.strictEqual(exchangeBody.get('client_secret'), 'test_secret');
+
+    await LinkedInApiClient.refreshAccessToken('r1');
+    const refreshBody = new URLSearchParams(post.mock.calls[1].arguments[1] as string);
+    assert.strictEqual(refreshBody.get('grant_type'), 'refresh_token');
+    assert.strictEqual(refreshBody.get('refresh_token'), 'r1');
   });
 
   test('maps 403, 426 and 429 responses to actionable errors', async () => {

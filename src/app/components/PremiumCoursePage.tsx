@@ -8,6 +8,8 @@ import FloatingParticles from "./FloatingParticles"
 import { enrichCourseCurriculum } from "../domains/curriculumEnricher"
 import CourseRoadmapFlowchart from "../roadmaps/CourseRoadmapFlowchart"
 import { findRoadmapCourse } from "../roadmaps/roadmapsData"
+import MentorCard from "./MentorCard"
+import { getMentorsForCourse } from "../domains/mentors"
 
 const certificates = [
   { title: "Course Completion", pdf: "/internships/course.pdf" },
@@ -190,13 +192,13 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
     return {
       planName: 'Advanced Plan',
       duration: '4 Months',
-      price: (!course.jobGuarantee && course.price) ? course.price : '₹11,999',
-      originalPrice: (!course.jobGuarantee && course.originalPrice) ? course.originalPrice : '₹19,999',
+      price: '₹11,999',
+      originalPrice: '₹19,999',
       tag: 'Specialization Track',
       badgeColor: 'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800',
       href: `/plans?plan=advanced&course=${encodeURIComponent(course.title)}`,
     };
-  }, [effectiveCurriculumPlan, course.title, course.price, course.originalPrice, course.jobGuarantee]);
+  }, [effectiveCurriculumPlan, course.title]);
 
   // Generate enriched deep domain curriculum based on selected plan (Basic: 2 Mos, Advanced: 4 Mos, Pro: 6 Mos Job Guarantee)
   const displayedCurriculum = enrichCourseCurriculum(course, domainName, effectiveCurriculumPlan);
@@ -216,6 +218,8 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
   const roadmapCourse = useMemo(() => {
     return findRoadmapCourse(course.slug || course.title);
   }, [course.slug, course.title]);
+
+  const courseMentors = useMemo(() => getMentorsForCourse(course.slug), [course.slug]);
 
   return (
     <div className="relative min-h-screen">
@@ -408,7 +412,7 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
 
                   {/* Plan Switcher Toggle Buttons */}
                   {!isSchoolCourse && (
-                    <div className="relative inline-flex items-center p-1.5 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] backdrop-blur-xl w-full lg:w-auto gap-1">
+                    <div className={`relative grid grid-cols-2 ${isJobGuaranteeEligible ? 'xl:inline-flex' : 'sm:inline-flex'} items-center p-1.5 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)] backdrop-blur-xl w-full lg:w-auto gap-1`}>
                     <motion.button
                       type="button"
                       onClick={() => setSelectedCurriculumPlan('basic')}
@@ -1317,6 +1321,15 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
                 transition={{ delay: 0.4 }}
                 className="sticky top-24 space-y-6"
               >
+                {courseMentors.map((mentor) => (
+                  <MentorCard
+                    key={mentor.id}
+                    mentor={mentor}
+                    heading={`Meet Your ${mentor.domainLabel} Mentor`}
+                    description={mentor.sectionDescription}
+                  />
+                ))}
+
                 {/* Enroll / Institutional Partnership Card */}
                 {isSchoolCourse ? (
                   <div className="relative group">

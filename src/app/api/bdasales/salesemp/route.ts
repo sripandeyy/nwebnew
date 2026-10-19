@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+import mysql, { type RowDataPacket } from 'mysql2/promise';
 import dbConfig from '../../dbConfig';
 import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest) {
@@ -10,11 +10,11 @@ export async function GET(req: NextRequest) {
       });
     }
     const connection = await mysql.createConnection(dbConfig);
-    const [rows]: [any[], any[]] = await connection.execute('SELECT id, name, email, phone FROM employees WHERE department = "Sales"');
+    const [rows] = await connection.execute<RowDataPacket[]>('SELECT id, name, email, phone FROM employees WHERE department = "Sales"');
     await connection.end();
 
     // Modify the name field to be "name-id"
-    const modifiedRows = rows.map((row: any) => ({
+    const modifiedRows = rows.map((row) => ({
       name: `${row.name} - ${row.id}`,
       email: row.email,
       phone: row.phone
