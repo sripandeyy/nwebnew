@@ -102,10 +102,16 @@ const PremiumCoursePage = ({ course, domainName }: PremiumCoursePageProps) => {
     courseSlugLower.includes("ai-in-economics-data-thinking") ||
     courseSlugLower.includes("finance-stock-market-awareness") ||
     courseSlugLower.includes("finance-market-awareness") ||
+    courseSlugLower.includes("finance-foundations") ||
+    courseSlugLower.includes("stock-market-awareness") ||
+    courseSlugLower.includes("chemistry-curriculum") ||
+    courseSlugLower.includes("chemistry") ||
     courseTitleLower.includes("programming foundations") ||
     courseTitleLower.includes("full-stack foundations") ||
     courseTitleLower.includes("machine learning foundations") ||
     courseTitleLower.includes("data thinking") ||
+    courseTitleLower.includes("financial literacy") ||
+    courseTitleLower.includes("chemistry") ||
     courseTitleLower.includes("market awareness");
 
   const domainCareerRoles = useMemo(() => {

@@ -1,5 +1,4 @@
-import dbConfig from '../../../dbConfig'; // Import MySQL config
-import mysql from 'mysql2/promise';
+import { getDb } from '../../../db'; // Import MySQL config
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -10,9 +9,9 @@ export async function GET(req: NextRequest) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        const connection = await mysql.createConnection(dbConfig);
+        const connection = getDb();
         const [rows] = await connection.execute('SELECT * FROM reminders');
-        await connection.end();
+        // connection returned to pool
 
         return new Response(JSON.stringify(rows), {
             status: 200,

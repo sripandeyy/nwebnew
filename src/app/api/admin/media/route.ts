@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { put } from '@vercel/blob'
 import { isAdminRequest } from '../../_lib/adminAuth'
 import { ALLOWED_MEDIA_TYPES, MAX_MEDIA_BYTES, insertMedia } from '../../_lib/siteContentDb'
 
@@ -25,6 +26,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const blobToken = process.env.BLOB_READ_WRITE_TOKEN
+    if (blobToken) {
+      const ext = mime.split('/')[1] || 'png'
+      const blob = await put(`admin-media-${Date.now()}.${ext}`, data, {
+        access: 'public',
+        token: blobToken,
+        contentType: mime,
+      })
+      return NextResponse.json({ url: blob.url })
+    }
+
+    // Fallback to MySQL site_media table if Vercel Blob is not yet set
     const id = randomBytes(16).toString('hex')
     await insertMedia(id, mime, data)
     return NextResponse.json({ url: `/api/media/${id}` })

@@ -1,10 +1,9 @@
-import mysql from 'mysql2/promise';
-import dbConfig from '../dbConfig';
+import { getDb } from '../db';
 
 export async function GET() {
   let connection;
   try {
-    connection = await mysql.createConnection(dbConfig);
+    connection = getDb();
     const [rows] = await connection.execute('SELECT * FROM leads');
 
     return new Response(JSON.stringify({ rows }), {
@@ -21,7 +20,5 @@ export async function GET() {
         'Content-Type': 'application/json',
       },
     });
-  } finally {
-    if (connection) await connection.end();
-  }
+  } 
 }

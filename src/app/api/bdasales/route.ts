@@ -1,5 +1,4 @@
-import dbConfig from '../dbConfig'; // MySQL database configuration
-import mysql from 'mysql2/promise';
+import { getDb } from '../db'; // MySQL database configuration
 import { NextRequest } from 'next/server';
 
 
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // Create MySQL connection
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // Insert data into MySQL
     const query = `
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
     const values = [salesPersonName, amount, date, customerName, customerPhone, status];
 
     const [] = await connection.execute(query, values);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify({ message: 'Sale recorded successfully.' }), {
       status: 200,

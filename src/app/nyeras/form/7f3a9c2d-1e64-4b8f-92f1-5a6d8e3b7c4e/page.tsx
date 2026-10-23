@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-import Head from "next/head"
 import { useState } from "react"
 
 export default function CourseRegistrationForm() {
@@ -72,42 +71,7 @@ export default function CourseRegistrationForm() {
 
   return (
     <>
-      <Head>
-        <title>Course Registration Form | Nyeras</title>
-        <meta name="description" content="Register for Nyeras courses effortlessly. Fill out our simple course registration form and get started today!" />
-
-        <meta name="keywords" content="course registration, Nyeras courses, online learning, student registration, enroll now" />
-
-        <meta name="author" content="Nyeras" />
-        <link rel="canonical" href="https://nyeras.com/courses" />
-
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-
-        <meta property="og:title" content="Course Registration Form | Nyeras" />
-        <meta property="og:description" content="Easily register for courses at Nyeras. Quick and seamless enrollment process." />
-        <meta property="og:image" content="https://nyeras.com/logo.png" />
-        <meta property="og:url" content="https://nyeras.com/courses" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Course Registration Form | Nyeras" />
-        <meta name="twitter:description" content="Register for Nyeras courses effortlessly. Fill out our simple course registration form and start learning today!" />
-        <meta name="twitter:image" content="https://nyeras.com/logo.png" />
-
-        <script type="application/ld+json">
-          {`
-            "@context": "https://schema.org",
-          "@type": "EducationalOrganization",
-          "name": "Nyeras",
-          "url": "https://nyeras.com",
-          "description": "Nyeras offers a wide range of courses. Register easily using our online program registration form.",
-    "logo": "https://nyeras.com/logo.png"
-    }
-    `}
-        </script>
-      </Head>
-
+      <title>Course Registration Form | Nyeras</title>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
         <div className="w-full max-w-3xl bg-white rounded-lg shadow-md overflow-hidden">
           {/* Google Form-like header with orange accent */}

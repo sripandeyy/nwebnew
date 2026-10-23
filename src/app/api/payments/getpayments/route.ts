@@ -1,5 +1,4 @@
-import mysql from 'mysql2/promise';
-import dbConfig from '../../dbConfig';
+import { getDb } from '../../db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -19,13 +18,13 @@ export async function GET(req: NextRequest) {
 
   
   try {
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     const [rows] = await connection.execute(
       'SELECT id, payload, createdAt FROM razorpay_webhooks ORDER BY createdAt DESC'
     );
 
-    await connection.end();
+    // connection returned to pool
 
     return NextResponse.json(rows);
   } catch (error) {

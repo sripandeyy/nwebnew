@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-import dbConfig from "../../dbConfig"; // Import MySQL database configuration
+import { getDb } from '../../db'; // Import MySQL database configuration
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
@@ -10,11 +9,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         headers: { "Content-Type": "application/json" },
       });
     }
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // Fetch all tasks
     const [rows] = await connection.execute("SELECT * FROM tasks ORDER BY createdAt DESC");
-    await connection.end();
+    // connection returned to pool
 
     return new NextResponse(JSON.stringify(rows), {
       status: 200,

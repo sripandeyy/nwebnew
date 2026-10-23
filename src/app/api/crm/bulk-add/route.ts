@@ -1,5 +1,4 @@
-import dbConfig from "../../dbConfig"
-import mysql from "mysql2/promise"
+import { getDb } from '../../db';
 import type { NextRequest } from "next/server"
 
 export async function POST(req: NextRequest) {
@@ -16,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const limitedLeads = leads.slice(0, 100)
 
-    const connection = await mysql.createConnection(dbConfig)
+    const connection = getDb();
     const now = new Date()
     const istDate = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }))
     const date = istDate.toLocaleDateString() + ", " + istDate.toLocaleTimeString()
@@ -55,7 +54,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    await connection.end()
+    // connection returned to pool
 
     return new Response(JSON.stringify({
       message: `${results.length} leads added successfully.`,

@@ -1,5 +1,4 @@
-import dbConfig from '../../dbConfig'; // Import MySQL config
-import mysql from 'mysql2/promise';
+import { getDb } from '../../db'; // Import MySQL config
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -14,7 +13,7 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
+        const connection = getDb();
         const now = new Date();
         const timestamp = now.toISOString();
 
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
         const values = [name, email, dueDate, amount, timestamp];
 
         await connection.execute(query, values);
-        await connection.end();
+        // connection returned to pool
 
         return new Response(JSON.stringify({ message: 'Reminder created successfully.' }), {
             status: 201,

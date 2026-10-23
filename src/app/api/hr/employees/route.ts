@@ -1,12 +1,11 @@
-import dbConfig from "../../dbConfig" // Import your MySQL database configuration
-import mysql from "mysql2/promise"
+import { getDb } from '../../db'; // Import your MySQL database configuration
 import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
-    const connection = await mysql.createConnection(dbConfig)
+    const connection = getDb();
     const [rows] = await connection.execute("SELECT * FROM employees")
-    await connection.end()
+    // connection returned to pool
 
     return NextResponse.json(rows)
   } catch (error) {

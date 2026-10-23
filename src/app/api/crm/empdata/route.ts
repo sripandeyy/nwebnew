@@ -18,7 +18,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const emailMap = new Map<string, Record<string, unknown>>(); // To store unique emails
 
-    snapshot.forEach((doc) => {
+    snapshot.forEach((doc: any) => {
       const data = doc.data();
       const email = data.email || null;
 

@@ -1,5 +1,5 @@
-import mysql, { type RowDataPacket } from 'mysql2/promise';
-import dbConfig from '../dbConfig';
+import type { RowDataPacket   } from "mysql2/promise";
+import { getDb } from '../db';
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -14,9 +14,9 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     const [rows] = await connection.execute<RowDataPacket[]>('SELECT id, name FROM employees WHERE email = ?', [email]);
-    await connection.end();
+    // connection returned to pool
 
     if (rows.length === 0) {
       return new Response(JSON.stringify({ message: 'No employee found with this email.' }), {

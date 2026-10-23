@@ -1,5 +1,4 @@
-import mysql from 'mysql2/promise';
-import dbConfig from '../dbConfig';
+import { getDb } from '../db';
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -14,7 +13,7 @@ export async function POST(req: NextRequest) {
     const rawBody = await req.text(); // Raw body as string
 
     // Connect to MySQL
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // Insert raw JSON data into 'bdasales' table (adjust table/column names as needed)
     const query = `
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
     `;
     await connection.execute(query, [rawBody]);
 
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify({ message: 'Data saved successfully.' }), {
       status: 200,

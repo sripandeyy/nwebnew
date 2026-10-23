@@ -1,5 +1,5 @@
-import dbConfig from '../../dbConfig';
-import mysql, { RowDataPacket } from 'mysql2/promise';
+import { getDb } from '../../db';
+import type {  RowDataPacket  } from "mysql2/promise";
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const employeeId = matches[1]; // e.g., NY1123
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // Fetch email of the employee using ID
     const [rows] = await connection.execute<RowDataPacket[]>(
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     );
 
     if (!Array.isArray(rows) || rows.length === 0) {
-      await connection.end();
+      // connection returned to pool
       return new Response(JSON.stringify({ message: 'Employee not found.' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     console.log('Executing query:', updateQuery, values);
 
     await connection.execute(updateQuery, values);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify({ message: 'Leads assigned successfully.' }), {
       status: 200,

@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import * as ftp from "basic-ftp";
-import mysql from "mysql2/promise";
 import { Readable } from "stream";
-import dbConfig from "../../dbConfig";
+import { getDb } from '../../db';
 
 // Helper: read a File from FormData and upload to FTP; returns the final FTP path or URL
 async function uploadToFtp(file: File, client: ftp.Client, folderPath = "/domains/nyeras.com/emp_documents") {
@@ -63,10 +62,10 @@ export async function POST(req: Request) {
     client = new ftp.Client();
     client.ftp.verbose = true;
     await client.access({
-      host: "217.21.95.130",
-      user: "u477423730",
-      password: "Thenyera@1B$",
-      port: 21,
+      host: process.env.FTP_HOST || "localhost",
+      user: process.env.FTP_USER || "",
+      password: process.env.FTP_PASSWORD || "",
+      port: parseInt(process.env.FTP_PORT || "21", 10),
     });
 
     // 3) Upload each file you actually received, and store its URL.
@@ -105,7 +104,7 @@ export async function POST(req: Request) {
     }
 
     client.close();
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     const sql = `
       INSERT INTO employee_details
         (firstName, middleName, lastName, aadharName, aadharNumber, panNumber, 
@@ -140,7 +139,7 @@ export async function POST(req: Request) {
     ];
 
     await connection.execute(sql, params);
-    await connection.end();
+    // connection returned to pool
 
     // 6) Return success
     return NextResponse.json({

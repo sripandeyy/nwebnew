@@ -1,5 +1,4 @@
-import dbConfig from '../../dbConfig';
-import mysql from 'mysql2/promise';
+import { getDb } from '../../db';
 import { NextRequest } from 'next/server';
 
 export async function DELETE(req: NextRequest) {
@@ -14,9 +13,9 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     await connection.execute('DELETE FROM leads WHERE id = ?', [id]);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify({ message: 'Lead deleted successfully' }), {
       status: 200,

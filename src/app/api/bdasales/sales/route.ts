@@ -1,5 +1,4 @@
-import mysql from 'mysql2/promise';
-import dbConfig from '../../dbConfig'; 
+import { getDb } from '../../db'; 
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -10,10 +9,10 @@ export async function GET(req: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     const [rows] = await connection.execute('SELECT * FROM bdasales ORDER BY createdAt DESC');
     console.log(rows);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify(rows), {
       status: 200,

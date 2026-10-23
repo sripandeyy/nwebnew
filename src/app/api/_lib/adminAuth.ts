@@ -5,13 +5,13 @@ import dbConfig from '../dbConfig'
 export const ADMIN_COOKIE = 'nyeras_admin_session'
 export const ADMIN_SESSION_TTL_SECONDS = 24 * 60 * 60
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'ADMIN@2026'
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin@nyeras2026'
-// Alternate identifiers the sign-in form has always accepted for the admin account.
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || (process.env.NODE_ENV === 'production' ? '' : 'ADMIN@2026')
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || (process.env.NODE_ENV === 'production' ? '' : 'admin@nyeras2026')
+// Alternate identifiers the sign-in form has accepted for the admin account.
 const ADMIN_ALIASES = ['admin@nyeras2026', 'admin@nyeras.com']
 
 function secret(): string {
-  return process.env.ADMIN_SESSION_SECRET || `nyeras-admin:${dbConfig.password}:${ADMIN_PASSWORD}`
+  return process.env.ADMIN_SESSION_SECRET || (process.env.NODE_ENV === 'production' ? `nyeras-admin:${process.env.MYSQL_PASSWORD}` : 'nyeras-dev-secret-key-12345')
 }
 
 function sha256(value: string) {

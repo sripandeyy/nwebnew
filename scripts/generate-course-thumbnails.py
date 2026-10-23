@@ -263,11 +263,9 @@ def update_catalog_paths(courses: list[dict[str, str]]) -> None:
 
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    courses = parse_courses(CATALOG.read_text())
-    assets_dir = ROOT.parent / ".cursor/projects/Users-challachinnaobulesh-Downloads-Nyeras-Main-Website-main/assets"
+    assets_dir = ROOT / "assets"
     if not assets_dir.exists():
-        assets_dir = Path("/Users/challachinnaobulesh/.cursor/projects/Users-challachinnaobulesh-Downloads-Nyeras-Main-Website-main/assets")
-    manifest = []
+        assets_dir = ROOT.parent / "assets"
     for i, c in enumerate(courses, 1):
         slug, title = c["slug"], c["title"]
         out = OUT_DIR / f"{slug}.png"

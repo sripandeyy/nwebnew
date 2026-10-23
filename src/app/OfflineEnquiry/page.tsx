@@ -6,7 +6,6 @@ import { Briefcase, Code, Database, Globe, Laptop, MapPin, Phone, Server} from "
 import Header from "../components/Header"
 import Topbar from "../components/Topbar"
 import Footer from "../components/Footer"
-import Head from "next/head"
 export default function HomePage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" })
   const [successMessage, setSuccessMessage] = useState("")
@@ -40,17 +39,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Head>
-        <title>Java Full Stack Developer Bootcamp</title>
-        <meta
-          name="description"
-          content="Join our intensive offline program in Hyderabad and become a Java Full Stack Developer"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="robots" content="follow, index" />
-        <meta charSet="UTF-8" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
-      </Head>
+      <title>Java Full Stack Developer Bootcamp | Nyeras</title>
       <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100">
         <Topbar />
         <Header />

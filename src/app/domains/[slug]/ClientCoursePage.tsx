@@ -52,7 +52,11 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
           slug === "ai-machine-learning-foundations" ||
           slug === "ai-in-economics-data-thinking" ||
           slug === "finance-stock-market-awareness" ||
-          slug === "finance-market-awareness";
+          slug === "finance-market-awareness" ||
+          slug === "finance-foundations" ||
+          slug === "stock-market-awareness" ||
+          slug === "chemistry-curriculum" ||
+          slug === "chemistry";
 
         const isJob = Boolean((c as any).jobGuarantee) || (c as any).category === "Job Guarantee" || (c as any).tier === "Job Guarantee" || slug.includes("job-guarantee");
         if (isJob && (c.price === "₹60,000" || c.price === "₹59,999" || !c.price)) {
@@ -136,7 +140,11 @@ export default function ClientCoursePage({ slug }: { slug: string }) {
     slug === "ai-machine-learning-foundations" ||
     slug === "ai-in-economics-data-thinking" ||
     slug === "finance-stock-market-awareness" ||
-    slug === "finance-market-awareness";
+    slug === "finance-market-awareness" ||
+    slug === "finance-foundations" ||
+    slug === "stock-market-awareness" ||
+    slug === "chemistry-curriculum" ||
+    slug === "chemistry";
 
   return (
     <div className="min-h-screen flex flex-col bg-white/60 relative">

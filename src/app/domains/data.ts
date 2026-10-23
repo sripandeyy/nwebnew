@@ -127,34 +127,46 @@ export function findCourseBySlug(slug: string): { course: Course | null; domainN
       const stored = localStorage.getItem('nyeras_custom_courses')
       if (stored) {
         const parsed: Course[] = JSON.parse(stored)
-        const financeAliases = ["finance-market-awareness", "finance-stock-market-awareness"]
-        const candidates = financeAliases.includes(slug) ? financeAliases : [slug]
+        const financeAliases = [
+          "finance-market-awareness",
+          "finance-stock-market-awareness",
+          "finance-foundations",
+          "stock-market-awareness",
+          "chemistry-curriculum",
+          "chemistry",
+        ];
+        const candidates = financeAliases.includes(slug) ? financeAliases : [slug];
         if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some((c) => c && candidates.includes(c.slug))) {
           // The stored catalogue is a full snapshot, so a missing slug means the admin deleted it.
-          return { course: null }
+          return { course: null };
         }
-        const matched = parsed.find((c) => c.slug === slug)
+        const matched = parsed.find((c) => c.slug === slug);
         if (matched) {
           const isJob = Boolean(matched.jobGuarantee) || matched.slug?.includes('job-guarantee');
           if (isJob && (matched.price === '₹60,000' || matched.price === '₹59,999' || !matched.price)) {
             matched.price = '₹99,999';
             matched.originalPrice = '₹1,49,999';
           }
-          return { course: matched, domainName: matched.category || (isJob ? "Job Guarantee" : "Domain Course") }
+          return { course: matched, domainName: matched.category || (isJob ? "Job Guarantee" : "Domain Course") };
         }
       }
     } catch (e) {
-      console.error('Error reading dynamic courses in findCourseBySlug', e)
+      console.error('Error reading dynamic courses in findCourseBySlug', e);
     }
   }
 
-  const targetSlug = slug === "finance-market-awareness" ? "finance-stock-market-awareness" : slug;
+  let targetSlug = slug;
+  if (slug === "finance-market-awareness" || slug === "finance-stock-market-awareness") {
+    targetSlug = "finance-foundations";
+  } else if (slug === "chemistry") {
+    targetSlug = "chemistry-curriculum";
+  }
 
   for (const d of domains) {
-    const c = d.courses.find((c) => c.slug === targetSlug || (slug === "finance-stock-market-awareness" && c.slug === "finance-market-awareness"));
+    const c = d.courses.find((c) => c.slug === targetSlug || c.slug === slug);
     if (c) return { course: c, domainName: d.name };
   }
-  const j = jobGuaranteeCourses.find((c) => c.slug === targetSlug);
+  const j = jobGuaranteeCourses.find((c) => c.slug === targetSlug || c.slug === slug);
   if (j) return { course: j, domainName: "Job Guarantee" };
   return { course: null };
 }

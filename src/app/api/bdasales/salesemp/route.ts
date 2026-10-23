@@ -1,5 +1,5 @@
-import mysql, { type RowDataPacket } from 'mysql2/promise';
-import dbConfig from '../../dbConfig';
+import type { RowDataPacket   } from "mysql2/promise";
+import { getDb } from '../../db';
 import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest) {
   try {
@@ -9,9 +9,9 @@ export async function GET(req: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     const [rows] = await connection.execute<RowDataPacket[]>('SELECT id, name, email, phone FROM employees WHERE department = "Sales"');
-    await connection.end();
+    // connection returned to pool
 
     // Modify the name field to be "name-id"
     const modifiedRows = rows.map((row) => ({

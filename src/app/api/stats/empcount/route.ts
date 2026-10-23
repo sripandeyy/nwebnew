@@ -1,9 +1,9 @@
-import dbConfig from '../../dbConfig'; // Your MySQL database configuration
-import mysql, { type RowDataPacket } from 'mysql2/promise';
+import { getDb } from '../../db'; // Your MySQL database configuration
+import type { RowDataPacket   } from "mysql2/promise";
 
 export async function GET() {
   try {
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // 1. Total employees
     const [rows] = await connection.execute<RowDataPacket[]>(
@@ -42,7 +42,7 @@ export async function GET() {
     console.log('Recent Payroll:', recentPayroll);
 
 
-    await connection.end();
+    // connection returned to pool
 
     // Return all data in a single JSON response
     return new Response(

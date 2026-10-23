@@ -1,6 +1,5 @@
 // app/api/hr/employees/deleteemployee/route.js (or pages/api/hr/employees/deleteemployee.js)
-import dbConfig from "../../../dbConfig" // Import your MySQL database configuration
-import mysql from "mysql2/promise"
+import { getDb } from '../../../db'; // Import your MySQL database configuration
 import { NextRequest,NextResponse } from "next/server"
 
 const VALID_DELETE_PASSWORD = "@dm1n123" // Replace with your actual password
@@ -27,9 +26,9 @@ export async function DELETE(req:NextRequest) {
     }
 
     // If the password is valid, proceed with deletion
-    const connection = await mysql.createConnection(dbConfig)
+    const connection = getDb();
     await connection.execute("DELETE FROM employees WHERE id = ?", [id])
-    await connection.end()
+    // connection returned to pool
 
     return NextResponse.json({ message: "Employee deleted successfully" })
   } catch (error) {

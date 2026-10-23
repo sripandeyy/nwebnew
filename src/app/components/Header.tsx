@@ -195,7 +195,7 @@ const Header = () => {
                           <ArrowRight className="w-4 h-4 text-blue-500 group-hover:translate-x-1 transition-all shrink-0" />
                         </div>
                         <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-400 font-bold mt-0.5 whitespace-normal">
-                          Curated AI, Coding & Finance for Schools
+                          Curated AI, Coding, Sciences & Finance for Schools
                         </p>
                       </div>
                     </Link>

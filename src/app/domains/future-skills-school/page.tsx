@@ -41,26 +41,26 @@ const streamMapping = [
   },
   {
     stream: "Science (PCM / PCB)",
-    tag: "Maths & Intelligent Systems",
-    courses: ["AI & Machine Learning Foundations", "C++ Programming Foundations"],
-    reason: "Connects mathematics, logic, and scientific thinking to real-world data and intelligent algorithms.",
+    tag: "Maths, Lab & Intelligent Systems",
+    courses: ["Chemistry Curriculum", "AI & Machine Learning Foundations", "C++ Programming Foundations"],
+    reason: "Connects chemical foundations, experimental laboratory mastery, mathematics, and logic to modern computing and intelligent algorithms.",
   },
   {
     stream: "Commerce",
     tag: "Business & Financial Literacy",
-    courses: ["Finance & Stock Market Awareness", "AI in Economics & Data Thinking"],
-    reason: "Links business concepts, money, and financial markets to structured data analysis and decision-making.",
+    courses: ["Finance & Financial Literacy", "Stock Market Awareness", "AI in Economics & Data Thinking"],
+    reason: "Links money management, corporate financials, capital markets, and SEBI regulations to structured data analysis and decision-making.",
   },
   {
     stream: "Humanities / Economics",
     tag: "Evidence & Policy",
-    courses: ["AI in Economics & Data Thinking", "Finance & Stock Market Awareness"],
+    courses: ["AI in Economics & Data Thinking", "Finance & Financial Literacy", "Stock Market Awareness"],
     reason: "Cultivates evidence-based reasoning about people, economic incentives, markets, and public policy.",
   },
   {
     stream: "Curious Beginners (Any Stream)",
     tag: "Concept-First Exploration",
-    courses: ["AI & Machine Learning Foundations", "Java & Full-Stack Foundations"],
+    courses: ["AI & Machine Learning Foundations", "Java & Full-Stack Foundations", "Finance & Financial Literacy"],
     reason: "Concept-first entry points with immediate visible results, requiring zero prior coding experience.",
   },
 ];
@@ -76,7 +76,7 @@ const pedagogySteps = [
 
 const implementationSteps = [
   { num: "1", title: "Select", desc: "Identify suitable classes & student cohorts." },
-  { num: "2", title: "Choose", desc: "Select one or more tracks from the 5 programs." },
+  { num: "2", title: "Choose", desc: "Select one or more tracks from the 7 programs." },
   { num: "3", title: "Agree", desc: "Finalize format, duration and school timetable." },
   { num: "4", title: "Pilot", desc: "Run a premier pilot cohort with guided mentoring." },
   { num: "5", title: "Review", desc: "Assess learning outcomes & student response." },
@@ -145,7 +145,7 @@ export default function FutureSkillsSchoolPage() {
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              A curated, project-based curriculum in programming, AI, data thinking, and financial awareness,
+              A curated, project-based curriculum in programming, AI, data thinking, sciences, and financial literacy,
               designed to complement the academic foundation the school already provides. Advanced professional
               topics are deliberately simplified so every learner works at the right level.
             </p>
@@ -153,7 +153,7 @@ export default function FutureSkillsSchoolPage() {
             {/* Quick Stats Bento */}
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
               <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm backdrop-blur-md">
-                <div className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">5</div>
+                <div className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">7</div>
                 <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">Foundational Tracks</div>
               </div>
               <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm backdrop-blur-md">

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-import dbConfig from "../../../dbConfig";
+import { getDb } from '../../../db';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   if (req.method !== "POST") {
@@ -21,7 +20,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ message: "Invalid status value." }, { status: 400 });
     }
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     const query = `
       UPDATE tasks 
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const values = [status, taskId];
 
     await connection.execute(query, values);
-    await connection.end();
+    // connection returned to pool
 
     return NextResponse.json({ message: "Task status updated successfully" }, { status: 200 });
   } catch (error) {

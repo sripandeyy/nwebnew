@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "test": "tsx --test tests/**/*.test.ts",
-    "build": "next build",
-    "start": "next start",
+    "build": "NODE_OPTIONS=--max-old-space-size=1536 next build",
+    "postbuild": "node scripts/sync-standalone.js",
+    "start": "node server.js",
     "lint": "next lint",
     "vercel-build": "next build",
     "ins": "npm install --legacy-peer-deps"
+  },
+  "engines": {
+    "node": ">=18.18.0 <21"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-import dbConfig from "../../../dbConfig";
+import { getDb } from '../../../db';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   if (req.method !== "POST") {
@@ -16,7 +15,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ message: "Invalid or missing fields." }, { status: 400 });
     }
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     // Update the task's total time spent
     const updateQuery = `
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       await connection.execute(descQuery, descValues);
     }
 
-    await connection.end();
+    // connection returned to pool
 
     return NextResponse.json({ message: "Time logged successfully" }, { status: 200 });
   } catch (error) {

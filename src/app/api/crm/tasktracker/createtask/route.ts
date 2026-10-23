@@ -1,5 +1,4 @@
-import dbConfig from "../../../dbConfig"; // Import MySQL database configuration
-import mysql from "mysql2/promise";
+import { getDb } from '../../../db'; // Import MySQL database configuration
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -22,7 +21,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
 
     const query = `
       INSERT INTO tasks (title, assignee, dueDate, type)
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
     const values = [title, assignee, dueDate, type];
 
     await connection.execute(query, values);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(
       JSON.stringify({

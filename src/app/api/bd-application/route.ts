@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server"
-import mysql from "mysql2/promise"
-import dbConfig from "../dbConfig"
+import { getDb } from '../db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,38 +48,34 @@ export async function POST(req: NextRequest) {
     }
 
     // Create database connection
-    const connection = await mysql.createConnection(dbConfig)
+    const connection = getDb();
 
-    try {
-      // Insert data into bd_applications table
-      const query = `
-        INSERT INTO bd_applications 
-        (name, email, phone_number, experience_level, years_of_experience, submitted_at) 
-        VALUES (?, ?, ?, ?, ?, NOW())
-      `
-      const values = [
-        name,
-        email,
-        phone_number,
-        experience_level,
-        experience_level === "Experienced" ? years_of_experience : null,
-      ]
+    // Insert data into bd_applications table
+    const query = `
+      INSERT INTO bd_applications 
+      (name, email, phone_number, experience_level, years_of_experience, submitted_at) 
+      VALUES (?, ?, ?, ?, ?, NOW())
+    `
+    const values = [
+      name,
+      email,
+      phone_number,
+      experience_level,
+      experience_level === "Experienced" ? years_of_experience : null,
+    ]
 
-      await connection.execute(query, values)
+    await connection.execute(query, values)
 
-      return new Response(
-        JSON.stringify({ 
-          success: true,
-          message: "Business Development application submitted successfully!" 
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-    } finally {
-      await connection.end()
-    }
+    return new Response(
+      JSON.stringify({ 
+        success: true,
+        message: "Business Development application submitted successfully!" 
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    ) 
   } catch (error) {
     console.error("Error submitting BD application:", error)
     return new Response(

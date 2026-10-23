@@ -1,11 +1,9 @@
-import dbConfig from '../dbConfig'; // Import your MySQL database configuration
-import mysql from 'mysql2/promise';
 import { NextRequest } from "next/server";
-import nodemailer from 'nodemailer';
+import { getDb } from '../db';
+import { sendMailSafe } from '../_lib/mailer';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  console.log(body);
   const { title, email, description } = body;
 
   // Validate title, email, and description
@@ -24,66 +22,46 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const connection = await mysql.createConnection(dbConfig);
+    const pool = getDb();
     const now = new Date();
     const timestamp = now.toISOString();
     const date = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
     
-    try {
-      const query = `INSERT INTO support_tickets (title, email, description, timestamp, date, status) VALUES (?, ?, ?, ?, ?, ?)`;
-      const values = [title, email, description, timestamp, date, 'Pending'];
-      
-      await connection.execute(query, values);
-    } finally {
-      await connection.end().catch(() => {});
-    }
+    const query = `INSERT INTO support_tickets (title, email, description, timestamp, date, status) VALUES (?, ?, ?, ?, ?, ?)`;
+    const values = [title, email, description, timestamp, date, 'Pending'];
+    
+    await pool.execute(query, values);
 
-    try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.hostinger.com",
-        port: parseInt(process.env.SMTP_PORT || "465", 10),
-        secure: true,
-        auth: {
-          user: process.env.SMTP_USER || "no-reply@nyeras.com",
-          pass: process.env.SMTP_PASS || "Techteam@123$",
-        },
-        connectionTimeout: 5000,
-        greetingTimeout: 5000,
-      });
-
-      await transporter.sendMail({
-        from: process.env.SMTP_USER || 'no-reply@nyeras.com',
-        to: email,
-        subject: `New Support Ticket - ${title}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f9f9f9;">
-            <h2 style="color: #333; border-bottom: 2px solid #ff6600; padding-bottom: 10px;">New Support Ticket</h2>
-            
-            <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Title:</strong> ${title}</p>
-            <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Email:</strong> ${email}</p>
-            <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Description:</strong></p>
-            <div style="background: #fff; padding: 10px; border-left: 4px solid #ff6600; margin-bottom: 15px; color: #555;">
-              ${description}
-            </div>
-            <p style="font-size: 16px; color: #444;"><strong>Timestamp:</strong> ${timestamp}</p>
-            <p style="font-size: 16px; color: #444;"><strong>Date:</strong> ${date}</p>
-            
-            <footer style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 14px; color: #777;">
-              <p>This is an automated message from <strong>Nyeras Support</strong>. Please do not reply to this email.</p>
-            </footer>
+    // Non-fatal email notification
+    await sendMailSafe({
+      to: email,
+      subject: `New Support Ticket - ${title}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #f9f9f9;">
+          <h2 style="color: #333; border-bottom: 2px solid #ff6600; padding-bottom: 10px;">New Support Ticket</h2>
+          
+          <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Title:</strong> ${title}</p>
+          <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Email:</strong> ${email}</p>
+          <p style="font-size: 16px; color: #444; margin-bottom: 10px;"><strong>Description:</strong></p>
+          <div style="background: #fff; padding: 10px; border-left: 4px solid #ff6600; margin-bottom: 15px; color: #555;">
+            ${description}
           </div>
-        `,
-      });
-    } catch (emailError) {
-      console.warn('Support ticket email delivery failed (ticket saved to DB):', emailError);
-    }
+          <p style="font-size: 16px; color: #444;"><strong>Timestamp:</strong> ${timestamp}</p>
+          <p style="font-size: 16px; color: #444;"><strong>Date:</strong> ${date}</p>
+          
+          <footer style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 14px; color: #777;">
+            <p>This is an automated message from <strong>Nyeras Support</strong>. Please do not reply to this email.</p>
+          </footer>
+        </div>
+      `,
+    });
 
     return new Response(JSON.stringify({ message: 'Support ticket submitted successfully.' }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Support ticket error:', error);
     return new Response(
       JSON.stringify({ message: 'Failed to submit ticket. Please try again later.' }),
       {

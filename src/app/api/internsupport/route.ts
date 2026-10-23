@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import nodemailer from 'nodemailer';
+import { sendMailSafe } from '../_lib/mailer';
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,21 +30,9 @@ export async function POST(req: NextRequest) {
     const timestamp = now.toISOString();
     const date = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
 
-    // Configure Nodemailer for email notifications
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.hostinger.com', // Replace with your SMTP host
-      port: 465,                 // Use the secure SMTP port
-      secure: true,              // Use SSL/TLS
-      auth: {
-        user: 'no-reply@nyeras.com', // Your custom domain email
-        pass: 'Techteam@123$',        // Your email password
-      },
-    });
-
-    // Send email notification
-    await transporter.sendMail({
-      from: 'no-reply@nyeras.com',
-      to: 'internships@nyeras.com',
+    // Send email notification safely
+    const mailRes = await sendMailSafe({
+      to: process.env.INTERNSHIP_SUPPORT_EMAIL || 'internships@nyeras.com',
       subject: `Nyeras - Support Request ${date}`,
       html: `
         <h2>New Support Request</h2>
@@ -55,6 +43,10 @@ export async function POST(req: NextRequest) {
         <p><strong>Date:</strong> ${date}</p>
       `,
     });
+
+    if (!mailRes.success) {
+      console.warn('[InternSupport] Email delivery failed:', mailRes.error);
+    }
 
     // Respond with success
     return new Response(

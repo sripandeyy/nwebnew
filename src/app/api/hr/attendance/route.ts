@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server"
-import mysql, { RowDataPacket } from "mysql2/promise"
-import dbConfig from "../../dbConfig"
+import type {  RowDataPacket  } from "mysql2/promise";
+import { getDb } from '../../db';
 
 
 /**
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const connection = await mysql.createConnection(dbConfig)
+    const connection = getDb();
 
     const query = `
       SELECT 
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     const [rows] = await connection.execute<RowDataPacket[]>(query, [date])
     console.log("Database rows:", rows)
 
-    await connection.end()
+    // connection returned to pool
 
     const employeesMap = new Map()
 

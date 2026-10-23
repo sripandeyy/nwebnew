@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import nodemailer from "nodemailer";
+import { sendMailSafe } from "../_lib/mailer";
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,37 +23,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Configure nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      host: "smtp.hostinger.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "internships@nyeras.com",
-        pass: "Nyeras@69$",
-      },
-    });
-
     // Email details
     const emailContent = {
-      from: 'internships@nyeras.com',
+      from: process.env.INTERNSHIP_SUPPORT_EMAIL || 'internships@nyeras.com',
       subject: `We are hiring interns at Nyeras! visit https://www.nyeras.com/internships`,
       html: `
         <div style="margin-top: 20px;">
-  <!-- Wrap the image with an anchor tag -->
-  <a href="https://www.nyeras.com/internships" target="_blank" style="text-decoration: none;">
-    <img src="https://i.ibb.co/0nHbZBs/White-Yellow-Simple-We-Are-Hiring-Poster-2.png" 
-         alt="Enroll Now" 
-         style="width: 100%; max-width: 700px; display: block; margin: 0 auto; border-radius: 10px;">
-  </a>
-</div>
-
+          <a href="https://www.nyeras.com/internships" target="_blank" style="text-decoration: none;">
+            <img src="https://i.ibb.co/0nHbZBs/White-Yellow-Simple-We-Are-Hiring-Poster-2.png" 
+                 alt="Enroll Now" 
+                 style="width: 100%; max-width: 700px; display: block; margin: 0 auto; border-radius: 10px;">
+          </a>
+        </div>
       `,
     };
 
-
     for (const email of emails) {
-      await transporter.sendMail({
+      await sendMailSafe({
         ...emailContent,
         to: email,
       });

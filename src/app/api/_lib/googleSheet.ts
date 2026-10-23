@@ -1,16 +1,4 @@
 import { GoogleAuth } from 'google-auth-library';
-import fs from 'fs';
-import path from 'path';
-
-let serviceAccount: any = null;
-try {
-  const serviceJsonPath = path.join(process.cwd(), 'src/app/api/Service.json');
-  if (fs.existsSync(serviceJsonPath)) {
-    serviceAccount = JSON.parse(fs.readFileSync(serviceJsonPath, 'utf8'));
-  }
-} catch {
-  // Service.json is optional when GOOGLE_SHEETS_WEBHOOK_URL is configured
-}
 
 export interface CallbackLeadData {
   name: string;
@@ -27,28 +15,63 @@ export interface CallbackLeadData {
 const DEFAULT_SPREADSHEET_ID = '1j29qQWzQchQA1pFu66A7WbSs8LnvHVn1Yr4aCzXyMaE';
 
 /**
- * Sends callback lead data directly to the Google Spreadsheet.
- * Supports both:
- *  1. Google Apps Script Web App Webhook (via GOOGLE_SHEETS_WEBHOOK_URL in .env)
- *  2. Google Sheets API v4 using Service Account (Service.json)
+ * Parses Google Service Account credentials from environment variables.
+ * Supports:
+ *  1. GOOGLE_SERVICE_ACCOUNT_JSON (raw JSON string or base64-encoded JSON)
+ *  2. Individual GOOGLE_SERVICE_ACCOUNT_EMAIL and GOOGLE_PRIVATE_KEY
  */
-export async function appendCallbackToGoogleSheet(lead: CallbackLeadData): Promise<{ success: boolean; method?: string; error?: string }> {
-  const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID || DEFAULT_SPREADSHEET_ID;
-  
-  // Resolve Webhook URL from process.env or fallback to direct .env read if needed
-  let webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim();
-  if (!webhookUrl) {
+function getServiceAccountCredentials(): { client_email: string; private_key: string } | null {
+  const rawJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim();
+  if (rawJson) {
     try {
-      const envPath = path.join(process.cwd(), '.env');
-      if (fs.existsSync(envPath)) {
-        const envText = fs.readFileSync(envPath, 'utf8');
-        const match = envText.match(/GOOGLE_SHEETS_WEBHOOK_URL=["']?([^"'\r\n]+)["']?/);
-        if (match) webhookUrl = match[1].trim();
+      let jsonString = rawJson;
+      // If it doesn't start with '{', test if it is base64 encoded
+      if (!rawJson.startsWith('{')) {
+        try {
+          const decoded = Buffer.from(rawJson, 'base64').toString('utf8');
+          if (decoded.trim().startsWith('{')) {
+            jsonString = decoded.trim();
+          }
+        } catch {
+          // Keep rawJson as-is
+        }
       }
-    } catch {
-      // Ignore env read error
+
+      const parsed = JSON.parse(jsonString);
+      if (parsed.client_email && parsed.private_key) {
+        return {
+          client_email: parsed.client_email,
+          private_key: parsed.private_key.replace(/\\n/g, '\n'),
+        };
+      }
+    } catch (parseErr) {
+      console.warn('[GoogleSheet] Could not parse GOOGLE_SERVICE_ACCOUNT_JSON:', (parseErr as Error).message);
     }
   }
+
+  // Fallback to separate env variables if set
+  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
+  const rawKey = process.env.GOOGLE_PRIVATE_KEY?.trim();
+  if (email && rawKey) {
+    return {
+      client_email: email,
+      private_key: rawKey.replace(/\\n/g, '\n'),
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Appends callback lead data directly to the Google Spreadsheet.
+ * Guaranteed to never throw; a failure in Google Sheets will never block
+ * database insertion or email sending.
+ */
+export async function appendCallbackToGoogleSheet(
+  lead: CallbackLeadData
+): Promise<{ success: boolean; method?: string; error?: string }> {
+  const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID?.trim() || DEFAULT_SPREADSHEET_ID;
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL?.trim();
 
   const now = new Date();
   const timestamp = lead.timestamp || now.toISOString();
@@ -68,7 +91,64 @@ export async function appendCallbackToGoogleSheet(lead: CallbackLeadData): Promi
     spreadsheetId,
   };
 
-  // 1. Try Google Apps Script Webhook if configured (primary reliable method)
+  // --- Method 1: Google Sheets API v4 using Service Account (No disk read) ---
+  const creds = getServiceAccountCredentials();
+  if (creds) {
+    try {
+      const auth = new GoogleAuth({
+        credentials: {
+          client_email: creds.client_email,
+          private_key: creds.private_key,
+        },
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+      });
+
+      const client = await auth.getClient();
+      const tokenResponse = await client.getAccessToken();
+      const accessToken = tokenResponse?.token;
+
+      if (accessToken) {
+        const rowValues = [
+          timestamp,
+          date,
+          lead.name,
+          lead.email,
+          lead.phone,
+          program,
+          source,
+          lead.notes || '',
+        ];
+
+        const sheetsApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A:H:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
+        const apiRes = await fetch(sheetsApiUrl, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            range: 'A:H',
+            majorDimension: 'ROWS',
+            values: [rowValues],
+          }),
+          signal: AbortSignal.timeout(8000),
+        });
+
+        if (apiRes.ok) {
+          console.log(`[GoogleSheet] Lead for "${lead.name}" appended via Google Sheets API v4.`);
+          return { success: true, method: 'sheets_api' };
+        } else {
+          const apiErr = await apiRes.json().catch(() => null);
+          const errMsg = apiErr?.error?.message || apiRes.statusText;
+          console.warn(`[GoogleSheet] Sheets API returned HTTP ${apiRes.status}:`, errMsg);
+        }
+      }
+    } catch (apiErr: any) {
+      console.warn('[GoogleSheet] Sheets API direct sync encountered an issue:', apiErr?.message || apiErr);
+    }
+  }
+
+  // --- Method 2: Google Apps Script Webhook Fallback ---
   if (webhookUrl) {
     try {
       const response = await fetch(webhookUrl, {
@@ -76,84 +156,20 @@ export async function appendCallbackToGoogleSheet(lead: CallbackLeadData): Promi
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         redirect: 'follow',
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(10000),
       });
 
       if (response.ok) {
-        console.log(`[GoogleSheet] Successfully appended callback lead for "${lead.name}" via Webhook.`);
+        console.log(`[GoogleSheet] Lead for "${lead.name}" appended via Apps Script Webhook.`);
         return { success: true, method: 'webhook' };
       } else {
         const errorText = await response.text().catch(() => '');
-        console.warn(`[GoogleSheet] Webhook returned status ${response.status}: ${errorText}`);
+        console.warn(`[GoogleSheet] Webhook returned HTTP ${response.status}:`, errorText.slice(0, 200));
       }
     } catch (webhookErr) {
-      console.warn('[GoogleSheet] Error calling Google Sheets webhook:', webhookErr);
+      console.warn('[GoogleSheet] Webhook call failed:', (webhookErr as Error).message);
     }
   }
 
-  // 2. Try Google Sheets API v4 via Service Account
-  try {
-    const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || serviceAccount.client_email;
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || serviceAccount.private_key)?.replace(/\\n/g, '\n');
-
-    if (!clientEmail || !privateKey) {
-      throw new Error('Google Service Account credentials missing.');
-    }
-
-    const auth = new GoogleAuth({
-      credentials: {
-        client_email: clientEmail,
-        private_key: privateKey,
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const client = await auth.getClient();
-    const tokenResponse = await client.getAccessToken();
-    const accessToken = tokenResponse?.token;
-
-    if (!accessToken) {
-      throw new Error('Failed to retrieve access token from GoogleAuth.');
-    }
-
-    const rowValues = [
-      timestamp,
-      date,
-      lead.name,
-      lead.email,
-      lead.phone,
-      program,
-      source,
-      lead.notes || '',
-    ];
-
-    const sheetsApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A:H:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
-    const apiRes = await fetch(sheetsApiUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        range: 'A:H',
-        majorDimension: 'ROWS',
-        values: [rowValues],
-      }),
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (apiRes.ok) {
-      console.log(`[GoogleSheet] Successfully appended callback lead for "${lead.name}" via Google Sheets API.`);
-      return { success: true, method: 'sheets_api' };
-    }
-
-    const apiErr = await apiRes.json().catch(() => null);
-    const errMsg = apiErr?.error?.message || apiRes.statusText;
-    console.warn(`[GoogleSheet] Sheets API returned ${apiRes.status}:`, errMsg);
-    return { success: false, method: 'sheets_api', error: errMsg };
-  } catch (apiErr: any) {
-    const msg = apiErr?.message || String(apiErr);
-    console.warn('[GoogleSheet] Google Sheets direct API sync encountered an issue:', msg);
-    return { success: false, error: msg };
-  }
+  return { success: false, error: 'Google Sheets sync failed or credentials not configured.' };
 }

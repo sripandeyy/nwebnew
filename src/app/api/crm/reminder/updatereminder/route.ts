@@ -1,5 +1,5 @@
-import dbConfig from '../../../dbConfig'; // Import MySQL config
-import mysql from 'mysql2/promise';
+import { getDb } from '../../../db'; // Import MySQL config
+import type mysql from "mysql2/promise";
 import { NextRequest } from 'next/server';
 
 export async function PUT(req: NextRequest) {
@@ -14,12 +14,12 @@ export async function PUT(req: NextRequest) {
             });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
+        const connection = getDb();
         const query = 'UPDATE reminders SET status = ? WHERE id = ?';
         const values = [status, id];
 
         const [result] = await connection.execute<mysql.ResultSetHeader>(query, values);
-        await connection.end();
+        // connection returned to pool
 
         if (result.affectedRows === 0) {
             return new Response(JSON.stringify({ message: 'Reminder not found' }), {

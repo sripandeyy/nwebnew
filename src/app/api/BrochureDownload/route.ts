@@ -1,5 +1,4 @@
-import dbConfig from '../dbConfig'; // Import your MySQL database configuration
-import mysql from 'mysql2/promise';
+import { getDb } from '../db'; // Import your MySQL database configuration
 import { NextRequest } from "next/server"
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -22,7 +21,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = getDb();
     const now = new Date();
     const timestamp = now.toISOString();
     const date = now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
     const values = [name, email, phone, timestamp, date, 'Downloaded Brochure', 'NA', 'Not Reviewed', '', course];
     
     await connection.execute(query, values);
-    await connection.end();
+    // connection returned to pool
 
     return new Response(JSON.stringify({ message: 'Data saved successfully.' }), {
       status: 200,

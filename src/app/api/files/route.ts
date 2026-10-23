@@ -23,10 +23,10 @@ export async function POST(req: Request) {
         client.ftp.verbose = true;
 
         await client.access({
-            host: "217.21.95.130",
-            user: "u477423730",
-            password: "Thenyera@1B$", // Replace with actual FTP password
-            port: 21,
+            host: process.env.FTP_HOST || "localhost",
+            user: process.env.FTP_USER || "",
+            password: process.env.FTP_PASSWORD || "",
+            port: parseInt(process.env.FTP_PORT || "21", 10),
         });
 
         // Convert Buffer to Readable Stream

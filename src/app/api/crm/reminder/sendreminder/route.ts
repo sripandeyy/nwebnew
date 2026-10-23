@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import nodemailer from 'nodemailer';
+import { sendMailSafe } from '../../../../api/_lib/mailer';
 
 export async function POST(req: NextRequest) {
     try {
@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        console.log(body);
 
         const utcDate = new Date(dueDate);
         const istDate = new Intl.DateTimeFormat('en-IN', {
@@ -24,16 +23,6 @@ export async function POST(req: NextRequest) {
 
         // Format amount with currency symbol if it's just a number
         const formattedAmount = amount.toString().includes('₹') ? amount : `₹${amount}`;
-
-        const transporter = nodemailer.createTransport({
-            host: "smtp.hostinger.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: "no-reply@nyeras.com",
-                pass: "Techteam@123$",
-            },
-        });
 
         // Professional HTML email template
         const emailHtml = `
@@ -146,8 +135,7 @@ export async function POST(req: NextRequest) {
         </html>
         `;
 
-        await transporter.sendMail({
-            from: 'no-reply@nyeras.com',
+        await sendMailSafe({
             to: email,
             subject: `Reminder: Payment Due on ${istDate}`,
             html: emailHtml,
