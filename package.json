@@ -13,7 +13,7 @@
     "ins": "npm install --legacy-peer-deps"
   },
   "engines": {
-    "node": ">=18.18.0 <21"
+    "node": "24.x"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
