@@ -57,6 +57,8 @@ next-env.d.ts
 # temporary python/pillow artifacts
 .tmp_pillow/
 scripts/.pylibs/
+__pycache__/
+*.pyc
 
 # editor
 .vscode/

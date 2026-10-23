@@ -263,6 +263,10 @@ def update_catalog_paths(courses: list[dict[str, str]]) -> None:
 
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    catalog_text = CATALOG.read_text(encoding="utf-8")
+    courses = parse_courses(catalog_text)
+    manifest: list[dict[str, str]] = []
+
     assets_dir = ROOT / "assets"
     if not assets_dir.exists():
         assets_dir = ROOT.parent / "assets"
