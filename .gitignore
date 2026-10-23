@@ -61,3 +61,4 @@ scripts/.pylibs/
 # editor
 .vscode/
 
+src/app/api/Service.json
