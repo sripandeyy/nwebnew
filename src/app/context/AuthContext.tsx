@@ -29,15 +29,23 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AUTH_STORAGE_KEY = 'nyeras_auth_user'
 
 const ADMIN_USER: User = {
-  username: 'ADMIN@2026',
-  email: 'admin@nyeras.com',
-  name: 'Nyeras Administrator',
+  username: 'Administrator',
+  email: 'muskanjal638@gmail.com',
+  name: 'Administrator',
   role: 'admin',
   avatar: '/s2.png',
 }
 
 function looksLikeAdminId(id: string) {
-  return id.toUpperCase() === 'ADMIN@2026' || id.toLowerCase() === 'admin@nyeras2026' || id.toLowerCase() === 'admin@nyeras.com'
+  const clean = id.trim().toLowerCase()
+  return (
+    clean === 'muskanjal638@gmail.com' ||
+    clean === 'admin' ||
+    clean === 'admin@2026' ||
+    clean === 'admin@nyeras2026' ||
+    clean === 'admin@nyeras.com' ||
+    clean === ''
+  )
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -81,16 +89,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const cleanPass = password.trim()
 
     if (looksLikeAdminId(cleanId)) {
+      const effectiveId = cleanId || 'muskanjal638@gmail.com'
       try {
         const res = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
-          body: JSON.stringify({ identifier: cleanId, password: cleanPass }),
+          body: JSON.stringify({ identifier: effectiveId, password: cleanPass }),
         })
         if (!res.ok) {
           const body = await res.json().catch(() => null)
-          return { success: false, message: body?.error || 'Incorrect admin username or password.' }
+          return { success: false, message: body?.error || 'Incorrect admin password.' }
         }
       } catch {
         return { success: false, message: 'Could not reach the server. Please check your connection and try again.' }
@@ -99,8 +108,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(ADMIN_USER)
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(ADMIN_USER))
       setIsAuthModalOpen(false)
-      router.push('/lms')
-      return { success: true, message: 'Welcome back, Administrator! Redirecting to LMS Control Center...', role: 'admin' as const }
+      if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/admin')) {
+        router.push('/admin')
+      }
+      return { success: true, message: 'Welcome back, Administrator!', role: 'admin' as const }
     }
 
     // Regular User Login: Any other username/email and password
@@ -131,7 +142,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     // Check if trying to sign up as admin
-    if (cleanEmail.toUpperCase() === 'ADMIN@2026' || cleanEmail.toLowerCase() === 'admin@nyeras2026') {
+    if (looksLikeAdminId(cleanEmail)) {
       return { success: false, message: 'This is a reserved administrative credential. Please use Sign In.' }
     }
 

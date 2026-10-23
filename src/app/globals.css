@@ -920,34 +920,7 @@ html.dark .card-skeuo:hover {
   }
 }
 
-/* Suppress default Tawk.to floating bubble containers and tooltips */
-iframe[title*="chat widget" i]:not([style*="height: 100%"]):not([style*="height: 5"]):not([style*="height: 6"]):not([style*="height: 7"]):not([style*="height: 8"]),
-iframe[title*="chat widget" i][style*="border-radius: 50%"],
-iframe[title*="chat widget" i][style*="border-radius: 50px"],
-iframe[title*="chat widget" i][style*="border-radius: 9999px"],
-iframe[title*="chat widget" i][style*="border-radius: 100%"],
-iframe[title*="chat widget" i][style*="width: 60px"],
-iframe[title*="chat widget" i][style*="width: 64px"],
-iframe[title*="chat widget" i][style*="width: 70px"],
-iframe[title*="chat widget" i][style*="width: 56px"],
-.tawk-min-container,
-.tawk-button-circle,
-.tawk-bubble-container,
-.tawk-tooltip,
-[id*="tawk-bubble"],
-[id*="tawk-tooltip"],
-[class*="tawk-min"],
-[class*="tawk-bubble"],
-[class*="tawk-tooltip"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: scale(0) !important;
-}
-
-/* Suppress default Tawk.to floating bubble containers and tooltips */
-iframe[title*="chat widget" i]:not([style*="height: 100%"]):not([style*="height: 5"]):not([style*="height: 6"]):not([style*="height: 7"]):not([style*="height: 8"]),
+/* Suppress default Tawk.to floating bubble launcher and tooltips (custom AI button is used instead) */
 iframe[title*="chat widget" i][style*="border-radius: 50%"],
 iframe[title*="chat widget" i][style*="border-radius: 50px"],
 iframe[title*="chat widget" i][style*="border-radius: 9999px"],

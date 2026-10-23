@@ -82,7 +82,8 @@ export default function AdminPage() {
   const router = useRouter()
 
   // Dedicated Admin Direct Login State
-  const [adminIdentifier, setAdminIdentifier] = useState('muskanjal638@gmail.com')
+  const [adminIdentifier, setAdminIdentifier] = useState('')
+  const [showCustomId, setShowCustomId] = useState(false)
   const [adminPassword, setAdminPassword] = useState('')
   const [adminLoginLoading, setAdminLoginLoading] = useState(false)
   const [adminLoginError, setAdminLoginError] = useState<string | null>(null)
@@ -91,7 +92,8 @@ export default function AdminPage() {
     e.preventDefault()
     setAdminLoginLoading(true)
     setAdminLoginError(null)
-    const res = await login(adminIdentifier, adminPassword)
+    const effectiveId = adminIdentifier.trim() || 'muskanjal638@gmail.com'
+    const res = await login(effectiveId, adminPassword)
     setAdminLoginLoading(false)
     if (!res.success) {
       setAdminLoginError(res.message)
@@ -575,27 +577,38 @@ export default function AdminPage() {
             )}
 
             <form onSubmit={handleAdminDirectLogin} className="space-y-4">
-              <div>
-                <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                  Admin Email / ID
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={adminIdentifier}
-                  onChange={(e) => setAdminIdentifier(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="muskanjal638@gmail.com"
-                />
-              </div>
+              {showCustomId && (
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                    Admin Email / ID
+                  </label>
+                  <input
+                    type="text"
+                    value={adminIdentifier}
+                    onChange={(e) => setAdminIdentifier(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter admin ID or email"
+                  />
+                </div>
+              )}
 
               <div>
-                <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                  Password
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Master Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomId((prev) => !prev)}
+                    className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                  >
+                    {showCustomId ? 'Use default admin' : 'Specify custom ID'}
+                  </button>
+                </div>
                 <input
                   type="password"
                   required
+                  autoFocus
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -683,7 +696,7 @@ export default function AdminPage() {
                 {/* Friendly Pill Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-black shadow-sm">
                   <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                  <span>MASTER ADMINISTRATOR MODE • {user?.username || 'muskanjal638@gmail.com'}</span>
+                  <span>MASTER ADMINISTRATOR MODE</span>
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 dark:text-white tracking-tight leading-[1.15]">

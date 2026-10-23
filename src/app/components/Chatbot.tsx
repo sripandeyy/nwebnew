@@ -59,60 +59,67 @@ function BotAssistantIcon({ className = "w-9 h-9 sm:w-10 sm:h-10" }: { className
 
 export default function ChatBot() {
   const [isChatOpen, setIsChatOpen] = useState(false)
+  const isChatOpenRef = useRef(false)
+  isChatOpenRef.current = isChatOpen
   const launcherRef = useRef<HTMLElement>(null)
 
-  // Permanently suppress Tawk's default purple circular button and tooltip
+  // Suppress Tawk's default purple circular bubble and tooltips when minimized
   useEffect(() => {
-    const removePurpleBubble = () => {
-      // 1. Target and hide all small launcher iframes
+    const suppressDefaultLauncher = () => {
+      // Never suppress or touch anything if the chat is currently open
+      if (isChatOpenRef.current) return
+
+      // Target and hide only small launcher iframes
       const iframes = document.querySelectorAll('iframe')
       iframes.forEach((iframe) => {
         const title = (iframe.getAttribute('title') || '').toLowerCase()
         const ariaLabel = (iframe.getAttribute('aria-label') || '').toLowerCase()
         const width = iframe.offsetWidth || parseInt(iframe.style.width, 10) || 0
         const height = iframe.offsetHeight || parseInt(iframe.style.height, 10) || 0
-        const isCircle = iframe.style.borderRadius && (iframe.style.borderRadius.includes('50%') || iframe.style.borderRadius.includes('100%'))
+        const isCircle =
+          iframe.style.borderRadius &&
+          (iframe.style.borderRadius.includes('50%') || iframe.style.borderRadius.includes('100%'))
 
-        // If it's a small launcher bubble (not the full chat window)
+        // Only hide if it's a small launcher bubble (never hide large/open chat windows or pre-chat forms)
         if (
           (title.includes('chat widget') || title.includes('tawk') || ariaLabel.includes('chat widget') || isCircle) &&
-          (width < 180 || height < 180 || isCircle)
+          (isCircle || (width > 0 && width < 120 && height > 0 && height < 120))
         ) {
-          iframe.style.setProperty('display', 'none', 'important')
-          iframe.style.setProperty('visibility', 'hidden', 'important')
-          iframe.style.setProperty('opacity', '0', 'important')
-          iframe.style.setProperty('pointer-events', 'none', 'important')
-          iframe.style.setProperty('transform', 'scale(0)', 'important')
+          if (iframe.style.display !== 'none') {
+            iframe.style.setProperty('display', 'none', 'important')
+            iframe.style.setProperty('visibility', 'hidden', 'important')
+            iframe.style.setProperty('pointer-events', 'none', 'important')
+          }
         }
       })
 
-      // 2. Target any container/div/tooltip elements created by Tawk
+      // Target small container/tooltip elements created by Tawk
       const tawkElements = document.querySelectorAll(
-        '.tawk-min-container, .tawk-button-circle, .tawk-bubble-container, .tawk-tooltip, [id*="tawk-bubble"], [id*="tawk-tooltip"], [class*="tawk-min"], [class*="tawk-bubble"], [class*="tawk-tooltip"]'
+        '.tawk-min-container, .tawk-button-circle, .tawk-bubble-container, .tawk-tooltip, [id*="tawk-bubble"], [id*="tawk-tooltip"]'
       )
       tawkElements.forEach((el) => {
         const htmlEl = el as HTMLElement
-        htmlEl.style.setProperty('display', 'none', 'important')
-        htmlEl.style.setProperty('visibility', 'hidden', 'important')
-        htmlEl.style.setProperty('opacity', '0', 'important')
-        htmlEl.style.setProperty('pointer-events', 'none', 'important')
-        htmlEl.style.setProperty('transform', 'scale(0)', 'important')
+        if (htmlEl.style.display !== 'none') {
+          htmlEl.style.setProperty('display', 'none', 'important')
+          htmlEl.style.setProperty('visibility', 'hidden', 'important')
+          htmlEl.style.setProperty('pointer-events', 'none', 'important')
+        }
       })
 
-      // 3. Keep widget hidden if minimized
-      if (typeof window !== 'undefined' && window.Tawk_API) {
-        if (typeof window.Tawk_API.hideWidget === 'function') {
-          if (!window.Tawk_API.isChatMaximized?.()) {
-            window.Tawk_API.hideWidget()
-          }
-        }
+      // Keep native widget hidden while minimized
+      if (!isChatOpenRef.current && typeof window !== 'undefined' && window.Tawk_API?.hideWidget) {
+        window.Tawk_API.hideWidget()
       }
     }
 
-    removePurpleBubble()
-    const interval = setInterval(removePurpleBubble, 150)
-    const observer = new MutationObserver(removePurpleBubble)
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true })
+    suppressDefaultLauncher()
+    const interval = setInterval(suppressDefaultLauncher, 300)
+
+    // Only observe newly added nodes (no attributes: true to avoid recursive loops)
+    const observer = new MutationObserver(() => {
+      suppressDefaultLauncher()
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
 
     return () => {
       clearInterval(interval)
@@ -120,8 +127,7 @@ export default function ChatBot() {
     }
   }, [])
 
-
-  // Listen to Tawk state changes and poll maximized state
+  // Listen to Tawk state changes
   useEffect(() => {
     const handleChatState = (e: Event) => {
       const customEvent = e as CustomEvent<{ isOpen: boolean }>
@@ -130,28 +136,21 @@ export default function ChatBot() {
       }
     }
 
-    const checkMaximized = () => {
-      if (typeof window !== 'undefined' && window.Tawk_API) {
-        if (typeof window.Tawk_API.isChatMaximized === 'function') {
-          const isMax = window.Tawk_API.isChatMaximized()
-          setIsChatOpen((prev) => (prev !== isMax ? isMax : prev))
-        }
-      }
-    }
-
     window.addEventListener('tawk_chat_state', handleChatState)
-    const interval = setInterval(checkMaximized, 250)
 
     return () => {
       window.removeEventListener('tawk_chat_state', handleChatState)
-      clearInterval(interval)
     }
   }, [])
 
-  const handleOpenChat = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleOpenChat = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
 
+    setIsChatOpen(true)
+    isChatOpenRef.current = true
     if (typeof window !== 'undefined' && window.Tawk_API) {
       if (typeof window.Tawk_API.showWidget === 'function') {
         window.Tawk_API.showWidget()
@@ -161,30 +160,178 @@ export default function ChatBot() {
       } else if (typeof window.Tawk_API.toggle === 'function') {
         window.Tawk_API.toggle()
       }
-      setIsChatOpen(true)
     }
   }
 
-  const handleCloseChat = (e?: React.MouseEvent | React.TouchEvent) => {
+  const handleCloseChat = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault()
       e.stopPropagation()
     }
 
+    setIsChatOpen(false)
+    isChatOpenRef.current = false
     if (typeof window !== 'undefined' && window.Tawk_API) {
       try {
         if (typeof window.Tawk_API.minimize === 'function') {
           window.Tawk_API.minimize()
         }
-      } catch (err) {}
+      } catch {}
       try {
         if (typeof window.Tawk_API.hideWidget === 'function') {
           window.Tawk_API.hideWidget()
         }
-      } catch (err) {}
+      } catch {}
     }
-    setIsChatOpen(false)
   }
+
+  // Minimize chat when clicking anywhere outside the card on the screen
+  useEffect(() => {
+    if (!isChatOpen) return
+
+    let lastInteractionTime = 0
+
+    const isInsideCardOrLauncher = (e: PointerEvent | MouseEvent | TouchEvent): boolean => {
+      const target = e.target as HTMLElement | null
+
+      // Check if target is inside the floating launcher button
+      if (launcherRef.current && (launcherRef.current === target || launcherRef.current.contains(target))) {
+        return true
+      }
+
+      // Check if target element is part of Tawk
+      if (
+        target &&
+        (target.tagName === 'IFRAME' ||
+          target.closest('iframe') ||
+          target.closest('[id*="tawk"]') ||
+          target.closest('[class*="tawk"]'))
+      ) {
+        return true
+      }
+
+      // Check coordinate positions (handles iframes, touch, and desktop pointer events)
+      let clientX: number | undefined
+      let clientY: number | undefined
+
+      if ('clientX' in e && typeof e.clientX === 'number') {
+        clientX = e.clientX
+        clientY = e.clientY
+      } else if ('touches' in e && e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX
+        clientY = e.touches[0].clientY
+      }
+
+      if (clientX !== undefined && clientY !== undefined) {
+        // Check launcher button coordinates
+        if (launcherRef.current) {
+          const lRect = launcherRef.current.getBoundingClientRect()
+          if (
+            clientX >= lRect.left &&
+            clientX <= lRect.right &&
+            clientY >= lRect.top &&
+            clientY <= lRect.bottom
+          ) {
+            return true
+          }
+        }
+
+        // Check active chat window iframes
+        const iframes = document.querySelectorAll('iframe')
+        for (const iframe of iframes) {
+          const rect = iframe.getBoundingClientRect()
+          // Open chat card has substantial dimensions
+          if (
+            rect.width > 150 &&
+            rect.height > 150 &&
+            iframe.style.display !== 'none' &&
+            iframe.style.visibility !== 'hidden'
+          ) {
+            if (
+              clientX >= rect.left &&
+              clientX <= rect.right &&
+              clientY >= rect.top &&
+              clientY <= rect.bottom
+            ) {
+              return true
+            }
+          }
+        }
+
+        // Check potential Tawk container elements
+        const tawkElements = document.querySelectorAll<HTMLElement>('[id*="tawk"], [class*="tawk"]')
+        for (const el of tawkElements) {
+          const rect = el.getBoundingClientRect()
+          if (
+            rect.width > 150 &&
+            rect.height > 150 &&
+            el.style.display !== 'none' &&
+            el.style.visibility !== 'hidden'
+          ) {
+            if (
+              clientX >= rect.left &&
+              clientX <= rect.right &&
+              clientY >= rect.top &&
+              clientY <= rect.bottom
+            ) {
+              return true
+            }
+          }
+        }
+      }
+
+      return false
+    }
+
+    const handleOutsideClick = (e: PointerEvent | MouseEvent | TouchEvent) => {
+      const now = Date.now()
+      if (now - lastInteractionTime < 150) return
+
+      if (isInsideCardOrLauncher(e)) {
+        return
+      }
+
+      lastInteractionTime = now
+      handleCloseChat()
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseChat()
+      }
+    }
+
+    const handleWindowBlur = () => {
+      setTimeout(() => {
+        if (!isChatOpenRef.current) return
+        const active = document.activeElement
+        if (active && active.tagName === 'IFRAME') {
+          const rect = active.getBoundingClientRect()
+          const isChatIframe =
+            rect.width > 150 &&
+            rect.height > 150 &&
+            ((active as HTMLIFrameElement).src?.includes('tawk.to') ||
+              active.getAttribute('title')?.toLowerCase().includes('chat') ||
+              active.getAttribute('title')?.toLowerCase().includes('tawk'))
+          if (!isChatIframe) {
+            handleCloseChat()
+          }
+        }
+      }, 100)
+    }
+
+    document.addEventListener('pointerdown', handleOutsideClick, true)
+    document.addEventListener('touchstart', handleOutsideClick, true)
+    document.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('blur', handleWindowBlur)
+
+    return () => {
+      document.removeEventListener('pointerdown', handleOutsideClick, true)
+      document.removeEventListener('touchstart', handleOutsideClick, true)
+      document.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('blur', handleWindowBlur)
+    }
+  }, [isChatOpen])
 
   return (
     <>
@@ -221,18 +368,6 @@ export default function ChatBot() {
           })();
         `}
       </Script>
-
-      {/* Backdrop overlay: full-screen invisible layer below Tawk's chat window to catch any outside click */}
-      {isChatOpen && (
-        <div
-          aria-label="Close Chat Backdrop"
-          onClick={handleCloseChat}
-          onMouseDown={handleCloseChat}
-          onTouchStart={handleCloseChat}
-          style={{ zIndex: 2147483646 }}
-          className="fixed inset-0 bg-transparent cursor-default select-none"
-        />
-      )}
 
       {/* Custom Floating Robot Launcher Button */}
       <aside

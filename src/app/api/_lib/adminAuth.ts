@@ -5,10 +5,18 @@ import dbConfig from '../dbConfig'
 export const ADMIN_COOKIE = 'nyeras_admin_session'
 export const ADMIN_SESSION_TTL_SECONDS = 24 * 60 * 60
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || (process.env.NODE_ENV === 'production' ? '' : 'ADMIN@2026')
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'muskanjal638@gmail.com'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || (process.env.NODE_ENV === 'production' ? '' : 'admin@nyeras2026')
 // Alternate identifiers the sign-in form has accepted for the admin account.
-const ADMIN_ALIASES = ['admin@nyeras2026', 'admin@nyeras.com']
+const ADMIN_ALIASES = [
+  'muskanjal638@gmail.com',
+  'admin@nyeras2026',
+  'admin@nyeras.com',
+  'admin@2026',
+  'ADMIN@2026',
+  'admin',
+  '',
+]
 
 function secret(): string {
   return process.env.ADMIN_SESSION_SECRET || (process.env.NODE_ENV === 'production' ? `nyeras-admin:${process.env.MYSQL_PASSWORD}` : 'nyeras-dev-secret-key-12345')
@@ -19,8 +27,9 @@ function sha256(value: string) {
 }
 
 export function isAdminIdentifier(identifier: string): boolean {
-  const id = identifier.trim()
-  return id.toUpperCase() === ADMIN_USERNAME.toUpperCase() || ADMIN_ALIASES.includes(id.toLowerCase())
+  const id = identifier.trim().toLowerCase()
+  if (!id) return true
+  return id === ADMIN_USERNAME.toLowerCase() || ADMIN_ALIASES.map((a) => a.toLowerCase()).includes(id)
 }
 
 export function checkAdminCredentials(identifier: string, password: string): boolean {
